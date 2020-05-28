@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block app_content %}
+    <div class="jumbotron">
+        <div class="row  text-center align-items-center justify-content-center">
+            <div class="col-md-12">
+                <h3>Cohorts</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cohort Description</th>
+                            <th scope="col">Club</th>
+                            <th scope="col">Prison</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">TPI</th>
+                            <th scope="col">Comment</th>
+                        </tr>
+                    </thead>
+                    {% include '_cohort.html' %}
+                </table>
+            </div>
+        </div>
+         <div class="row  text-center align-items-center justify-content-center">
+             <div class="col-md-12">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li><button class="btn"><a href="{{ url_for('main.edit_cohort', id=id) }}">Edit Cohort</a></button></li>
+                        <li><button class="btn"><a href="{{ url_for('main.newfunding', cohortid=id) }}">Add Funding</a></button></li>
+                        <li><button class="btn"><a href="#">Add Kit</a></button></li>
+                        <li><button class="btn"><a href="{{ url_for('main.newcomment', source="cohort", sourceid = id) }}">Add
+                                    Comment</a></button></li>
+                        <li><button class="btn"><a href="#">TPI</a></button></li>
+                        <li><button class="btn"><a href="#">Delete Cohort</a></button></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    
+    </div>
+    <div class = "jumbotron">
+        <div class="row text-left align-items-center justify-content-center">
+            <div class = "col-md-6">   
+                {% for comment in comments %}
+                    {% include '_comment.html' %}
+                {% endfor %}
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li class="previous{% if not prev_url %} disabled{% endif %}">
+                            <a href="{{ prev_url  or '#' }}">
+                                <span aria-hidden="true">&larr;</span> Previous
+                            </a>
+                        </li>
+
+                        <li class="next{% if not next_url %} disabled{% endif %}">
+                            <a href="{{ next_url  or '#' }}">
+                                Next <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-6">
+                
+                <p>Total funds to date: £ {{ totalfunding }}</p>
+                <nav aria-label="...">
+                    
+                </nav>
+            </div>
+        </div>
+
+    </div>        
+            
+              
+      
+{% endblock %}

@@ -1,0 +1,12 @@
+<table class="table table-hover">
+        <tr style="text-align: left;">
+            <td>
+                {{ comment.body }}
+            </td>
+            <td>
+                <div style = "text-align: right;">
+                    <p style="font-size: xx-small;">added by {{ comment.author.username }} on {{ moment(comment.timestamp).format('LLL') }}</p>
+                </div>
+            </td>
+        </tr>
+</table>

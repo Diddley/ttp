@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <div class = "jumbotron">
+        <div class="row  text-center align-items-center justify-content-center">
+            <div class = "col-md-12">
+                <h3 style="text-transform: capitalize;  ">Hello {{ current_user.username }}</h3>
+                <hr>
+            </div>
+        </div>
+        <div class = "row text-center align-items-center justify-content-center">
+            <div class="col-md-4">
+                <a href="{{ url_for('auth.newuser') }}">Add User</a>
+                <div>New user routes need to be modified so current_user can create additional users.</div>
+                
+            </div>
+            <div class="col-md-4">
+                <a href="{{ url_for('main.newdivision') }}">Add Division</a>
+                {{ form }}
+
+                {% if form %}
+                
+
+                {{ wtf.quick_form(form) }}
+
+                {% endif %}
+
+            </div>
+            <div class="col-md-4">
+                <a href="{{ url_for('main.newcategory') }}">Add a Prison Category</a>
+
+            </div>
+          
+        </div>
+
+    </div>
+    
+    
+    
+
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+
+    
+    <tbody>
+        <tr style="text-align: left;">
+            <td>{{ club.name }}</td>
+            <td>{{ club.town }}</td>
+            <td>{{ club.member.div_desc }}</td>
+            <td>
+                {% if club.clb_contact.count() > 0%}
+                    {{ club.clb_contact.con_firstname }}
+                {% else %}
+                    <a href="#">Add Contact</a>
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+    
+   

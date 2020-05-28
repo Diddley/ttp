@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    <div class="jumbotron">
+        <div class="row  text-center align-items-center justify-content-center">
+            <div class="col-md-12">
+                <h3>Funding</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Cohort</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Comment</th>
+                        </tr>
+                    </thead> 
+                
+                {% for fund in funds %}
+                    {% include '_funding.html' %}
+                {% endfor %}
+                </table>
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li class="previous{% if not prev_url %} disabled{% endif %}">
+                            <a href="{{ prev_url  or '#' }}">
+                                <span aria-hidden="true">&larr;</span> Newer
+                            </a>
+                        </li>
+                        
+                        <li class="next{% if not next_url %} disabled{% endif %}">
+                            <a href="{{ next_url  or '#' }}">
+                                Older <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            
+               
+           
+
+        </div>
+    </div>
+
+    {% if form %}
+
+        <div class="jumbotron">
+            <div class="row  text-center align-items-center justify-content-center">
+                <div class="col-md-12">
+                
+                    <div class="col-md-3">
+                        {{ wtf.quick_form(form) }}
+                    </div>
+
+                 
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+ 
+
+{% endblock %}

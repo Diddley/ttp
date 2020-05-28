@@ -1,0 +1,28 @@
+<tbody>
+    <tr style="text-align: left;">
+        <td>{{ medium.med_medium }}</td>
+        <td>{{ medium.clb_press.name }}</td>
+        <td>{{ medium.prs_press.prs_name }} </td>
+        <td>{{ moment(medium.med_date).format('DD/MM/YYYY') }}</td>
+        <td>{{ medium.med_publication }}</td>
+        <td>{{ medium.med_author }}</td>
+        <td style="text-align: center;">
+            {% if medium.med_link !="" %}   
+                <span class ="icon-wrap">
+                    <a href=medium.med_link><i class="fas fa-link" data-fa-transform="shrink-3 up-1"></i></a>
+                </span>
+            {% endif %}
+        </td>
+        <td style="text-align: center;">
+            {% if medium.med_comment.count() > 0 %}
+            <span class="icon-wrap">
+                <a href="{{ url_for('main.newcomment', source="media", sourceid = medium.id) }}">
+                    <i class="far fa-comments" data-fa-transform="shrink-3 up-1"></i>
+                </a>
+            </span>
+            {% else %}
+                <a href="{{ url_for('main.newcomment', source="media", sourceid = medium.id) }}">Add Comment</a>
+            {% endif %}
+        </td>
+    </tr>
+</tbody>

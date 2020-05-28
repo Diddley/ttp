@@ -1,0 +1,24 @@
+<tbody>
+    <tr style="text-align: left;">
+        <td>{{ moment(fund.fnd_date).format('DD/MM/YYYY') }}</td>
+        <td>
+            {% if fund.funded.coh_desc != "" %}
+                {{ fund.funded.coh_desc }}
+            {% else %}
+                {{ fund.funded.clb_cohort.name }}:{{ fund.funded.prs_cohort.prs_name }}
+            {% endif %}
+        </td>
+        <td>£ {{ fund.fnd_amount }}</td>
+        <td style="text-align: center;">
+            {% if fund.fnd_comment.count() > 0 %}
+                <span class="icon-wrap">
+                    <a href="{{ url_for('main.newcomment', source="funding", sourceid = fund.id) }}">
+                        <i class="far fa-comments" data-fa-transform="shrink-3 up-1"></i>
+                    </a>
+                </span>
+            {% else %}
+                <a href="{{ url_for('main.newcomment', source="funding", sourceid = fund.id) }}">Add Comment</a>
+            {% endif %}
+        </td>
+    </tr>
+</tbody>

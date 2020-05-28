@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: Flask-Widgets
+Version: 0.5
+Summary: This extension provides basic template widget feature for Flask
+Home-page: https://github.com/OpenSystemsLab/flask-widgets
+Author: Bruce Doan
+Author-email: me@huy.im
+License: MIT
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: Flask
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: Flask
+
+
+Flask-Widgets
+-------------
+
+Basic widgets support for Flask
+
+
