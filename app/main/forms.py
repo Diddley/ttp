@@ -129,7 +129,7 @@ class NewMediaForm(FlaskForm):
     submit = SubmitField('Add Media')
 
 
-class KitForm(FlaskForm):
+class NewKitForm(FlaskForm):
     kit_small = IntegerField('Small')
     kit_medium = IntegerField('Medium')
     kit_large = IntegerField('Large')

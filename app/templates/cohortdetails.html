@@ -29,7 +29,7 @@
                     <ul class="pager">
                         <li><button class="btn"><a href="{{ url_for('main.edit_cohort', id=id) }}">Edit Cohort</a></button></li>
                         <li><button class="btn"><a href="{{ url_for('main.newfunding', cohortid=id) }}">Add Funding</a></button></li>
-                        <li><button class="btn"><a href="#">Add Kit</a></button></li>
+                        <li><button class="btn"><a href="{{ url_for('main.newkit', cohortid=id) }}">Add Kit</a></button></li>
                         <li><button class="btn"><a href="{{ url_for('main.newcomment', source="cohort", sourceid = id) }}">Add
                                     Comment</a></button></li>
                         <li><button class="btn"><a href="#">TPI</a></button></li>

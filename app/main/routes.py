@@ -2,8 +2,8 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit
 from app.main import bp
 
 @bp.before_app_request
@@ -14,7 +14,16 @@ def before_request():
 @bp.route('/', methods = ['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title = 'Home')
+    totalfunding = 0
+    funding = Funding.query.all()
+    for fund in funding:
+        totalfunding += float(fund.fnd_amount)
+    today = datetime.utcnow()
+    page = request.args.get('page', 1, type=int)
+    cohorts = Cohort.query.filter(Cohort.coh_startDate<=today, Cohort.coh_endDate>today).order_by(Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.index', page=cohorts.next_num) if cohorts.has_next else None
+    prev_url = url_for('main.index', page = cohorts.prev_num) if cohorts.has_prev else None
+    return render_template('index.html', title = 'Home', today = today, cohorts=cohorts.items, totalfunding=totalfunding, next_url = next_url, prev_url=prev_url)
 
 
 @bp.route('/clubs')
@@ -346,3 +355,21 @@ def newfunding(cohortid):
     prev_url = url_for(
         'main.funding', page=funds.prev_num) if funds.has_prev else None
     return render_template('funding.html', title='Funding', funds=funds.items, next_url=next_url, prev_url=prev_url, form=form)
+
+@bp.route('/newkit/<cohortid>', methods = ['GET', 'POST'])
+@login_required
+def newkit(cohortid):
+    form = NewKitForm()
+    if form.validate_on_submit():
+        kit = Kit(
+            kit_cohortid = cohortid,
+            kit_numSmall = form.kit_small.data,
+            kit_numMedium = form.kit_medium.data,
+            kit_numLarge = form.kit_large.data,
+            kit_date =form.kit_date.data
+        )
+        db.session.add(kit)
+        db.session.commit()
+        flash('New kit assigned')
+        return redirect(url_for('main.cohort', id = cohortid))
+    return render_template('testform.html',title = "Kit", form = form)

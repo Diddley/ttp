@@ -1,34 +1,7 @@
-2020-05-27 12:38:03,073 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:38:09,044 ERROR: Exception on /cohort/5 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2131, in make_response
-    " {rv.__class__.__name__}.".format(rv=rv)
-TypeError: The view function did not return a valid response. The return type must be a string, dict, tuple, Response instance, or WSGI callable, but it was a float.
-2020-05-27 12:38:56,471 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:39:00,032 ERROR: Exception on /cohort/5 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2131, in make_response
-    " {rv.__class__.__name__}.".format(rv=rv)
-TypeError: The view function did not return a valid response. The return type must be a string, dict, tuple, Response instance, or WSGI callable, but it was a float.
-2020-05-27 12:39:37,063 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:40:16,689 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:40:48,610 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:41:53,785 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 12:42:22,702 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 14:49:52,085 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 14:49:59,858 ERROR: Exception on /cohort/5 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-05-28 11:58:18,998 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:01:17,294 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:04:49,295 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:04:51,699 ERROR: Exception on /index [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -42,49 +15,79 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 77, in cohort
-    return render_template('cohortdetails.html', cohort=cohort, comments=comments.items, id=id, totalfunding=totalfunding, prev_url=prev_url, next_url=next_url)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/cohortdetails.html", line 2, in top-level template code
-    {% import "bootstrap/wtf.html" as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/cohortdetails.html", line 30, in block "app_content"
-    <li><button class="btn"><a href="{{ url_for('main.editcohort', id=id) }}">Edit Cohort</a></button></li>
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
-    return appctx.app.handle_url_build_error(error, endpoint, values)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 18, in index
+    today = datetime.date()
+TypeError: descriptor 'date' of 'datetime.datetime' object needs an argument
+2020-05-28 12:07:04,576 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:07:52,265 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:07:54,652 ERROR: Exception on /index [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
     reraise(exc_type, exc_value, tb)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
-    endpoint, values, method=method, force_external=external
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.BuildError: Could not build url for endpoint 'main.editcohort' with values ['id']. Did you mean 'main.edit_cohort' instead?
-2020-05-27 14:50:34,140 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 14:55:20,011 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 15:00:10,213 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 15:00:58,638 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
-2020-05-27 15:02:41,072 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 71]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 19, in index
+    flash(date(today))
+TypeError: an integer is required (got type builtin_function_or_method)
+2020-05-28 12:09:24,386 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:09:26,147 ERROR: Exception on /index [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 18, in index
+    today = datetime.utcnow.date
+AttributeError: 'builtin_function_or_method' object has no attribute 'date'
+2020-05-28 12:09:48,662 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:09:52,380 ERROR: Exception on /index [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 18, in index
+    today = datetime.utcnow.date()
+AttributeError: 'builtin_function_or_method' object has no attribute 'date'
+2020-05-28 12:10:36,867 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 76]
+2020-05-28 12:10:40,346 ERROR: Exception on /index [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 18, in index
+    today = date.utcnow
+AttributeError: type object 'datetime.date' has no attribute 'utcnow'
