@@ -121,7 +121,7 @@ class NewMediaForm(FlaskForm):
     med_clubid = QuerySelectField('Club', validators=[Optional()], query_factory=lambda : Club.query, get_label="name")
     med_prisonid = QuerySelectField('Prison', validators=[Optional()], query_factory= lambda : Prison.query, get_label="prs_name")
     med_date = DateField('Date', default=datetime.utcnow)
-    med_medium = SelectField('Medium', choices=[('tv', 'TV'),('online','Online'), ('radio_nat', 'National Radio'), ('radio_reg','Regional Radio'), ('paper_nat', 'National Paper'), ('paper_reg','Regional Paper') ])
+    med_medium = SelectField('Medium', choices=[('TV','TV'), ('Online','Online'),  ('National Radio','National Radio'), ('Regional Radio', 'Regional Radio'),  ('National Paper', 'National Paper'), ('Regional Paper', 'Regional Paper') ])
     med_publication = StringField('Publication')
     med_link = StringField('Link')
     med_author = StringField('Author')

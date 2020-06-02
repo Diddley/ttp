@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from app import db 
 from app.auth import bp
 from app.auth.forms import LoginForm, NewUserForm, ResetPasswordRequestForm, ResetPasswordForm
@@ -21,7 +21,7 @@ def login():
         login_user(user, remember = form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc !='':
-            next_page = url_parse('main.index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('auth/login.html', title = 'Sign In', form = form)
 
@@ -32,18 +32,19 @@ def logout():
     return redirect(url_for('main.index'))
 
 @bp.route('/newuser', methods = ['GET', 'POST'])
+@login_required
 def newuser():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+    """ if current_user.is_authenticated:
+        return redirect(url_for('main.index')) """
     form = NewUserForm()
     if form.validate_on_submit():
         user = User(username = form.username.data, email = form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congrats, you are now a registered user!')
-        return redirect(url_for('auth.login'))
-    return render_template('auth/newuser.html', title = 'Create User', form = form)
+        flash('Congrats, ' + str(form.username.data) + ' is now a registered user!')
+        return redirect(url_for('main.admin'))
+    return render_template('admin.html', title = 'Create User', form = form)
 
 @bp.route('/reset_password_request', methods = ['GET', 'POST'])
 def reset_password_request():
