@@ -9,7 +9,7 @@
                 {% if club.clb_contact.count() > 0 %}
                     {{ club.clb_contact.con_firstname }}
                 {% else %}
-                    <a href="#">Add Contact</a>
+                    <a href="{{ url_for('main.newcontact') }}">Add Contact</a>
                 {% endif %}
             </td>
         </tr>

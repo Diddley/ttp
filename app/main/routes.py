@@ -35,6 +35,20 @@ def clubs():
     return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
 
 
+@bp.route('/club/<id>')
+@login_required
+def club(id):
+    club = Club.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_club=id).all()
+    cohorts = Cohort.query.filter_by(coh_clubid=id).all()
+    totalfunding = 0
+    agg_dict={}
+    # for cohort in cohorts:
+
+        # potentially use a list of list/nd array to create a larger data object.
+        # pass this object to c clubdetails page and extract to render there
+
+
 @bp.route('/contacts')
 def contacts():
     page = request.args.get('page', 1, type=int)

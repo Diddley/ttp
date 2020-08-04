@@ -1,4 +1,4 @@
-2020-06-01 16:42:35,343 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-06-01 16:45:48,426 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,15 +41,16 @@ Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
     {% include '_club.html' %}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.contact.con_firstname }}
+    {{ club.con_club.con_firstname }}
   File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
     return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'contact'
-2020-06-01 16:43:11,963 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:43:48,059 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:44:39,832 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:08,798 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:14,470 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'con_club'
+2020-06-01 16:46:33,055 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-06-01 16:47:20,583 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-06-01 16:48:17,884 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-06-01 16:51:15,836 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-06-01 16:56:27,113 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-06-01 16:56:31,394 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -91,9 +92,9 @@ Traceback (most recent call last):
     {% block app_content %}{% endblock %}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
     {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.clb_contact.con_club.con_firstname }}
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 9, in top-level template code
+    {% if club.clb_contact.count() > 0%}
   File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
     return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'sqlalchemy.orm.dynamic.AppenderBaseQuery object' has no attribute 'con_club'
-2020-06-01 16:45:44,634 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+jinja2.exceptions.UndefinedError: 'app.models.Contact object' has no attribute 'clb_contact'
+2020-06-01 16:57:16,202 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
