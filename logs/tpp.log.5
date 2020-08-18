@@ -1,4 +1,11 @@
-2020-06-01 16:57:18,986 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-08-17 17:24:50,367 ERROR: Exception on /newclub [POST] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 406, in _entity_descriptor
+    return getattr(entity, key)
+AttributeError: type object 'Club' has no attribute 'name'
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,38 +19,40 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 9, in top-level template code
-    {% if club.contact.count() > 0%}
-jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'count'
-2020-06-01 16:57:20,658 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 170, in newclub
+    if form.validate_on_submit():
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_wtf/form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/form.py", line 318, in validate
+    return super(Form, self).validate(extra)
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/form.py", line 150, in validate
+    if not field.validate(self, extra):
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/fields/core.py", line 226, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/fields/core.py", line 246, in _run_validation_chain
+    validator(form, self)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/forms.py", line 36, in validate_clubname
+    club = Club.query.filter_by(name = clubname.data).first()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in filter_by
+    for key, value in kwargs.items()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in <listcomp>
+    for key, value in kwargs.items()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 412, in _entity_descriptor
+    replace_context=err,
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Entity '<class 'app.models.Club'>' has no property 'name'
+2020-08-17 17:28:37,041 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:28:59,913 ERROR: Exception on /newclub [POST] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 406, in _entity_descriptor
+    return getattr(entity, key)
+AttributeError: type object 'Club' has no attribute 'name'
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -57,59 +66,29 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 9, in top-level template code
-    {% if club.contact.count() > 0%}
-jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'count'
-2020-06-01 16:59:47,197 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:00:13,937 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:01:03,360 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:01:39,605 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:02:59,401 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:08:12,244 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:08:17,375 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 32, in clubs
-    clubs = Club.query.join(Contact, con_club==Club.id).order_by(Club.name.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-NameError: name 'con_club' is not defined
-2020-06-01 17:09:36,185 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 17:10:34,064 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 170, in newclub
+    if form.validate_on_submit():
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_wtf/form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/form.py", line 318, in validate
+    return super(Form, self).validate(extra)
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/form.py", line 150, in validate
+    if not field.validate(self, extra):
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/fields/core.py", line 226, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/fields/core.py", line 246, in _run_validation_chain
+    validator(form, self)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/forms.py", line 36, in validate_clubname
+    club = Club.query.filter_by(name = clubname.data).first()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in filter_by
+    for key, value in kwargs.items()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in <listcomp>
+    for key, value in kwargs.items()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 412, in _entity_descriptor
+    replace_context=err,
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Entity '<class 'app.models.Club'>' has no property 'name'
+2020-08-17 17:29:57,893 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]

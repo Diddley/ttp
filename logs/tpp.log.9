@@ -1,98 +1,120 @@
-2020-05-28 18:42:49,423 ERROR: Exception on /newkit/1 [POST] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-08-17 17:09:52,527 ERROR: Exception on /static/js/plugins/bootstrap-notify.js [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.OperationalError: table kit has no column named kit_numSmall
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 372, in newkit
-    db.session.commit()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
-    self.transaction.commit()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
-    self._prepare_impl()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
-    self.session.flush()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
-    self._flush(objects)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
-    exc_value, with_traceback=exc_tb,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
-    flush_context.execute()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
-    rec.execute(self)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
-    uow,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
-    insert,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 1136, in _emit_insert_statements
-    statement, params
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
-    return meth(self, multiparams, params)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
-    distilled_params,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1288, in _execute_context
-    e, statement, parameters, cursor, context
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
-    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) table kit has no column named kit_numSmall
-[SQL: INSERT INTO kit (kit_cohortid, "kit_numSmall", "kit_numMedium", "kit_numLarge", kit_date) VALUES (?, ?, ?, ?, ?)]
-[parameters: ('1', 3, 4, 5, '2020-05-28 00:00:00.000000')]
-(Background on this error at: http://sqlalche.me/e/e3q8)
-2020-05-28 18:43:11,341 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:43:25,912 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:43:30,782 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:43:37,600 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:43:52,371 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:43:59,480 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:47:44,005 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:49:22,655 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:49:30,388 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:49:40,447 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:49:57,860 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:50:10,810 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:50:23,802 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:50:32,382 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:50:45,105 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:51:00,642 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:51:33,224 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:51:40,781 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:51:47,157 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:51:53,113 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-28 18:52:03,447 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-05-30 12:32:20,856 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 14:44:53,619 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:22:12,422 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:27:23,048 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2242, in preprocess_request
+    rv = func()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 11, in before_request
+    if current_user.is_authenticated:
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/models.py", line 45, in load_user
+    return User.query.get(int(id))
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py", line 517, in __get__
+    mapper = orm.class_mapper(type)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 451, in class_mapper
+    mapper = _inspect_mapped_class(class_, configure=configure)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 430, in _inspect_mapped_class
+    mapper._configure_all()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 1337, in _configure_all
+    configure_mappers()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 3251, in configure_mappers
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class Club->club'. Original exception was: Could not determine join condition between parent/child tables on relationship Club.clb_twinned_id - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+2020-08-17 17:09:52,529 ERROR: Exception on /static/js/material-dashboard.js [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2242, in preprocess_request
+    rv = func()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 11, in before_request
+    if current_user.is_authenticated:
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/models.py", line 45, in load_user
+    return User.query.get(int(id))
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py", line 517, in __get__
+    mapper = orm.class_mapper(type)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 451, in class_mapper
+    mapper = _inspect_mapped_class(class_, configure=configure)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 430, in _inspect_mapped_class
+    mapper._configure_all()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 1337, in _configure_all
+    configure_mappers()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 3251, in configure_mappers
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class Club->club'. Original exception was: Could not determine join condition between parent/child tables on relationship Club.clb_twinned_id - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+2020-08-17 17:09:52,539 ERROR: Exception on /static/js/demo.js [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2242, in preprocess_request
+    rv = func()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 11, in before_request
+    if current_user.is_authenticated:
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/models.py", line 45, in load_user
+    return User.query.get(int(id))
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py", line 517, in __get__
+    mapper = orm.class_mapper(type)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 451, in class_mapper
+    mapper = _inspect_mapped_class(class_, configure=configure)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 430, in _inspect_mapped_class
+    mapper._configure_all()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 1337, in _configure_all
+    configure_mappers()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 3251, in configure_mappers
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class Club->club'. Original exception was: Could not determine join condition between parent/child tables on relationship Club.clb_twinned_id - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+2020-08-17 17:13:57,802 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:14:04,906 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:14:11,526 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]

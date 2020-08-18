@@ -1,4 +1,13 @@
-2020-06-01 16:42:35,343 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-08-17 17:16:20,423 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    cursor, statement, parameters, context
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: club.clb_twinned_id
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,44 +21,55 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.contact.con_firstname }}
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'contact'
-2020-06-01 16:43:11,963 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:43:48,059 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:44:39,832 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:08,798 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:14,470 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 32, in clubs
+    clubs = Club.query.order_by(Club.clb_name.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py", line 496, in paginate
+    items = self.limit(per_page).offset((page - 1) * per_page).all()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3246, in all
+    return list(self)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3405, in __iter__
+    return self._execute_and_instances(context)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3430, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
+    return meth(self, multiparams, params)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
+    distilled_params,
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1288, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    cursor, statement, parameters, context
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: club.clb_twinned_id
+[SQL: SELECT club.id AS club_id, club.clb_name AS club_clb_name, club.clb_town AS club_clb_town, club.clb_postcode AS club_clb_postcode, club.division_id AS club_division_id, club.clb_badge AS club_clb_badge, club.clb_contract AS club_clb_contract, club.clb_collab AS club_clb_collab, club.clb_fundingapp AS club_clb_fundingapp, club.clb_twinned_id AS club_clb_twinned_id 
+FROM club ORDER BY club.clb_name ASC
+ LIMIT ? OFFSET ?]
+[parameters: (10, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+2020-08-17 17:18:16,196 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:18:23,595 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:18:29,235 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+2020-08-17 17:18:32,313 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 2523, in _determine_joins
+    consider_as_foreign_keys=consider_as_foreign_keys,
+  File "<string>", line 2, in join_condition
+  File "<string>", line 2, in _join_condition
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/deprecations.py", line 128, in warned
+    return fn(*args, **kwargs)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/selectable.py", line 952, in _join_condition
+    % (a.description, b.description, hint)
+sqlalchemy.exc.NoForeignKeysError: Can't find any foreign key relationships between 'prison' and 'club'.
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -59,41 +79,47 @@ Traceback (most recent call last):
     reraise(exc_type, exc_value, tb)
   File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.clb_contact.con_club.con_firstname }}
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'sqlalchemy.orm.dynamic.AppenderBaseQuery object' has no attribute 'con_club'
-2020-06-01 16:45:44,634 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2242, in preprocess_request
+    rv = func()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 11, in before_request
+    if current_user.is_authenticated:
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/opt/anaconda3/lib/python3.7/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/models.py", line 45, in load_user
+    return User.query.get(int(id))
+  File "/opt/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py", line 517, in __get__
+    mapper = orm.class_mapper(type)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 451, in class_mapper
+    mapper = _inspect_mapped_class(class_, configure=configure)
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/base.py", line 430, in _inspect_mapped_class
+    mapper._configure_all()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 1337, in _configure_all
+    configure_mappers()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 3255, in configure_mappers
+    mapper._post_configure_properties()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/mapper.py", line 1950, in _post_configure_properties
+    prop.init()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/interfaces.py", line 196, in init
+    self.do_init()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 1984, in do_init
+    self._setup_join_conditions()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 2064, in _setup_join_conditions
+    can_be_synced_fn=self._columns_are_mapped,
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 2408, in __init__
+    self._determine_joins()
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 2551, in _determine_joins
+    from_=nfe,
+  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+sqlalchemy.exc.NoForeignKeysError: Could not determine join condition between parent/child tables on relationship Prison.prs_club - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+2020-08-17 17:19:17,238 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]

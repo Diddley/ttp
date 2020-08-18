@@ -4,6 +4,7 @@ from hashlib import md5
 from flask_login import UserMixin
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 import jwt
 from app import db, login 
 
@@ -55,15 +56,21 @@ class Division(db.Model):
 
 class Club(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40), index = True, unique = True)
-    town = db.Column(db.String(40), index= True)
+    clb_name = db.Column(db.String(40), index = True, unique = True)
+    clb_town = db.Column(db.String(40), index= True)
+    clb_postcode = db.Column(db.String(10), index = True)
     division_id = db.Column(db.Integer, db.ForeignKey('division.id'))
+    clb_badge =db.Column(db.String(40))
+    clb_contract = db.Column(db.Boolean)
+    clb_collab = db.Column(db.Boolean)
+    clb_fundingapp = db.Column(db.Boolean)
+    # clb_twinned_id = db.Column(db.Integer, db.ForeignKey('prison.id'))
     clb_contact = db.relationship('Contact', backref='contact', lazy='dynamic')
     clb_cohort = db.relationship('Cohort', backref='clb_cohort', lazy = 'dynamic')
     clb_media = db.relationship('Media', backref='clb_press', lazy = 'dynamic')
 
     def __repr__(self):
-        return '<Club {}>'.format(self.name)
+        return '<Club {}>'.format(self.clb_name)
     
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -92,6 +99,7 @@ class Prison(db.Model):
     prs_category = db.Column(db.Integer, db.ForeignKey('category.id'))
     prs_cohort = db.relationship('Cohort', backref='prs_cohort', lazy="dynamic")
     prs_media = db.relationship('Media', backref='prs_press', lazy='dynamic')
+    # prs_club = db.relationship('Club', backref='prs_club', lazy='dynamic')
 
     def __repr__(self):
         return '<Prison {}>'.format(self.prs_name)

@@ -17,3 +17,5 @@ class Config(object):
     POSTS_PER_PAGE = 10
     COMMENTS_PER_PAGE = 3
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'uploads')
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}

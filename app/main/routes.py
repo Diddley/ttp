@@ -1,7 +1,7 @@
 from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
-from app import db
+from app import db, images
 from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm
 from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit
 from app.main import bp
@@ -29,7 +29,7 @@ def index():
 @bp.route('/clubs')
 def clubs():
     page = request.args.get('page',1, type=int)
-    clubs = Club.query.order_by(Club.name.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)   
+    clubs = Club.query.order_by(Club.clb_name.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)   
     next_url = url_for('main.clubs', page = clubs.next_num) if clubs.has_next else None
     prev_url = url_for('main.clubs', page = clubs.prev_num) if clubs.has_prev else None
     return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
@@ -52,7 +52,7 @@ def club(id):
 @bp.route('/contacts')
 def contacts():
     page = request.args.get('page', 1, type=int)
-    contacts = Contact.query.join(Club).order_by(Club.name.asc()).paginate(
+    contacts = Contact.query.join(Club).order_by(Club.clb_name.asc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
         'main.contacts', page=contacts.next_num) if contacts.has_next else None
@@ -169,13 +169,24 @@ def newclub():
     form = NewClubForm()
     if form.validate_on_submit():
         division = form.club_division.data
-        club = Club(name=form.clubname.data, town=form.club_town.data, division_id=division.id)
+        filename = images.save(request.files['club_badge'])
+        url = images.url(filename)
+        club = Club(
+            clb_name=form.clubname.data, 
+            clb_town=form.club_town.data, 
+            clb_postcode=form.club_postcode.data,
+            division_id=division.id,
+            clb_contract=form.club_contract.data,
+            clb_collab=form.club_collab.data,
+            clb_fundingapp=form.club_fundingapp.data,
+            clb_badge=url
+            )
         db.session.add(club)
         db.session.commit()
-        flash('You have successfully added ' + club.name)
+        flash('You have successfully added ' + club.clb_name)
         return redirect(url_for('main.clubs'))
     page = request.args.get('page', 1, type=int)
-    clubs = Club.query.order_by(Club.name.asc()).paginate(
+    clubs = Club.query.order_by(Club.clb_name.asc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
         'main.clubs', page=clubs.next_num) if clubs.has_next else None
@@ -213,7 +224,7 @@ def newcontact():
         flash('You have successfully added ' + contact.con_firstname)
         return redirect(url_for('main.contacts'))
     page = request.args.get('page', 1, type=int)
-    contacts = Contact.query.join(Club).order_by(Club.name.asc()).paginate(
+    contacts = Contact.query.join(Club).order_by(Club.clb_name.asc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
         'main.contacts', page=contacts.next_num) if contacts.has_next else None

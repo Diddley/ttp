@@ -1,10 +1,12 @@
 from flask import request
+from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SelectField, SubmitField, DateField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media
-from app import db
+from app import db, images
 from datetime import datetime
 
 
@@ -21,14 +23,20 @@ class NewDivisionForm(FlaskForm):
 
 
 
+
 class NewClubForm(FlaskForm):
     clubname = StringField('Club Name', validators = [DataRequired()])
     club_town = StringField('Town', validators = [DataRequired()])
+    club_postcode = StringField('PostCode', validators =[DataRequired()])
     club_division = QuerySelectField('Division', validators=[DataRequired()], query_factory=lambda : Division.query, get_label="div_desc")
+    club_contract = BooleanField('Signed Contract Agreement Received')
+    club_collab = BooleanField('Signed Collaboration Agreement Received')
+    club_fundingapp = BooleanField('Funding Application Received')
+    club_badge = FileField('Upload Badge', validators=[FileAllowed(images, 'Images only!')])
     submit = SubmitField('Add Club')
 
     def validate_clubname(self, clubname):
-        club = Club.query.filter_by(name = clubname.data).first()
+        club = Club.query.filter_by(clb_name = clubname.data).first()
         if club is not None:
             raise ValidationError('This club is already in the system.')
 

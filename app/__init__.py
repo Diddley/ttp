@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_mail import Mail 
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_uploads import UploadSet, IMAGES, configure_uploads
 from config import Config
 
 db = SQLAlchemy()
@@ -18,7 +19,7 @@ login.login_message = 'Please login to access this page'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
-
+images = UploadSet('images', IMAGES)
 
 
 def create_app(config_class=Config):
@@ -31,6 +32,10 @@ def create_app(config_class=Config):
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
+
+    configure_uploads(app, images)
+    app.config['UPLOADS_DEFAULT_DEST']
+
     with app.app_context():
         if db.engine.url.drivername == 'sqlite':
             migrate.init_app(app, db, render_as_batch=True)
@@ -45,6 +50,9 @@ def create_app(config_class=Config):
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    
+    
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
