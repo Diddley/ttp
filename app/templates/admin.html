@@ -2,68 +2,68 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <div class = "jumbotron">
-        <div class="row  text-center align-items-center justify-content-center">
-            <div class = "col-md-12">
-                <h3 style="text-transform: capitalize;  ">Hello {{ current_user.username }}</h3>
-                <hr>
-            </div>
-        </div>
-        <div class = "row text-center align-items-center justify-content-center">
-            <div class="col-md-4">
-                <a href="{{ url_for('auth.newuser') }}">Add User</a>
-                
-                
-            </div>
-            <div class="col-md-4">
-                
-                <a href="{{ url_for('main.newdivision') }}">Add Division</a>
-                <!-- {{ form }} -->
-            
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url_for('main.newcategory') }}">Add a Prison Category</a>
 
-            </div>
-          
-        </div>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h3 class="card-title" style="text-transform: capitalize;">Hello {{ current_user.username }}</h3>
+                            <h4 class="card-category">Admin Console</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="{{ url_for('auth.newuser') }}">Add User</a>
 
-    </div>
 
-    <div id="form" class="jumbotron jumbotron-fluid collapse show">
-        <div class="container">
-            <div class="row  text-center align-items-center justify-content-center">
-                <div class="col-md-12">
-                    <hr>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <a href="{{ url_for('main.newdivision') }}">Add Division</a>
+                                    <!-- {{ form }} -->
+
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{ url_for('main.newcategory') }}">Add a Prison Category</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row text-center align-items-center justify-content-center">
+            {% if form %}
+            <div class="row">
                 <div class="col-md-4">
-                    
+                    <div class="card">
+                        <div class="card-body">
+                           
+                                {{ wtf.quick_form(form) }}
+                            
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                {% if form %}
-
-
-                {{ wtf.quick_form(form) }}
-
-                {% endif %}
-
-
-
-                </div>
-                <div class="col-md-4">
-                
-                </div>
-
             </div>
+            {% endif %}
         </div>
     </div>
-    
-    
-    
+
     
 
+{% endblock %}
 
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#admin');
+    newBtn.classList.add("active");
+</script>
 
 {% endblock %}

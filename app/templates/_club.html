@@ -2,12 +2,39 @@
     
     <tbody>
         <tr style="text-align: left;">
-            <td>{{ club.clb_name }}</td>
+            
+            <td><a href="{{ url_for('main.club', id=club.id) }}">{{ club.clb_name }}</a></td>
             <td>{{ club.clb_town }}</td>
+            <!-- <td>{{ club.clb_postcode }}</td> -->
             <td>{{ club.member.div_desc }}</td>
             <td>
-                {% if club.clb_contact.count() > 0 %}
-                    {{ club.clb_contact.con_firstname }}
+                {% if club.clb_contract %}
+                    <i class="material-icons">check_box</i>
+                {% else %}
+                    <i class="material-icons">check_box_outline_blank</i>
+                {% endif %}
+            </td>
+            <td>
+                {% if club.clb_collab %}
+                    <i class="material-icons">check_box</i>
+                {% else %}
+                    <i class="material-icons">check_box_outline_blank</i>
+                {% endif %}
+            </td>
+            <td>
+                {% if club.clb_fundingapp %}
+                    <i class="material-icons">check_box</i>
+                {% else %}
+                    <i class="material-icons">check_box_outline_blank</i>
+                {% endif %}
+            </td>
+            
+            <td>
+                {% if club.clb_contact %}
+                    {% for c in club.clb_contact %}
+                        {{ c.con_firstname }}
+                        {{ c.con_surname }}<br>
+                    {% endfor %}
                 {% else %}
                     <a href="{{ url_for('main.newcontact') }}">Add Contact</a>
                 {% endif %}
@@ -15,4 +42,3 @@
         </tr>
     </tbody>
     
-   

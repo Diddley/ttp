@@ -1,116 +1,70 @@
-2020-08-18 09:41:02,391 ERROR: Exception on /newcontact [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-09-14 16:39:22,080 ERROR: Exception on /clubs [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 795, in visit_textual_label_reference
-    col = with_cols[element.element]
-KeyError: 'name'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 231, in newcontact
-    return render_template('contact.html', title = 'Add a Contact', contacts= contacts.items, prev_url=prev_url, next_url=next_url, form = form)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 70, in clubs
+    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/loaders.py", line 127, in load
+    code = environment.compile(source, name, filename)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 638, in compile
+    self.handle_exception(source=source_hint)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
     reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
     raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/contact.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 192, in top-level template code
-    {% if current_user.is_anonymous %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 217, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/contact.html", line 50, in block "app_content"
-    {{ wtf.quick_form(form) }}
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/runtime.py", line 679, in _invoke
-    rv = self._func(*arguments)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 205, in template
-    {{ form_field(field,
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/runtime.py", line 679, in _invoke
-    rv = self._func(*arguments)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 123, in template
-    {{field(class="form-control", **kwargs)|safe}}
-  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/fields/core.py", line 160, in __call__
-    return self.meta.render_field(self, kwargs)
-  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/meta.py", line 56, in render_field
-    return field.widget(field, **render_kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/widgets/core.py", line 300, in __call__
-    for val, label, selected in field.iter_choices():
-  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py", line 107, in iter_choices
-    for pk, obj in self._get_object_list():
-  File "/opt/anaconda3/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py", line 100, in _get_object_list
-    self._object_list = list((text_type(get_pk(obj)), obj) for obj in query)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3405, in __iter__
-    return self._execute_and_instances(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3430, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
-    return meth(self, multiparams, params)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1094, in _execute_clauseelement
-    else None,
-  File "<string>", line 1, in <lambda>
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 468, in compile
-    return self._compiler(dialect, bind=bind, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 474, in _compiler
-    return dialect.statement_compiler(dialect, self, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 590, in __init__
-    Compiled.__init__(self, dialect, statement, **kwargs)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 319, in __init__
-    self.string = self.process(self.statement, **compile_kwargs)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 350, in process
-    return obj._compiler_dispatch(self, **kwargs)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/visitors.py", line 95, in _compiler_dispatch
-    return meth(self, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 2162, in visit_select
-    text, select, inner_columns, froms, byfrom, kwargs
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 2274, in _compose_select_body
-    text += self.order_by_clause(select, **kwargs)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 2333, in order_by_clause
-    order_by = select._order_by_clause._compiler_dispatch(self, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/visitors.py", line 95, in _compiler_dispatch
-    return meth(self, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 1003, in visit_clauselist
-    c._compiler_dispatch(self, **kw) for c in clauselist.clauses
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 1001, in <genexpr>
-    s
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 1003, in <genexpr>
-    c._compiler_dispatch(self, **kw) for c in clauselist.clauses
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/visitors.py", line 95, in _compiler_dispatch
-    return meth(self, **kw)
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/compiler.py", line 802, in visit_textual_label_reference
-    err=ke,
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4650, in _no_text_coercion
-    replace_context=err,
-  File "/opt/anaconda3/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-sqlalchemy.exc.CompileError: Can't resolve label reference for ORDER BY / GROUP BY / DISTINCT etc. Textual SQL expression 'name' should be explicitly declared as text('name')
-2020-08-18 15:44:21,805 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 67, in template
+    {% script block %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'script'.
+2020-09-14 16:39:24,959 ERROR: Exception on /clubs [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 70, in clubs
+    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/loaders.py", line 127, in load
+    code = environment.compile(source, name, filename)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 638, in compile
+    self.handle_exception(source=source_hint)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 67, in template
+    {% script block %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'script'.

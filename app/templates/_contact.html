@@ -1,9 +1,17 @@
 <tbody>
     <tr style="text-align: left;">
-        <td>{{ contact.contact.name }}</td>
+        <td>
+            {% if contact.con_club %}
+                {{ contact.clb_contact.clb_name }}
+            {% elif contact.con_prison %}
+                {{ contact.prs_contact.prs_name }}
+            {% elif contact.prob_contact %}    
+                {{ contact.prob_contact.prob_name }}
+            {% endif %}
+        </td>
         <td>{{ contact.con_firstname }}</td>
         <td>{{ contact.con_surname }}</td>
-        <td>{{ contact.con_email }} </td>
+        <td><a href="mailto:{{ contact.con_email }}">{{ contact.con_email }}</a> </td>
         <td>{{ contact.con_phone}}</td>
         
     </tr>

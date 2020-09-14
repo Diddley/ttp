@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 910e847acc4e
+Revision ID: d95a7e5d9328
 Revises: 
-Create Date: 2020-08-17 16:16:35.706310
+Create Date: 2020-08-18 17:23:26.512171
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '910e847acc4e'
+revision = 'd95a7e5d9328'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,6 +55,10 @@ def upgrade():
     sa.Column('clb_town', sa.String(length=40), nullable=True),
     sa.Column('clb_postcode', sa.String(length=10), nullable=True),
     sa.Column('division_id', sa.Integer(), nullable=True),
+    sa.Column('clb_badge', sa.String(length=40), nullable=True),
+    sa.Column('clb_contract', sa.Boolean(), nullable=True),
+    sa.Column('clb_collab', sa.Boolean(), nullable=True),
+    sa.Column('clb_fundingapp', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['division_id'], ['division.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -148,9 +152,13 @@ def upgrade():
     sa.Column('cohort_id', sa.Integer(), nullable=True),
     sa.Column('fnd_id', sa.Integer(), nullable=True),
     sa.Column('med_id', sa.Integer(), nullable=True),
+    sa.Column('club_id', sa.Integer(), nullable=True),
+    sa.Column('prs_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['club_id'], ['club.id'], ),
     sa.ForeignKeyConstraint(['cohort_id'], ['cohort.id'], ),
     sa.ForeignKeyConstraint(['fnd_id'], ['funding.id'], ),
     sa.ForeignKeyConstraint(['med_id'], ['media.id'], ),
+    sa.ForeignKeyConstraint(['prs_id'], ['prison.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

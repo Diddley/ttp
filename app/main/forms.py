@@ -5,7 +5,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SelectField, SubmitField, DateField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media
+from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation
 from app import db, images
 from datetime import datetime
 
@@ -47,7 +47,10 @@ class NewContactForm(FlaskForm):
     con_email = StringField('Email', validators = [DataRequired(), Email()])
     email2 = StringField('Verify Email', validators = [DataRequired(), EqualTo('con_email', message="The email addresses do not match")])
     con_phone = StringField('Phone', validators=[DataRequired()])
-    con_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda : Club.query.order_by('name'), get_label="name")
+    con_club = QuerySelectField('Club', validators=[Optional()], query_factory=lambda : Club.query.order_by('clb_name'), get_label="clb_name", allow_blank=True)
+    con_prs = QuerySelectField('Prison', validators=[Optional(
+    )], query_factory=lambda: Prison.query.order_by('prs_name'), get_label="prs_name", allow_blank=True, default='prison.prs_name')
+    con_prob = QuerySelectField('Probation Service', validators=[Optional()], query_factory=lambda: Probation.query.order_by('prob_name'), get_label="prob_name", allow_blank=True)
     submit = SubmitField('Add Contact')
 
     def validate_contact_email(self, con_email):
@@ -75,6 +78,7 @@ class NewCategoryForm(FlaskForm):
 class NewPrisonForm(FlaskForm):
     prs_name = StringField('Prison Name', validators = [DataRequired()])
     prs_town = StringField('Town', validators=[DataRequired()])
+    prs_postcode = StringField('PostCode', validators =[DataRequired()])
     prs_cat = QuerySelectField('Category', validators=[DataRequired()], query_factory=lambda : Category.query, get_label="cat_desc")
     submit = SubmitField('Add Prison')
     
@@ -84,18 +88,39 @@ class NewPrisonForm(FlaskForm):
             raise ValidationError('This Prison already exists!')
 
 
+class NewProbServiceForm(FlaskForm):
+    prob_name = StringField('Probation Service Name', validators=[DataRequired()])
+    prob_town = StringField('Town', validators=[DataRequired()])
+    prob_postcode = StringField('PostCode', validators=[DataRequired()])
+    submit = SubmitField('Add Probation Service')
+
+    def validate_probservice(self, prob_name):
+        prob = Probabtion.query.filter_by(prob_name = prob_name.data).first()
+        if prob is not None:
+            raise ValidationError('This Probation Service already exists!')
+
+
 class NewCohortForm(FlaskForm):
     coh_desc = StringField('Cohort Name (optional)')
-    coh_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda : Club.query, get_label="name")
-    coh_prison = QuerySelectField('Prison', validators=[DataRequired()], query_factory=lambda : Prison.query, get_label="prs_name")
+    coh_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda : Club.query, get_label="clb_name")
+    coh_prison = QuerySelectField('Prison', validators=[Optional()], query_factory=lambda : Prison.query, get_label="prs_name", allow_blank=True)
+    coh_prob = QuerySelectField('Probation Services', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
     coh_startDate = DateField('Start Date',validators=[DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
-    coh_endDate = DateField('End Date', validators = [DataRequired()])
-    coh_delDate = DateField('Delivery Date (optional)', validators=[Optional()], id='datepick')
+    coh_endDate = DateField('End Date', validators=[
+                            DataRequired()], format='%Y-%m-%d')
+    coh_course = QuerySelectField('Course', validators=[], query_factory=lambda : Course.query, get_label="course_type")
+    coh_parts = IntegerField('Number of participants', validators=[DataRequired()])
     submit = SubmitField('Create Cohort')
 
     def validate_date(self, coh_startDate, coh_endDate):
         if date(coh_endDate.data) < date(coh_startDate.data):
             raise ValidationError('End date should be after Start Date')
+    
+    def validate_entity(self, coh_prison, coh_prob):
+        pris = coh_prison.data
+        prob = coh_prob.data
+        if not pris and not prob:
+            raise ValidationError('Please select either a Prison or Probabtion Service')
 
 class NewCommentForm(FlaskForm):
     body = TextAreaField('Comment', validators=[Length(min=0, max=140)])
@@ -105,16 +130,15 @@ class NewCommentForm(FlaskForm):
 
 class EditCohortForm(FlaskForm):
     coh_desc = StringField('Cohort Name (optional)')
-    """ coh_club = QuerySelectField('Club', validators=[DataRequired(
-    )], query_factory = lambda : Club.query, get_label="name")
-    coh_prison = QuerySelectField('Prison', validators=[DataRequired(
-    )], query_factory = lambda: Prison.query, get_label="prs_name") """
     coh_club = StringField('Club')
     coh_prison = StringField('Prison')
+    coh_probserv = StringField('Probation Service')
     coh_startDate = DateField('Start Date', validators=[
                               DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
     coh_endDate = DateField('End Date', validators=[DataRequired()])
-    coh_delDate = DateField('Delivery Date', validators=[Optional()])
+    coh_course = QuerySelectField('Course')
+    coh_participants = IntegerField('Participants')
+    coh_grads = IntegerField('Graduates')
     coh_tpi = BooleanField('TPI')
     submit = SubmitField('Edit Cohort')
 
@@ -126,8 +150,9 @@ class TPIForm(FlaskForm):
     coh_tpi = BooleanField('')
 
 class NewMediaForm(FlaskForm):
-    med_clubid = QuerySelectField('Club', validators=[Optional()], query_factory=lambda : Club.query, get_label="name")
-    med_prisonid = QuerySelectField('Prison', validators=[Optional()], query_factory= lambda : Prison.query, get_label="prs_name")
+    med_clubid = QuerySelectField('Club', validators=[Optional()], query_factory=lambda : Club.query, get_label="clb_name")
+    med_prisonid = QuerySelectField('Prison', validators=[Optional()], query_factory= lambda : Prison.query, get_label="prs_name", allow_blank=True)
+    med_probid = QuerySelectField('Probabtion Services', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
     med_date = DateField('Date', default=datetime.utcnow)
     med_medium = SelectField('Medium', choices=[('TV','TV'), ('Online','Online'),  ('National Radio','National Radio'), ('Regional Radio', 'Regional Radio'),  ('National Paper', 'National Paper'), ('Regional Paper', 'Regional Paper') ])
     med_publication = StringField('Publication')
