@@ -4,6 +4,7 @@ from hashlib import md5
 from flask_login import UserMixin
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 import jwt
 from app import db, login 
 
@@ -55,15 +56,22 @@ class Division(db.Model):
 
 class Club(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40), index = True, unique = True)
-    town = db.Column(db.String(40), index= True)
+    clb_name = db.Column(db.String(40), index = True, unique = True)
+    clb_town = db.Column(db.String(40), index= True)
+    clb_postcode = db.Column(db.String(10), index = True)
     division_id = db.Column(db.Integer, db.ForeignKey('division.id'))
-    clb_contact = db.relationship('Contact', backref='contact', lazy='dynamic')
+    clb_badge =db.Column(db.String(40))
+    clb_contract = db.Column(db.Boolean)
+    clb_collab = db.Column(db.Boolean)
+    clb_fundingapp = db.Column(db.Boolean)
+    # clb_twinned_id = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    clb_contact = db.relationship('Contact', backref='clb_contact', primaryjoin='Club.id==Contact.con_club', lazy='immediate')
     clb_cohort = db.relationship('Cohort', backref='clb_cohort', lazy = 'dynamic')
     clb_media = db.relationship('Media', backref='clb_press', lazy = 'dynamic')
+    clb_comment = db.relationship('Comment', backref='clb_comment', lazy= 'dynamic')
 
     def __repr__(self):
-        return '<Club {}>'.format(self.name)
+        return '<Club {}>'.format(self.clb_name)
     
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -72,6 +80,8 @@ class Contact(db.Model):
     con_email = db.Column(db.String(120), index = True, unique = True)
     con_phone = db.Column(db.String(11), index = True)
     con_club = db.Column(db.Integer, db.ForeignKey('club.id'))
+    con_prison = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    con_probation = db.Column(db.Integer, db.ForeignKey('probation.id'))
 
     def __repr__(self):
         return '<Contact {} {}>'.format(self.con_firstname, self.con_surname)
@@ -89,26 +99,46 @@ class Prison(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     prs_name = db.Column(db.String(120), index = True, unique = True)
     prs_town = db.Column(db.String(40), index = True)
+    prs_postcode = db.Column(db.String(10), index=True)
     prs_category = db.Column(db.Integer, db.ForeignKey('category.id'))
-    prs_cohort = db.relationship('Cohort', backref='prs_cohort', lazy="dynamic")
+    prs_cohort = db.relationship('Cohort', backref='prs_cohort', lazy='dynamic')
     prs_media = db.relationship('Media', backref='prs_press', lazy='dynamic')
+    # prs_club = db.relationship('Club', backref='prs_club', lazy='dynamic')
+    prs_comment = db.relationship('Comment', backref='prs_comment', lazy= 'dynamic')
+    prs_contact = db.relationship('Contact', backref='prs_contact', lazy='dynamic')
 
     def __repr__(self):
         return '<Prison {}>'.format(self.prs_name)
 
+class Probation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    prob_name = db.Column(db.String(120), index = True, unique = True)
+    prob_town = db.Column(db.String(40), index = True)
+    prob_postcode = db.Column(db.String(10), index = True)
+    prob_cohort = db.relationship('Cohort', backref='prob_cohort', lazy='dynamic')
+    prob_comment = db.relationship('Comment', backref = 'prob_comment', lazy = 'dynamic')
+    prob_media = db.relationship('Media', backref='prob_media', lazy = 'dynamic')
+    prob_contact = db.relationship('Contact', backref='prob_contact', lazy = 'dynamic')
+    
+    def __repr__(self):
+        return '<Probation Service {}>'.format(self.prob_name)
 
 class Cohort(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     coh_desc = db.Column(db.String(40))
     coh_clubid = db.Column(db.Integer, db.ForeignKey('club.id'))
     coh_prisonid = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    coh_probid = db.Column(db.Integer, db.ForeignKey('probation.id'))
     coh_startDate = db.Column(db.DateTime)
     coh_endDate = db.Column(db.DateTime)
-    coh_deliveryDate = db.Column(db.DateTime)
+    coh_participants = db.Column(db.Integer)
+    coh_grads = db.Column(db.Integer)
+    # coh_deliveryDate = db.Column(db.DateTime)
     coh_tpi = db.Column(db.Boolean)
     coh_comment = db.relationship('Comment', backref='owner', lazy= "dynamic")
     coh_kit = db.relationship('Kit', backref='wearer', lazy='dynamic')
     coh_funding = db.relationship('Funding', backref='funded', lazy='dynamic')
+    coh_course = db.Column(db.Integer, db.ForeignKey('course.id'))
     
     def __repr__(self):
         return '<Cohort {}>'.format(self.coh_desc)
@@ -122,6 +152,9 @@ class Comment(db.Model):
     cohort_id = db.Column(db.Integer, db.ForeignKey('cohort.id'))
     fnd_id = db.Column(db.Integer, db.ForeignKey('funding.id'))
     med_id = db.Column(db.Integer, db.ForeignKey('media.id'))
+    club_id = db.Column(db.Integer, db.ForeignKey('club.id'))
+    prs_id = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    prob_id = db.Column(db.Integer, db.ForeignKey('probation.id'))
 
     def __repr__(self):
         return '<Comment {}>'.format(self.body)
@@ -132,10 +165,11 @@ class Kit(db.Model):
     kit_numSmall = db.Column(db.Integer)
     kit_numMedium = db.Column(db.Integer) 
     kit_numLarge = db.Column(db.Integer)
+    kit_numXlarge = db.Column(db.Integer)
     kit_date = db.Column(db.DateTime, index=True, default = datetime.today())
 
     def __repr__(self):
-        return '<Kit S {} M {} L {}>'.format(self.kit_numSmall, self.kit_numMedium, self.kit_numLarge)
+        return '<Kit S {} M {} L {} XL {}>'.format(self.kit_numSmall, self.kit_numMedium, self.kit_numLarge, self.kit_numXlarge)
 
 class Funding(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -152,6 +186,7 @@ class Media(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     med_clubid = db.Column(db.Integer, db.ForeignKey('club.id'))
     med_prisonid = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    med_probid = db.Column(db.Integer, db.ForeignKey('probation.id'))
     med_date = db.Column(db.DateTime)
     med_medium = db.Column(db.String(40))
     med_publication = db.Column(db.String(40))
@@ -161,3 +196,8 @@ class Media(db.Model):
 
     def __repr__(self):
         return '<Media {}>'.format(self.med_publication)
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_type = db.Column(db.String(12), index=True)
+    crs_cohort = db.relationship('Cohort', backref='course_owner', lazy='dynamic')

@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block app_content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header card-header-primary"> 
+                            <h3 class="card-title">{{ club.clb_name }}</h3>
+                            <h4 class="card-category">{{ club.member.div_desc }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h4>Signed Contract Agreement:</h4>
+                                </div>
+                                <div class="col-md-1">
+                                    {% if club.clb_contract %}
+                                        <i class="material-icons">check_box</i>
+                                    {% else %}
+                                        <i class="material-icons">check_box_outline_blank</i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <h4>Signed Collaboration Received</h4>
+                                </div>
+                                <div class="col-md-1">
+                                    {% if club.clb_collab %}
+                                        <i class="material-icons">check_box</i>
+                                    {% else %}
+                                        <i class="material-icons">check_box_outline_blank</i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <h4>Funding Application Received</h4>
+                                </div>
+                                <div class="col-md-1">
+                                    {% if club.clb_fundingapp %}
+                                        <i class="material-icons">check_box</i>
+                                    {% else %}
+                                        <i class="material-icons">check_box_outline_blank</i>
+                                    {% endif %}
+                                </div>
+                            </div> <!-- end of row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="text-primary">
+                                                <th>Prison/PS</th>
+                                                <th>Cohort</th>
+                                                <th>Course</th>
+                                                <th>Participants</th>
+                                                <th>Graduates</th>
+                                            </thead>
+                                            <tbody>
+                                            {% for cohort in cohorts %}
+                                                <tr>
+                                                    <td>
+                                                        {% if cohort.prs_cohort %}   
+                                                            {{ cohort.prs_cohort.prs_name }}
+                                                        {% elif cohort.prob_cohort %}
+                                                            {{ cohort.prob_cohort.prob_name }} (PS)
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ cohort.coh_desc }}</td>
+                                                    <td>{{ cohort.course_owner.course_type }}</td>
+                                                    <td>{{ cohort.coh_participants }}</td>
+                                                    <td>{{ cohort.coh_grads }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row -->
+                            <button class="btn btn-primary pull-right" type="submit">Edit Club</button> 
+                            
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-4">
+                    <div class="card card-profile">
+                        <div class="card-avatar">
+                            <img src="{{ club.clb_badge }}" alt="" class="img">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                {{ club.clb_name }}
+                            </h4>
+                            <h6 class="card-category text-gray">
+                                {{ club.clb_town }}, {{ club.clb_postcode }}
+                            </h6>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-primary">
+                                        <th><i class="material-icons">person</i></th>
+                                        <th><i class="material-icons">email</i></th>
+                                        <th><i class="material-icons">call</i></th>
+                                    </thead>
+                                    <tbody>
+                                    {% for contact in contacts %}
+                                    <tr>
+                                        <td>{{ contact.con_firstname }} {{ contact.con_surname }}</td>
+                                        <td>{{ contact.con_email }}</td>
+                                        <td>{{ contact.con_phone }}</td>
+                                    </tr>
+                                
+                                {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                {% if comments %}
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        {% for comment in comments %}
+                                            {% include '_comment.html' %}
+                                        {% endfor %}
+                                        <nav aria-label="...">
+                                            <ul class="pager">
+                                                <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                                    <a href="{{ prev_url  or '#' }}">
+                                                        <span aria-hidden="true">&larr;</span> Previous
+                                                    </a>
+                                                </li>
+
+                                                <li class="next{% if not next_url %} disabled{% endif %}">
+                                                    <a href="{{ next_url  or '#' }}">
+                                                        Next <span aria-hidden="true">&rarr;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+ 
+
+
+ {% for comment in comments %}
+ {% include '_comment.html' %}
+ {% endfor %}
+
+
+
+ {% endblock %}
+ {% block scripts %}
+ {{ super() }}
+ <script>
+     // Add active class to the current button (highlight it)
+     var currButton = document.querySelector('li.nav-item.active');
+     if (currButton) {
+         currButton.classList.remove("active");
+     };
+     var newBtn = document.querySelector('#club');
+     newBtn.classList.add("active");
+ </script>
+
+ {% endblock %}

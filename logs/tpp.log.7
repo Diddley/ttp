@@ -1,99 +1,94 @@
-2020-06-01 16:42:35,343 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-09-10 14:03:10,624 ERROR: Exception on /edit_cohort/8 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 190, in edit_cohort
+    return render_template('form.html', title = 'Edit Cohort', cohort=cohort, form=form)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
     ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
     rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
     self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
     reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
     raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/form.html", line 2, in top-level template code
     {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 184, in top-level template code
+    {% if current_user.is_anonymous %}
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
     {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
     {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
     {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
     {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 209, in block "content"
     {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.contact.con_firstname }}
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'app.models.Club object' has no attribute 'contact'
-2020-06-01 16:43:11,963 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:43:48,059 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:44:39,832 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:08,798 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
-2020-06-01 16:45:14,470 ERROR: Exception on /clubs [GET] [in /opt/anaconda3/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/main/routes.py", line 35, in clubs
-    return render_template('club.html', title = 'Clubs', clubs = clubs.items, next_url = next_url, prev_url = prev_url)
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 1, in top-level template code
-    {% extends "bootstrap/base.html" %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/opt/anaconda3/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/base.html", line 69, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/club.html", line 20, in block "app_content"
-    {% include '_club.html' %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/_club.html", line 10, in top-level template code
-    {{ club.clb_contact.con_club.con_firstname }}
-  File "/opt/anaconda3/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'sqlalchemy.orm.dynamic.AppenderBaseQuery object' has no attribute 'con_club'
-2020-06-01 16:45:44,634 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 81]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/templates/form.html", line 19, in block "app_content"
+    {{ wtf.quick_form(form) }}
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 205, in template
+    {{ form_field(field,
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 123, in template
+    {{field(class="form-control", **kwargs)|safe}}
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/fields/core.py", line 160, in __call__
+    return self.meta.render_field(self, kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/meta.py", line 56, in render_field
+    return field.widget(field, **render_kw)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/widgets/core.py", line 300, in __call__
+    for val, label, selected in field.iter_choices():
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py", line 107, in iter_choices
+    for pk, obj in self._get_object_list():
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py", line 98, in _get_object_list
+    query = self.query or self.query_factory()
+TypeError: 'NoneType' object is not callable
+2020-09-10 17:32:26,173 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 17:44:18,307 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 17:51:58,419 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 17:53:50,771 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 17:58:05,002 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:04:07,491 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:06:27,508 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:06:55,814 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:07:53,191 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:08:36,996 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:10:19,597 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:11:53,254 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:12:57,868 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:13:27,282 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:15:51,204 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:18:05,798 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:19:26,436 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:20:01,225 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:20:28,348 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:21:57,808 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:22:51,920 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:23:30,510 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:24:12,646 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:26:32,207 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:27:19,665 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:29:21,307 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:32:17,140 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:32:49,108 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:33:11,674 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:34:18,663 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]
+2020-09-10 18:34:52,815 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/app/__init__.py: 89]

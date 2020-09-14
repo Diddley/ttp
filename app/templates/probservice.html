@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Probation Services</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-primary">
+                                        <th scope="col">Probation Service</th>
+                                        <th scope="col">Town</th>
+                                        <th scope="col">Contact</th>
+                                    </thead>
+                                    {% for probservice in probservices %}
+                                        {% include '_probservice.html' %}
+                                    {% endfor %}
+                                </table>
+                                <nav aria-label="...">
+                                    <ul class="pager">
+                                        <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                            <a href="{{ prev_url  or '#' }}">
+                                                <span aria-hidden="true">&larr;</span> Prev
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('main.newprobservice') }}">
+                                                <span aria-hidden="true"></span>Add Probation Service
+                                            </a>
+                                        </li>
+                                        <li class="next{% if not next_url %} disabled{% endif %}">
+                                            <a href="{{ next_url  or '#' }}">
+                                                Next <span aria-hidden="true">&rarr;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+                
+    
+
+ 
+
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#probservice');
+    newBtn.classList.add("active");
+</script>
+
+{% endblock %}

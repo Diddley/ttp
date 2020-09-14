@@ -1,383 +1,585 @@
-{% extends "bootstrap/base.html" %}
+{% extends "bootstrap/base.html" %} 
 
-{% block title %}
-    {% if title %}
-        {{ title }} - TPP
-    {% else %}
-        Welcome to The Twinning Project
-    {% endif %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block head %}
-{{ super() }}
-<link type="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+     {% block title %}
+        {% if title %}
+            {{ title }} - TPP
+        {% else %}
+            Welcome to The Twinning Project
+        {% endif %}
+     {% endblock %} <!-- Title -->
+    
+     <head>
+    {% block head %}
+    {{ super() }}
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">
+       
 
-<meta charset="utf-8" />
-<link rel="icon" type="image/png" href="../static/images/Favicon.png">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-<!--     Fonts and icons     -->
-<link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-<!-- CSS Files -->
-<link href="../static/css/material-dashboard.css" rel="stylesheet" />
-<!-- CSS Just for demo purpose, don't include it in your project -->
-<link href="../static/css/demo.css" rel="stylesheet" />
+    <link type="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
-{% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">
 
-{% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('main.index') }}"><img style="height:2rem;"
-                        src="{{ url_for('static', filename='images/ttp_logo.png') }}"></a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                    <li><a href="{{ url_for('main.clubs') }}">Clubs</a></li>
-                    <li><a href="{{ url_for('main.prisons') }}">Prisons</a></li>
-                    <li><a href="{{ url_for('main.cohorts') }}">Cohorts</a></li>
-                    <li><a href="{{ url_for('main.media') }}">Media</a></li>
-                    <li><a href="{{ url_for('main.funding') }}">Funding</a></li>
-                    <li><a href="{{ url_for('main.contacts') }}">Contacts</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('main.admin') }}">Admin</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                    {% endif %}
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/static/images/Favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="/static/css/material-dashboard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="/static/css/demo.css" rel="stylesheet" />
+
+    {% endblock %} <!-- Head-->
+    </head>
+
+    <body>
+        <div class="wrapper ">
+        {% block navbar %}
+        <div class="sidebar" data-color="twinning" data-background-color="white" data-image="/static/images/sidebarKit.png">
+            
+            <div class="logo"><a href="{{ url_for('main.index') }}" class="simple-text logo-normal">
+                    <img style="height:5rem;" src="{{url_for('static', filename='images/ttp_logo.png') }}">
+                </a></div>
+            <div class="sidebar-wrapper">
+                <ul class="nav" id="sidemenu">
+                    <li class="nav-item " id="dash">
+                        <a class="nav-link" href="{{ url_for('main.index') }}">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="club">
+                        <a class="nav-link" href="{{ url_for('main.clubs') }}">
+                            <i class="material-icons">sports_soccer</i>
+                            <p>Clubs</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="prison">
+                        <a class="nav-link" href="{{ url_for('main.prisons') }}">
+                            <i class="material-icons">fence</i>
+                            <p>Prisons</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="probservice">
+                        <a class="nav-link" href="{{ url_for('main.probservices') }}">
+                            <i class="material-icons">lock_open</i>
+                            <p>Probation Services</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="cohort">
+                        <a class="nav-link" href="{{ url_for('main.cohorts') }}">
+                            <i class="material-icons">groups</i>
+                            <p>Cohorts</p>
+                        </a>
+                    </li>
+                
+                    <li class="nav-item " id="funding">
+                        <a class="nav-link" href="{{ url_for('main.funding') }}">
+                            <i class="material-icons">account_balance</i>
+                            <p>Funding</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item " id="media">
+                        <a class="nav-link" href="{{ url_for('main.media') }}">
+                            <i class="material-icons">collections</i>
+                            <p>Media</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="contact">
+                        <a class="nav-link" href="{{ url_for('main.contacts') }}">
+                            <i class="material-icons">contacts</i>
+                            <p>Contacts</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " id="menumap">
+                        <a class="nav-link" href="{{ url_for('main.map') }}">
+                            <i class="material-icons">location_ons</i>
+                            <p>Maps</p>
+                        </a>
+                    </li>
+                    
+                    
                 </ul>
             </div>
         </div>
-    </nav>
-{% endblock %}
+        <div class="main-panel">
+                
+                  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+                      <div class="container-fluid">
+                          <!-- <div class="navbar-wrapper">
+                              <a class="navbar-brand" href="javascript:;">The Twinning Project</a>
+                          </div> -->
+                          <button class="navbar-toggler" type="button" data-toggle="collapse"
+                              aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="sr-only">Toggle navigation</span>
+                              <span class="navbar-toggler-icon icon-bar"></span>
+                              <span class="navbar-toggler-icon icon-bar"></span>
+                              <span class="navbar-toggler-icon icon-bar"></span>
+                          </button>
+                          <div class="collapse navbar-collapse justify-content-end">
+                              <ul class="navbar-nav">
+                                  <li class="nav-item" id="notify">
+                                      <a class="nav-link" href="javascript:;">
+                                          <i class="material-icons">notifications</i> Notifications
+                                      </a>
+                                  </li>
+                                  {% if current_user.is_anonymous %}
+                                    <li class="nav-item " id="login">
+                                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                                            <i class="material-icons">login</i> Login
+                                        </a>
+                                    </li>
+                                  {% else %}
+                                    <li class="nav-item" id="admin">
+                                        <a class="nav-link" href="{{ url_for('main.admin') }}">
+                                            <i class="material-icons">admin_panel_settings</i> Admin
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="logout">
+                                        <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                                            <i class="material-icons">directions_run</i> Logout
+                                        </a>
+                                    </li>
+                                  {% endif %}
+                                  
+                              </ul>
+                          </div>
+                      </div>
+                  </nav>
+                 {% endblock %} 
+ <!--                <nav class="navbar navbar-default">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{{ url_for('main.index') }}"><img style="height:2rem;"
+                                    src="{{ url_for('static', filename='images/ttp_logo.png') }}"></a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                                <li><a href="{{ url_for('main.clubs') }}">Clubs</a></li>
+                                <li><a href="{{ url_for('main.prisons') }}">Prisons</a></li>
+                                <li><a href="{{ url_for('main.cohorts') }}">Cohorts</a></li>
+                                <li><a href="{{ url_for('main.media') }}">Media</a></li>
+                                <li><a href="{{ url_for('main.funding') }}">Funding</a></li>
+                                <li><a href="{{ url_for('main.contacts') }}">Contacts</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                {% if current_user.is_anonymous %}
+                                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                                {% else %}
+                                <li><a href="{{ url_for('main.admin') }}">Admin</a></li>
+                                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+  -->            <!-- Navbar-->
 
 
-{% block content %}
-    <div class="container">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+            {% block content %}
+            <div class="content">
+                <div class="container-fluid">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-info" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
 
-        {# application content needs to be provided in the app_content block #}
-        {% block app_content %}{% endblock %}
+                    {# application content needs to be provided in the app_content block #}
+                    {% block app_content %}{% endblock %}
 
-    </div>
-  
-      
-{% endblock %}
+                </div>
+            </div>
+                
+           
+        {% block footer %}
+        <footer class="footer">
+            
+            <div class="container-fluid">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="https://www.twinningproject.org/" target="_blank">
+                                The Twinning Project
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, created by 
+                    <a href="http://decide.delphicapital.co.uk" target="_blank">Delphi DECIDE</a>.
+                </div>
+                <!-- your footer here -->
+            </div>
+            
+        </footer>
+       {% endblock %}
+        {% endblock %} <!-- content-->
 
-{% block scripts %}
-    {{ super() }}
-    {{ moment.include_moment() }}
+        {% block scripts %}
+            {{ super() }}
+            {{ moment.include_moment() }}
 
-<script src="https://use.fontawesome.com/release/v5.13.0/js/all.js"></script> 
-<script src="https://use.fontawesome.com/releases/v5.13.0/js/v4-shims.js"></script>  
+        <script src="https://kit.fontawesome.com/523da7c9b9.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://use.fontawesome.com/release/v5.13.0/js/all.js"></script> -->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/v4-shims.js"></script>  
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> -->
 
-<script type="text/javascript">
-    $(function () {
-        $('#datepick .input-daterange').datepicker({});
-    });
-</script>
-<!-- <script>
+        
+        <!-- <script>
+            const button = document.getElementsByClassName('nav-item')
+            console.log(button)
+        </script> -->
 
-script for rollover popup; still needs to be adapted for tpp
+        <!-- <script>
 
-   $(function() {
-        var timer = null;
-        var xhr = null;
-        $('.user_popup').hover(
-            function(event) {
-                // mouse in event handler
-                var elem=$(event.currentTarget);
-                timer = setTimeout(function() {
-                    timer = null;
-                    xhr = $.ajax(
-                        '/user/' + elem.first().text().trim() + '/popup').done(
-                            function(data) {
-                                xhr = null;
-                                elem.popover({
-                                    trigger: 'manual',
-                                    html: true,
-                                    animation: false,
-                                    container: elem,
-                                    content: data
-                                }).popover('show');
-                                flask_moment_render_all();
+        script for rollover popup; still needs to be adapted for tpp
+
+        $(function() {
+                var timer = null;
+                var xhr = null;
+                $('.user_popup').hover(
+                    function(event) {
+                        // mouse in event handler
+                        var elem=$(event.currentTarget);
+                        timer = setTimeout(function() {
+                            timer = null;
+                            xhr = $.ajax(
+                                '/user/' + elem.first().text().trim() + '/popup').done(
+                                    function(data) {
+                                        xhr = null;
+                                        elem.popover({
+                                            trigger: 'manual',
+                                            html: true,
+                                            animation: false,
+                                            container: elem,
+                                            content: data
+                                        }).popover('show');
+                                        flask_moment_render_all();
+                                    }
+                                );
+                            
+                        }, 1000);
+                    },
+                    function(event) {
+                        //mouse on event handler
+                        var elem = $(event.currentTarget);
+                        if (timer) {
+                            clearTimeout(timer);
+                            timer = null;
+                        }
+                        else if (xhr) {
+                            xhr.abort();
+                            xhr = null;
+                        }
+                        else {
+                            elem.popover('destroy');
+                        }
+                    }
+                )
+            });
+
+        </script> -->
+
+        <script src="/static/js/core/jquery.min.js"></script>
+        <script src="/static/js/core/popper.min.js"></script>
+        <script src="/static/js/core/bootstrap-material-design.min.js"></script>
+        <script src="/static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+        <!-- Plugin for the momentJs  -->
+        <script src="/static/js/plugins/moment.min.js"></script>
+        <!--  Plugin for Sweet Alert -->
+        <script src="/static/js/plugins/sweetalert2.js"></script>
+        <!-- Forms Validations Plugin -->
+        <script src="/static/js/plugins/jquery.validate.min.js"></script>
+        <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+        <script src="/static/js/plugins/jquery.bootstrap-wizard.js"></script>
+        <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+        <script src="/static/js/plugins/bootstrap-selectpicker.js"></script>
+        <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+        <script src="/static/js/plugins/bootstrap-datetimepicker.min.js"></script>
+        <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+        <script src="/static/js/plugins/jquery.dataTables.min.js"></script>
+        <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+        <script src="/static/js/plugins/bootstrap-tagsinput.js"></script>
+        <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+        <script src="/static/js/plugins/jasny-bootstrap.min.js"></script>
+        <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+        <script src="/static/js/plugins/fullcalendar.min.js"></script>
+        <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+        <script src="/static/js/plugins/jquery-jvectormap.js"></script>
+        <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+        <script src="/static/js/plugins/nouislider.min.js"></script>
+        <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+        <!-- Library for adding dinamically elements -->
+        <script src="/static/js/plugins/arrive.min.js"></script>
+        
+        <!-- Chartist JS -->
+        <script src="/static/js/plugins/chartist.min.js"></script>
+        <!--  Notifications Plugin    -->
+        <script src="/static/js/plugins/bootstrap-notify.js"></script>
+        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/static/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+        <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+        <script src="/static/js/demo.js"></script>
+        <script src="/static/js/map.js"></script>
+        
+        <script>
+            // Add active class to the current button (highlight it)
+           /*  var currButton = document.querySelector('li.nav-item.active');
+            console.log(currButton.classList)
+            currButton.classList.remove("active");
+            console.log(currButton.classList)
+ */
+            /* var header = document.getElementById("sidemenu");
+            var btns = header.getElementsByClassName("nav-item");
+            for(var i=0; i< btns.length; i++){
+                var parent = btns[i];
+                var child = btns[i].children[0];
+                console.log(parent);
+                console.log(child);
+                 };
+            
+            var current = header.getElementsByClassName("active")
+            console.log(current)
+            
+            var mybutton = document.querySelectorAll('nav-item.active');
+            console.log(mybutton.values);
+           
+            
+
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].children[0].addEventListener("click", function () {
+                            var current = btns.getElementsByClassName("active");
+                            console.log(btns[i], current);
+                            current[0].className = current[0].className.replace("active", "" ); 
+                            btns[i].className +="active" ; 
+                }); 
+            } */
+        </script>
+        <script>
+            $(document).ready(function () {
+                $().ready(function () {
+                    $sidebar = $('.sidebar');
+
+                    $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+                    $full_page = $('.full-page');
+
+                    $sidebar_responsive = $('body > .navbar-collapse');
+
+                    window_width = $(window).width();
+
+                    fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+                    if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+                        if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+                            $('.fixed-plugin .dropdown').addClass('open');
+                        }
+
+                    }
+
+                    $('.fixed-plugin a').click(function (event) {
+                        // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+                        if ($(this).hasClass('switch-trigger')) {
+                            if (event.stopPropagation) {
+                                event.stopPropagation();
+                            } else if (window.event) {
+                                window.event.cancelBubble = true;
                             }
-                        );
-                    
-                }, 1000);
-            },
-            function(event) {
-                //mouse on event handler
-                var elem = $(event.currentTarget);
-                if (timer) {
-                    clearTimeout(timer);
-                    timer = null;
-                }
-                else if (xhr) {
-                    xhr.abort();
-                    xhr = null;
-                }
-                else {
-                    elem.popover('destroy');
-                }
-            }
-        )
-    });
-
-</script> -->
-
-<script src="../static/js/core/jquery.min.js"></script>
-<script src="../static/js/core/popper.min.js"></script>
-<script src="../static/js/core/bootstrap-material-design.min.js"></script>
-<script src="../static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!-- Plugin for the momentJs  -->
-<script src="../static/js/plugins/moment.min.js"></script>
-<!--  Plugin for Sweet Alert -->
-<script src="../static/js/plugins/sweetalert2.js"></script>
-<!-- Forms Validations Plugin -->
-<script src="../static/js/plugins/jquery.validate.min.js"></script>
-<!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-<script src="../static/js/plugins/jquery.bootstrap-wizard.js"></script>
-<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-<script src="../static/js/plugins/bootstrap-selectpicker.js"></script>
-<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-<script src="../static/js/plugins/bootstrap-datetimepicker.min.js"></script>
-<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-<script src="../static/js/plugins/jquery.dataTables.min.js"></script>
-<!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-<script src="../static/js/plugins/bootstrap-tagsinput.js"></script>
-<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-<script src="../static/js/plugins/jasny-bootstrap.min.js"></script>
-<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-<script src="../static/js/plugins/fullcalendar.min.js"></script>
-<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-<script src="../static/js/plugins/jquery-jvectormap.js"></script>
-<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="../static/js/plugins/nouislider.min.js"></script>
-<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-<!-- Library for adding dinamically elements -->
-<script src="../static/js/plugins/arrive.min.js"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiWJfjuKX0Z1e5s7eY7EKeoXAqTs6QqJM"></script>
-<!-- Chartist JS -->
-<script src="../static/js/plugins/chartist.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="../static/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="../static/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="../static/js/demo.js"></script>
-<script>
-    $(document).ready(function () {
-        $().ready(function () {
-            $sidebar = $('.sidebar');
-
-            $sidebar_img_container = $sidebar.find('.sidebar-background');
-
-            $full_page = $('.full-page');
-
-            $sidebar_responsive = $('body > .navbar-collapse');
-
-            window_width = $(window).width();
-
-            fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-            if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-                if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-                    $('.fixed-plugin .dropdown').addClass('open');
-                }
-
-            }
-
-            $('.fixed-plugin a').click(function (event) {
-                // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-                if ($(this).hasClass('switch-trigger')) {
-                    if (event.stopPropagation) {
-                        event.stopPropagation();
-                    } else if (window.event) {
-                        window.event.cancelBubble = true;
-                    }
-                }
-            });
-
-            $('.fixed-plugin .active-color span').click(function () {
-                $full_page_background = $('.full-page-background');
-
-                $(this).siblings().removeClass('active');
-                $(this).addClass('active');
-
-                var new_color = $(this).data('color');
-
-                if ($sidebar.length != 0) {
-                    $sidebar.attr('data-color', new_color);
-                }
-
-                if ($full_page.length != 0) {
-                    $full_page.attr('filter-color', new_color);
-                }
-
-                if ($sidebar_responsive.length != 0) {
-                    $sidebar_responsive.attr('data-color', new_color);
-                }
-            });
-
-            $('.fixed-plugin .background-color .badge').click(function () {
-                $(this).siblings().removeClass('active');
-                $(this).addClass('active');
-
-                var new_color = $(this).data('background-color');
-
-                if ($sidebar.length != 0) {
-                    $sidebar.attr('data-background-color', new_color);
-                }
-            });
-
-            $('.fixed-plugin .img-holder').click(function () {
-                $full_page_background = $('.full-page-background');
-
-                $(this).parent('li').siblings().removeClass('active');
-                $(this).parent('li').addClass('active');
-
-
-                var new_image = $(this).find("img").attr('src');
-
-                if ($sidebar_img_container.length != 0 && $(
-                        '.switch-sidebar-image input:checked').length != 0) {
-                    $sidebar_img_container.fadeOut('fast', function () {
-                        $sidebar_img_container.css('background-image', 'url("' +
-                            new_image + '")');
-                        $sidebar_img_container.fadeIn('fast');
+                        }
                     });
-                }
 
-                if ($full_page_background.length != 0 && $(
-                        '.switch-sidebar-image input:checked').length != 0) {
-                    var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
-                        'img').data('src');
+                    $('.fixed-plugin .active-color span').click(function () {
+                        $full_page_background = $('.full-page-background');
 
-                    $full_page_background.fadeOut('fast', function () {
-                        $full_page_background.css('background-image', 'url("' +
-                            new_image_full_page + '")');
-                        $full_page_background.fadeIn('fast');
+                        $(this).siblings().removeClass('active');
+                        $(this).addClass('active');
+
+                        var new_color = $(this).data('color');
+
+                        if ($sidebar.length != 0) {
+                            $sidebar.attr('data-color', new_color);
+                        }
+
+                        if ($full_page.length != 0) {
+                            $full_page.attr('filter-color', new_color);
+                        }
+
+                        if ($sidebar_responsive.length != 0) {
+                            $sidebar_responsive.attr('data-color', new_color);
+                        }
                     });
-                }
 
-                if ($('.switch-sidebar-image input:checked').length == 0) {
-                    var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr(
-                        'src');
-                    var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
-                        'img').data('src');
+                    $('.fixed-plugin .background-color .badge').click(function () {
+                        $(this).siblings().removeClass('active');
+                        $(this).addClass('active');
 
-                    $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-                    $full_page_background.css('background-image', 'url("' +
-                        new_image_full_page + '")');
-                }
+                        var new_color = $(this).data('background-color');
 
-                if ($sidebar_responsive.length != 0) {
-                    $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-                }
+                        if ($sidebar.length != 0) {
+                            $sidebar.attr('data-background-color', new_color);
+                        }
+                    });
+
+                    $('.fixed-plugin .img-holder').click(function () {
+                        $full_page_background = $('.full-page-background');
+
+                        $(this).parent('li').siblings().removeClass('active');
+                        $(this).parent('li').addClass('active');
+
+
+                        var new_image = $(this).find("img").attr('src');
+
+                        if ($sidebar_img_container.length != 0 && $(
+                                '.switch-sidebar-image input:checked').length != 0) {
+                            $sidebar_img_container.fadeOut('fast', function () {
+                                $sidebar_img_container.css('background-image', 'url("' +
+                                    new_image + '")');
+                                $sidebar_img_container.fadeIn('fast');
+                            });
+                        }
+
+                        if ($full_page_background.length != 0 && $(
+                                '.switch-sidebar-image input:checked').length != 0) {
+                            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
+                                'img').data('src');
+
+                            $full_page_background.fadeOut('fast', function () {
+                                $full_page_background.css('background-image', 'url("' +
+                                    new_image_full_page + '")');
+                                $full_page_background.fadeIn('fast');
+                            });
+                        }
+
+                        if ($('.switch-sidebar-image input:checked').length == 0) {
+                            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr(
+                                'src');
+                            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
+                                'img').data('src');
+
+                            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+                            $full_page_background.css('background-image', 'url("' +
+                                new_image_full_page + '")');
+                        }
+
+                        if ($sidebar_responsive.length != 0) {
+                            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+                        }
+                    });
+
+                    $('.switch-sidebar-image input').change(function () {
+                        $full_page_background = $('.full-page-background');
+
+                        $input = $(this);
+
+                        if ($input.is(':checked')) {
+                            if ($sidebar_img_container.length != 0) {
+                                $sidebar_img_container.fadeIn('fast');
+                                $sidebar.attr('data-image', '#');
+                            }
+
+                            if ($full_page_background.length != 0) {
+                                $full_page_background.fadeIn('fast');
+                                $full_page.attr('data-image', '#');
+                            }
+
+                            background_image = true;
+                        } else {
+                            if ($sidebar_img_container.length != 0) {
+                                $sidebar.removeAttr('data-image');
+                                $sidebar_img_container.fadeOut('fast');
+                            }
+
+                            if ($full_page_background.length != 0) {
+                                $full_page.removeAttr('data-image', '#');
+                                $full_page_background.fadeOut('fast');
+                            }
+
+                            background_image = false;
+                        }
+                    });
+
+                    $('.switch-sidebar-mini input').change(function () {
+                        $body = $('body');
+
+                        $input = $(this);
+
+                        if (md.misc.sidebar_mini_active == true) {
+                            $('body').removeClass('sidebar-mini');
+                            md.misc.sidebar_mini_active = false;
+
+                            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+                        } else {
+
+                            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+                            setTimeout(function () {
+                                $('body').addClass('sidebar-mini');
+
+                                md.misc.sidebar_mini_active = true;
+                            }, 300);
+                        }
+
+                        // we simulate the window Resize so the charts will get updated in realtime.
+                        var simulateWindowResize = setInterval(function () {
+                            window.dispatchEvent(new Event('resize'));
+                        }, 180);
+
+                        // we stop the simulation of Window Resize after the animations are completed
+                        setTimeout(function () {
+                            clearInterval(simulateWindowResize);
+                        }, 1000);
+
+                    });
+                });
+            });
+        </script> 
+        
+        <script>
+            $(document).ready(function () {
+                // Javascript method's body can be found in assets/js/demos.js
+                md.initDashboardPageCharts();
+
+            });
+        </script>
+        <!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiWJfjuKX0Z1e5s7eY7EKeoXAqTs6QqJM"></script>
+        <script>
+            $(document).ready(function () {
+                map.initMap();
             });
 
-            $('.switch-sidebar-image input').change(function () {
-                $full_page_background = $('.full-page-background');
+            
+        </script>
 
-                $input = $(this);
-
-                if ($input.is(':checked')) {
-                    if ($sidebar_img_container.length != 0) {
-                        $sidebar_img_container.fadeIn('fast');
-                        $sidebar.attr('data-image', '#');
-                    }
-
-                    if ($full_page_background.length != 0) {
-                        $full_page_background.fadeIn('fast');
-                        $full_page.attr('data-image', '#');
-                    }
-
-                    background_image = true;
-                } else {
-                    if ($sidebar_img_container.length != 0) {
-                        $sidebar.removeAttr('data-image');
-                        $sidebar_img_container.fadeOut('fast');
-                    }
-
-                    if ($full_page_background.length != 0) {
-                        $full_page.removeAttr('data-image', '#');
-                        $full_page_background.fadeOut('fast');
-                    }
-
-                    background_image = false;
-                }
-            });
-
-            $('.switch-sidebar-mini input').change(function () {
-                $body = $('body');
-
-                $input = $(this);
-
-                if (md.misc.sidebar_mini_active == true) {
-                    $('body').removeClass('sidebar-mini');
-                    md.misc.sidebar_mini_active = false;
-
-                    $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-
-                } else {
-
-                    $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
-
-                    setTimeout(function () {
-                        $('body').addClass('sidebar-mini');
-
-                        md.misc.sidebar_mini_active = true;
-                    }, 300);
-                }
-
-                // we simulate the window Resize so the charts will get updated in realtime.
-                var simulateWindowResize = setInterval(function () {
-                    window.dispatchEvent(new Event('resize'));
-                }, 180);
-
-                // we stop the simulation of Window Resize after the animations are completed
-                setTimeout(function () {
-                    clearInterval(simulateWindowResize);
-                }, 1000);
-
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        md.initDashboardPageCharts();
-
-    });
-</script>
-{% endblock %}
+        {% endblock %} <!--script-->
+        </div>
+    </div>
+    </body>
+</html>
