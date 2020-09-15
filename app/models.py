@@ -60,7 +60,7 @@ class Club(db.Model):
     clb_town = db.Column(db.String(40), index= True)
     clb_postcode = db.Column(db.String(10), index = True)
     division_id = db.Column(db.Integer, db.ForeignKey('division.id'))
-    clb_badge =db.Column(db.String(40))
+    clb_badge =db.Column(db.String(120))
     clb_contract = db.Column(db.Boolean)
     clb_collab = db.Column(db.Boolean)
     clb_fundingapp = db.Column(db.Boolean)
