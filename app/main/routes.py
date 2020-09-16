@@ -47,7 +47,7 @@ def index():
     tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
     today = datetime.utcnow()
     page = request.args.get('page', 1, type=int)
-    cohorts = Cohort.query.filter(and_(Cohort.coh_startDate<=today, or_(Cohort.coh_endDate>today, Cohort.coh_endDate==None)).order_by(Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    cohorts = Cohort.query.filter(and_(Cohort.coh_startDate<=today, or_(Cohort.coh_endDate>today, Cohort.coh_endDate==None))).order_by(Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.index', page=cohorts.next_num) if cohorts.has_next else None
     prev_url = url_for('main.index', page = cohorts.prev_num) if cohorts.has_prev else None
     return render_template('index.html', title = 'Home', today = today, cohorts=cohorts.items, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
