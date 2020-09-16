@@ -40,7 +40,11 @@
                                             </td>
                                             <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
 
-                                            <td>{{ moment(cohort.coh_endDate).format('LL') }}</td>
+                                            <td>
+                                                {% if cohort.coh_endDate %}
+                                                    {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
+                                                {% endif %}
+                                            </td>
                                             <td>{{ cohort.course_owner.course_type }}</td>
                                             <td>{{ cohort.coh_participants }}</td>
                                             <td>{{ cohort.coh_grads }}</td>
