@@ -4,7 +4,11 @@
             <a href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
         </td>
         <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
-        <td>{{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}</td>
+        <td>
+            {% if cohort.coh_endDate %}
+                {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
+            {% endif %}
+        </td>
         <td>{{ cohort.course_owner.course_type }}</td>
         <td>{{ cohort.coh_participants }}</td>
     </tr>
