@@ -112,8 +112,9 @@ class NewCohortForm(FlaskForm):
     submit = SubmitField('Create Cohort')
 
     def validate_date(self, coh_startDate, coh_endDate):
-        if date(coh_endDate.data) < date(coh_startDate.data):
-            raise ValidationError('End date should be after Start Date')
+        if coh_endDate:
+            if date(coh_endDate.data) < date(coh_startDate.data):
+                raise ValidationError('End date should be after Start Date')
     
     def validate_entity(self, coh_prison, coh_prob):
         pris = coh_prison.data
