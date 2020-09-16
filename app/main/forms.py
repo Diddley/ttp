@@ -106,8 +106,7 @@ class NewCohortForm(FlaskForm):
     coh_prison = QuerySelectField('Prison', validators=[Optional()], query_factory=lambda : Prison.query, get_label="prs_name", allow_blank=True)
     coh_prob = QuerySelectField('Probation Services', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
     coh_startDate = DateField('Start Date',validators=[DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
-    coh_endDate = DateField('End Date', validators=[
-                            DataRequired()], format='%Y-%m-%d')
+    coh_endDate = DateField('End Date', validators=[Optional()], format='%Y-%m-%d')
     coh_course = QuerySelectField('Course', validators=[], query_factory=lambda : Course.query, get_label="course_type")
     coh_parts = IntegerField('Number of participants', validators=[DataRequired()])
     submit = SubmitField('Create Cohort')
