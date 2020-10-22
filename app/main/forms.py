@@ -5,7 +5,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SelectField, SubmitField, DateField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation
+from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder
 from app import db, images
 from datetime import datetime
 
@@ -178,8 +178,23 @@ class NewFundingForm(FlaskForm):
 
 
 
+class NewStockItemForm(FlaskForm):
+    item_sku = StringField('SKU', validators=[DataRequired()])
+    item_desc = StringField('Description', validators=[DataRequired()])
+    item_qty = IntegerField('Opening Stock', validators=[Optional()], default=0)
+    submit = SubmitField('Add Item')
+
+    def validate_sku(self, item_sku):
+        item = Stock.query.filter_by(sku=item_sku.data).first()
+        if item is not None:
+            raise ValidationError('This SKU already exists!')
 
 
+''' class UpdateStockForm(FlaskForm):
+    items = Stock.query.all()
+    for item in items:
+        qty.item.id = IntegerField(label=item.stock_desc, default=item.qty)
+    submit=SubmitField('Update Stock') '''
         
 
 

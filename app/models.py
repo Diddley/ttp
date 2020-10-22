@@ -171,6 +171,34 @@ class Kit(db.Model):
     def __repr__(self):
         return '<Kit S {} M {} L {} XL {}>'.format(self.kit_numSmall, self.kit_numMedium, self.kit_numLarge, self.kit_numXlarge)
 
+class Stock(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(40), index=True, unique=True)
+    stock_desc = db.Column(db.String(40))
+    qty = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Item: {} >'.format(self.id)
+
+class KitItem(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    item = db.Column(db.String(40), db.ForeignKey('stock.sku'))
+    order_qty = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Orderline: {}, {} >'.format(self.item, self.order_qty)
+
+class KitOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_cohortid = db.Column(db.Integer, db.ForeignKey('cohort.id'))
+    order_time = db.Column(db.DateTime, default=datetime.today())
+    order_item = db.Column(db.Integer, db.ForeignKey('kit_item.id'))
+
+    def __repr__(self):
+        return '<Order: {}>'.format(self.id)
+
+
+
 class Funding(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fnd_cohort = db.Column(db.Integer, db.ForeignKey('cohort.id'))

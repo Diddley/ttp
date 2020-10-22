@@ -2,8 +2,8 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock
 from app.main import bp
 
 @bp.before_app_request
@@ -98,6 +98,20 @@ def contacts():
         'main.contacts', page=contacts.prev_num) if contacts.has_prev else None
     #flash(type(contacts))
     return render_template('contact.html', title='Contacts', contacts = contacts.items, next_url=next_url, prev_url=prev_url)
+
+@bp.route('/contact/<id>')
+@login_required
+def contact(id):
+    contact = Contact.query.filter_by(id=id).first_or_404()
+    return render_template('contactdetails.html', title = contact.con_firstname + ' ' + contact.con_surname, contact = contact)
+
+@bp.route('/clubcontacts/<id>')
+@login_required
+def clubcontacts(id):
+    club = Club.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_club=id).all()
+    return render_template('contact.html', title = club.clb_name + ' Contacts', contacts = contacts)
+
 
 @bp.route('/prisons')
 def prisons():
@@ -440,6 +454,7 @@ def newcomment(source, sourceid):
             body = form.body.data,
             timestamp = datetime.utcnow(),
             user_id = user.id,
+            club_id = sourceid if source == 'club' else None,
             cohort_id = sourceid if source == 'cohort' else None,
             fnd_id=sourceid if source == 'funding' else None,
             med_id=sourceid if source == 'media' else None,
@@ -534,3 +549,27 @@ def newkit(cohortid):
 @bp.route('/map')
 def map():
     return render_template('map.html', title='Map')
+
+
+@bp.route('/addstockitem', methods=['GET', 'POST'])
+@login_required
+def addstockitem():
+    form = NewStockItemForm()
+    if form.validate_on_submit():
+        stock = Stock(
+            sku = form.item_sku.data,
+            stock_desc = form.item_desc.data,
+            qty = form.item_qty.data
+        )
+        flash(stock)
+        db.session.add(stock)
+        db.session.commit()
+        flash(stock.stock_desc + ' added')
+        return redirect(url_for('main.index'))
+    return render_template('admin.html', title = "Add stock item", form = form)
+
+@bp.route('/stock')
+@login_required
+def stock():
+    stocks = Stock.query.order_by(Stock.qty.asc())
+    return render_template('admin.html', title='Stock Levels', stocks=stocks)
