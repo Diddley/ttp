@@ -15,16 +15,16 @@
                             <div class="col-md-3">
                                 <h4>
                                     {% if contact.con_club %}
-                                        {{ contact.clb_contact.clb_name }}
+                                    {{ contact.clb_contact.clb_name }}
                                     {% elif contact.con_prison %}
-                                        {{ contact.prs_contact.prs_name }}
+                                    {{ contact.prs_contact.prs_name }}
                                     {% elif contact.prob_contact %}
-                                        {{ contact.prob_contact.prob_name }}
+                                    {{ contact.prob_contact.prob_name }}
                                     {% endif %}
                                 </h4>
                             </div>
                         </div>
-                      
+
                         <div class="row">
                             <hr>
                         </div>
@@ -51,9 +51,10 @@
                                     <ul class="pager">
                                         <li><button class="btn btn-primary pull-right"><a href="#">Delete
                                                     Contact</a></button></li>
-                                        <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
+                                        <li><button class="btn btn-primary pull-right" type="submit"><a
+                                                    href="{{ url_for('main.editcontact', id=contact.id) }}">Edit
                                                     Contact</a></button></li>
-                                        
+
                                     </ul>
                                 </nav>
                             </div>
@@ -69,16 +70,16 @@
 
 {% endblock %}
 
- {% block scripts %}
- {{ super() }}
- <script>
-     // Add active class to the current button (highlight it)
-     var currButton = document.querySelector('li.nav-item.active');
-     if (currButton) {
-         currButton.classList.remove("active");
-     };
-     var newBtn = document.querySelector('#contact');
-     newBtn.classList.add("active");
- </script>
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#contact');
+    newBtn.classList.add("active");
+</script>
 
- {% endblock %}
+{% endblock %}
