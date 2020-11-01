@@ -79,18 +79,22 @@
                             <div class="col-md-12">
                                 <nav aria-label="...">
                                     <ul class="pager">
-                                        <li><button class="btn" type="submit"><a href="{{ url_for('main.edit_cohort', id=id) }}">Edit
+                                        <li><button class="btn btn-primary" type="submit"><a
+                                                    href="{{ url_for('main.edit_cohort', id=id) }}">Edit
                                                     Cohort</a></button></li>
-                                        <li><button class="btn"><a
+                                        <li><button class="btn btn-primary"><a
                                                     href="{{ url_for('main.newfunding', cohortid=id) }}">Add
                                                     Funding</a></button></li>
-                                        <li><button class="btn"><a href="{{ url_for('main.newkit', cohortid=id) }}">Add
+                                        <li><button class="btn btn-primary"><a
+                                                    href="{{ url_for('main.newkit', cohortid=id) }}">Add
                                                     Kit</a></button></li>
-                                        <li><button class="btn"><a
+                                        <li><button class="btn btn-primary"><a
                                                     href="{{ url_for('main.newcomment', source="cohort", sourceid = id) }}">Add
                                                     Comment</a></button></li>
-                                        <li><button class="btn "><a href="{{ url_for('main.toggletpi', id=id) }}">TPI</a></button></li>
-                                        <li><button class="btn "><a href="#">Delete Cohort</a></button></li>
+                                        <li><button class="btn btn-primary"><a
+                                                    href="{{ url_for('main.toggletpi', id=id) }}">TPI</a></button></li>
+                                        <li><button class="btn btn-primary"><a href="#">Delete
+                                                    Cohort</a></button></li>
                                     </ul>
                                 </nav>
                             </div>

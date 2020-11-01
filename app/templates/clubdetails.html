@@ -77,7 +77,25 @@
                                     </div>
                                 </div>
                             </div> <!-- end of row -->
-                            <button class="btn btn-primary pull-right" type="submit">Edit Club</button> 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav aria-label="...">
+                                        <ul class="pager">
+                                            <li><button class="btn btn-primary pull-right"><a href="#">Delete
+                                                        Club</a></button></li>
+                                            <li><button class="btn btn-primary pull-right" type="submit"><a
+                                                        href="#">Edit Club</a></button></li>
+                                            <li><button class="btn btn-primary pull-right" type="submit"><a
+                                                        href="{{ url_for('main.newcontact') }}">Add Contact</a></button></li>
+                                            <li><button class="btn btn-primary pull-right"><a
+                                                        href="{{ url_for('main.newcomment', source="club", sourceid = id) }}">Add
+                                                        Comment</a></button></li>
+                                            
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            
                             
                         </div>
                     </div>
@@ -112,44 +130,27 @@
                                         <td>{{ contact.con_phone }}</td>
                                     </tr>
                                 
-                                {% endfor %}
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
+                                <button class="btn btn-primary pull-right" type="submit"><a href="{{ url_for('main.clubcontacts', id=club.id) }}">Edit
+                                                    Contacts</a></button>
 
+                                  
+                                
+                            
                         </div>
 
                     </div>
                 </div>
                 {% if comments %}
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        {% for comment in comments %}
-                                            {% include '_comment.html' %}
-                                        {% endfor %}
-                                        <nav aria-label="...">
-                                            <ul class="pager">
-                                                <li class="previous{% if not prev_url %} disabled{% endif %}">
-                                                    <a href="{{ prev_url  or '#' }}">
-                                                        <span aria-hidden="true">&larr;</span> Previous
-                                                    </a>
-                                                </li>
-
-                                                <li class="next{% if not next_url %} disabled{% endif %}">
-                                                    <a href="{{ next_url  or '#' }}">
-                                                        Next <span aria-hidden="true">&rarr;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </table>
-                                </div>
-                            </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8">
+                            {% for comment in comments %}
+                                {% include '_comment.html' %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -158,12 +159,7 @@
         </div>
     </div>
 
- 
 
-
- {% for comment in comments %}
- {% include '_comment.html' %}
- {% endfor %}
 
 
 

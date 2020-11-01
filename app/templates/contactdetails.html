@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block app_content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h3 class="card-title">{{ contact.con_firstname }} {{ contact.con_surname }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>
+                                    {% if contact.con_club %}
+                                    {{ contact.clb_contact.clb_name }}
+                                    {% elif contact.con_prison %}
+                                    {{ contact.prs_contact.prs_name }}
+                                    {% elif contact.prob_contact %}
+                                    {{ contact.prob_contact.prob_name }}
+                                    {% endif %}
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Email:</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ contact.con_email }}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Phone:</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ contact.con_phone }}</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nav aria-label="...">
+                                    <ul class="pager">
+                                        <li><button class="btn btn-primary pull-right"><a href="#">Delete
+                                                    Contact</a></button></li>
+                                        <li><button class="btn btn-primary pull-right" type="submit"><a
+                                                    href="{{ url_for('main.editcontact', id=contact.id) }}">Edit
+                                                    Contact</a></button></li>
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#contact');
+    newBtn.classList.add("active");
+</script>
+
+{% endblock %}

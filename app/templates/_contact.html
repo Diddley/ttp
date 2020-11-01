@@ -13,6 +13,7 @@
         <td>{{ contact.con_surname }}</td>
         <td><a href="mailto:{{ contact.con_email }}">{{ contact.con_email }}</a> </td>
         <td>{{ contact.con_phone}}</td>
+        <td><button class="btn btn-primary pull-right" type="submit"><a href="{{ url_for('main.contact', id=contact.id) }}">Details</a></button></td>
         
     </tr>
 </tbody>
