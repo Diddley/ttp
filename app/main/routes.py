@@ -147,6 +147,12 @@ def editcontact(id):
     return render_template('form.html', form=form, contact=contact)
 
 
+@bp.route('/deletecontact/<id>', methods=['GET', 'POST'])
+@login_required
+def deletecontact(id):
+    contact = Contact.query.filter_by(id=id).first_or_404()
+
+
 @bp.route('/prisons')
 def prisons():
     page = request.args.get('page', 1, type=int)
@@ -228,19 +234,18 @@ def edit_cohort(id):
         prison = form.coh_prison.data
         probservice = form.coh_probserv.data
         course = form.coh_course.data
-        cohort = Cohort(
-            coh_desc=form.coh_desc.data,
-            coh_clubid=club.id,
-            coh_prisonid=prison.id if prison else None,
-            coh_probid=probservice.id if probservice else None,
-            coh_startDate=form.coh_startDate.data,
-            coh_endDate=form.coh_endDate.data,
-            coh_course=course.id,
-            coh_participants=form.coh_participants.data,
-            coh_grads=form.coh_grads.data,
-            coh_tpi=False
-        )
-
+        # ---------vvvv-----
+        cohort.coh_desc = form.coh_desc.data
+        cohort.coh_clubid = club.id
+        cohort.coh_prisonid = prison.id if prison else None
+        cohort.coh_probid = probservice.id if probservice else None
+        cohort.coh_startDate = form.coh_startDate.data
+        cohort.coh_endDate = form.coh_endDate.data
+        cohort.coh_course = course.id
+        cohort.coh_participants = form.coh_participants.data
+        cohort.coh_grads = form.coh_grads.data
+        cohort.coh_tpi = False
+        db.session.add(cohort)
         db.session.commit()
         flash('Your changes have been saved')
         return redirect(url_for('main.cohort', id=id))
