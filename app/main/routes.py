@@ -137,7 +137,7 @@ def editcontact(id):
         contact.con_phone = form.con_phone.data
         db.session.add(contact)
         db.session.commit()
-        flash('You have successfully editted ' + contact.con_firstname)
+        flash('You have successfully edited ' + contact.con_firstname)
         return redirect(url_for('main.contacts'))
     form.con_firstname.data = contact.con_firstname
     form.con_surname.data = contact.con_surname
