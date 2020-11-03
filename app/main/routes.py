@@ -228,23 +228,32 @@ def cohort(id):
 @login_required
 def edit_cohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
-    form = EditCohortForm(cohort.id)
+    form = EditCohortForm(id=id)
+    flash(cohort)
+    flash(cohort.coh_desc)
+    flash(cohort.coh_clubid)
+    flash(cohort.coh_prisonid)
+    flash(cohort.coh_probid)
+    flash(cohort.coh_startDate)
+    flash(cohort.coh_endDate)
+    flash(cohort.coh_participa)
+    flash(cohort)
+    flash(cohort)
     if form.validate_on_submit():
-        club = form.coh_club.data
-        prison = form.coh_prison.data
-        probservice = form.coh_probserv.data
-        course = form.coh_course.data
-        # ---------vvvv-----
+        #club = form.coh_club.data
+        #prison = form.coh_prison.data
+        #probservice = form.coh_probserv.data
+        #course = form.coh_course.data
         cohort.coh_desc = form.coh_desc.data
-        cohort.coh_clubid = club.id
-        cohort.coh_prisonid = prison.id if prison else None
-        cohort.coh_probid = probservice.id if probservice else None
+        #cohort.coh_clubid = cohort.coh_club
+        #cohort.coh_prisonid = cohort.coh_prisonid if cohort.coh_prisonid else None
+        #cohort.coh_probid = cohort.coh_probid if cohort.cohort_probid else None
         cohort.coh_startDate = form.coh_startDate.data
         cohort.coh_endDate = form.coh_endDate.data
-        cohort.coh_course = course.id
+        #cohort.coh_course = cohort.coh_course
         cohort.coh_participants = form.coh_participants.data
         cohort.coh_grads = form.coh_grads.data
-        cohort.coh_tpi = False
+        cohort.coh_tpi = form.coh_tpi.data
         db.session.add(cohort)
         db.session.commit()
         flash('Your changes have been saved')
