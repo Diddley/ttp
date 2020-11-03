@@ -45,7 +45,7 @@ class NewContactForm(FlaskForm):
     con_email = StringField('Email', validators=[DataRequired(), Email()])
     email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
         'con_email', message="The email addresses do not match")])
-    con_phone = StringField('Phone', validators=[DataRequired()])
+    con_phone = StringField('Phone', validators=[Length(max=20)])
     con_club = QuerySelectField('Club', validators=[Optional()], query_factory=lambda: Club.query.order_by(
         'clb_name'), get_label="clb_name", allow_blank=True)
     con_prs = QuerySelectField('Prison', validators=[Optional(
@@ -67,7 +67,7 @@ class EditContactForm(FlaskForm):
     con_email = StringField('Email', validators=[DataRequired(), Email()])
     email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
         'con_email', message="The email addresses do not match")])
-    con_phone = StringField('Phone', validators=[DataRequired()])
+    con_phone = StringField('Phone', validators=[Length(max=20)])
     submit = SubmitField('Update')
 
     def __init__(self, id, *args, **kwargs):
