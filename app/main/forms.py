@@ -234,3 +234,11 @@ class NewStockItemForm(FlaskForm):
     for item in items:
         qty.item.id = IntegerField(label=item.stock_desc, default=item.qty)
     submit=SubmitField('Update Stock') '''
+
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField('Confirm')
+
+    def __init__(self, id, *args, **kwargs):
+        super(DeleteForm, self).__init__(*args, **kwargs)
+        self.id = id
