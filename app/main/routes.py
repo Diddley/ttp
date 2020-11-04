@@ -2,7 +2,7 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm
 from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock
 from app.main import bp
 
@@ -87,14 +87,8 @@ def club(id):
     cohorts = Cohort.query.filter_by(coh_clubid=id).all()
 
     page = request.args.get('page', 1, type=int)
-    comments = club.clb_comment.order_by(Comment.timestamp.desc()).paginate(
-        page, current_app.config['COMMENTS_PER_PAGE'], False)
-    next_url = url_for('main.club', id=id,
-                       page=comments.next_num) if comments.has_next else None
-    prev_url = url_for('main.club', id=id,
-                       page=comments.prev_num) if comments.has_prev else None
-    return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts, comments=comments.items,
-                           next_url=next_url, prev_url=prev_url)
+    comments = club.clb_comment.order_by(Comment.timestamp.desc()).all()
+    return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts, comments=comments)
 
 
 @bp.route('/contacts')
@@ -151,6 +145,14 @@ def editcontact(id):
 @login_required
 def deletecontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
+    flash(type(contact))
+    form = DeleteForm(id=id)
+    if form.validate_on_submit():
+        db.session.delete(contact)
+        db.session.commit()
+        flash('Contact Deleted')
+        return redirect(url_for('main.contacts'))
+    return render_template('form.html', title='Delete Contact: '+contact.con_firstname + ' ' + contact.con_surname, contact=contact, form=form)
 
 
 @bp.route('/prisons')
