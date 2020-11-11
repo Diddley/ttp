@@ -145,14 +145,13 @@ def editcontact(id):
 @login_required
 def deletecontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
-    flash(type(contact))
     form = DeleteForm(id=id)
     if form.validate_on_submit():
         db.session.delete(contact)
         db.session.commit()
         flash('Contact Deleted')
         return redirect(url_for('main.contacts'))
-    return render_template('form.html', title='Delete Contact: '+contact.con_firstname + ' ' + contact.con_surname, contact=contact, form=form)
+    return render_template('form.html', title='Delete Contact: {} {} ?'.format(contact.con_firstname, contact.con_surname), contact=contact, form=form)
 
 
 @bp.route('/prisons')
