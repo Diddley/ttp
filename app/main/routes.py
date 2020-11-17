@@ -2,7 +2,7 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm
 from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock
 from app.main import bp
 
@@ -90,6 +90,27 @@ def club(id):
     comments = club.clb_comment.order_by(Comment.timestamp.desc()).all()
     return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts, comments=comments)
 
+
+@bp.route('/editclub/<id>', methods=['GET', 'POST'])
+@login_required
+def editclub(id):
+    club = Club.query.filter_by(id=id).first_or_404()
+    form = EditClubForm(id=id)
+    if form.validate_on_submit():
+        club.clb_name = form.clubname.data
+        club.clb_town = form.club_town.data
+        club.clb_postcode = form.club_postcode.data
+        club.division_id = form.club_division.data.id
+        db.session.add(club)
+        db.session.commit()
+        flash('You have successfully updated '+ club.clb_name)
+        return redirect(url_for('main.club', id=club.id))
+    form.clubname.data = club.clb_name
+    form.club_town.data = club.clb_town
+    form.club_postcode.data = club.clb_postcode
+    div = Division.query.filter_by(id=club.division_id).first_or_404()
+    form.club_division.data = div
+    return render_template('form.html', title="Edit Club Details", form = form, club = club, div=div)
 
 @bp.route('/contacts')
 def contacts():

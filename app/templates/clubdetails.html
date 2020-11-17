@@ -83,7 +83,7 @@
                                     <ul class="pager">
                                         <li><button class="btn btn-primary pull-right"><a href="#">Delete
                                                     Club</a></button></li>
-                                        <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
+                                        <li><button class="btn btn-primary pull-right" type="submit"><a href="{{ url_for('main.editclub', id = club.id)}}">Edit
                                                     Club</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a
                                                     href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
