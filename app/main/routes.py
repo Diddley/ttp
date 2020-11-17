@@ -101,6 +101,9 @@ def editclub(id):
         club.clb_town = form.club_town.data
         club.clb_postcode = form.club_postcode.data
         club.division_id = form.club_division.data.id
+        club.clb_contract = form.club_contract.data
+        club.clb_collab = form.club_collab.data
+        club.clb_fundingapp = form.club_fundingapp.data
         db.session.add(club)
         db.session.commit()
         flash('You have successfully updated '+ club.clb_name)
@@ -108,9 +111,12 @@ def editclub(id):
     form.clubname.data = club.clb_name
     form.club_town.data = club.clb_town
     form.club_postcode.data = club.clb_postcode
-    div = Division.query.filter_by(id=club.division_id).first_or_404()
-    form.club_division.data = div
-    return render_template('form.html', title="Edit Club Details", form = form, club = club, div=div)
+    #div = Division.query.filter_by(id=club.division_id).first_or_404()
+    form.club_division.data = Division.query.filter_by(id=club.division_id).first_or_404()
+    form.club_contract.data = club.clb_contract
+    form.club_collab.data = club.clb_collab
+    form.club_fundingapp.data = club.clb_fundingapp
+    return render_template('form.html', title="Edit Club Details", form = form, club = club)
 
 @bp.route('/contacts')
 def contacts():
