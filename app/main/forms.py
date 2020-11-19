@@ -9,6 +9,8 @@ from app.models import User, Division, Club, Contact, Prison, Category, Cohort, 
 from app import db, images
 from datetime import datetime
 
+# -------- NEW/CREATE forms ---------------------
+
 
 class NewDivisionForm(FlaskForm):
     division = StringField('Division', validators=[DataRequired()])
@@ -53,26 +55,6 @@ class NewContactForm(FlaskForm):
     con_prob = QuerySelectField('Probation Service', validators=[Optional(
     )], query_factory=lambda: Probation.query.order_by('prob_name'), get_label="prob_name", allow_blank=True)
     submit = SubmitField('Add Contact')
-
-    def validate_contact_email(self, con_email):
-        email = Contact.query.filter_by(con_email=con_email.data).first()
-        if email is not None:
-            raise ValidationError(
-                'A contact with this email address is already in the system')
-
-
-class EditContactForm(FlaskForm):
-    con_firstname = StringField('First Name', validators=[DataRequired()])
-    con_surname = StringField('Surname')
-    con_email = StringField('Email', validators=[DataRequired(), Email()])
-    email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
-        'con_email', message="The email addresses do not match")])
-    con_phone = StringField('Phone', validators=[Length(max=20)])
-    submit = SubmitField('Update')
-
-    def __init__(self, id, *args, **kwargs):
-        super(EditContactForm, self).__init__(*args, **kwargs)
-        self.id = id
 
     def validate_contact_email(self, con_email):
         email = Contact.query.filter_by(con_email=con_email.data).first()
@@ -161,29 +143,6 @@ class NewCommentForm(FlaskForm):
     submit = SubmitField('Add Comment')
 
 
-class EditCohortForm(FlaskForm):
-    coh_desc = StringField('Cohort Name (optional)')
-    coh_club = StringField('Club')
-    coh_prison = StringField('Prison')
-    coh_probserv = StringField('Probation Service')
-    coh_startDate = DateField('Start Date', validators=[
-                              DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
-    coh_endDate = DateField('End Date', validators=[DataRequired()])
-    coh_course = QuerySelectField('Course')
-    coh_participants = IntegerField('Participants')
-    coh_grads = IntegerField('Graduates')
-    coh_tpi = BooleanField('TPI')
-    submit = SubmitField('Edit Cohort')
-
-    def __init__(self, id, *args, **kwargs):
-        super(EditCohortForm, self).__init__(*args, **kwargs)
-        self.id = id
-
-
-class TPIForm(FlaskForm):
-    coh_tpi = BooleanField('')
-
-
 class NewMediaForm(FlaskForm):
     med_clubid = QuerySelectField('Club', validators=[Optional(
     )], query_factory=lambda: Club.query, get_label="clb_name")
@@ -229,11 +188,85 @@ class NewStockItemForm(FlaskForm):
             raise ValidationError('This SKU already exists!')
 
 
+# ---------- EDIT/UPDATE forms ---------------
+
+
+class EditContactForm(FlaskForm):
+    con_firstname = StringField('First Name', validators=[DataRequired()])
+    con_surname = StringField('Surname')
+    con_email = StringField('Email', validators=[DataRequired(), Email()])
+    email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
+        'con_email', message="The email addresses do not match")])
+    con_phone = StringField('Phone', validators=[Length(max=20)])
+    submit = SubmitField('Update')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditContactForm, self).__init__(*args, **kwargs)
+        self.id = id
+
+    def validate_contact_email(self, con_email):
+        email = Contact.query.filter_by(con_email=con_email.data).first()
+        if email is not None:
+            raise ValidationError(
+                'A contact with this email address is already in the system')
+
+
+class EditClubForm(FlaskForm):
+    clubname = StringField('Club Name', validators=[DataRequired()])
+    club_town = StringField('Town')
+    club_postcode = StringField('PostCode')
+    club_division = QuerySelectField('Division', validators=[DataRequired()], query_factory=lambda:Division.query, get_label="div_desc")
+    club_contract = BooleanField('Signed Contract Agreement Received')
+    club_collab = BooleanField('Signed Collaboration Agreement Received')
+    club_fundingapp = BooleanField('Funding Application Received')
+    submit = SubmitField('Save Changes')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditClubForm, self).__init__(*args, **kwargs)
+        self.id = id
+     
+
+
+class EditCohortForm(FlaskForm):
+    coh_desc = StringField('Cohort Name (optional)', validators=[Optional()])
+    coh_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda:Club.query, get_label="clb_name")
+    coh_prison = QuerySelectField('Prison', validators=[Optional()], query_factory=lambda:Prison.query, get_label="prs_name", allow_blank=True)
+    coh_probserv = QuerySelectField('Probation Service', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
+    coh_startDate = DateField('Start Date', validators=[
+                              DataRequired()], format='%Y-%m-%d')
+    coh_endDate = DateField('End Date', validators=[Optional()], format='%Y-%m-%d')
+    coh_course = QuerySelectField('Course', query_factory=lambda:Course.query, get_label="course_type")
+    coh_participants = IntegerField('Participants',validators=[DataRequired()])
+    coh_grads = IntegerField('Graduates', validators=[Optional()])
+    submit = SubmitField('Save Changes')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditCohortForm, self).__init__(*args, **kwargs)
+        self.id = id
+
+    def validate_date(self, coh_startDate, coh_endDate):
+        if coh_endDate.data:
+            if coh_endDate.data < coh_startDate.data:
+                raise ValidationError('End Date should be after Start Date')
+
+    def validate_entity(self, coh_prison, coh_probserv):
+        pris = coh_prison.data
+        prob = coh_probserv.data
+        if not pris and not prob:
+            raise ValidationError('Please select either a Prison or a Probation Service')
+
+
+class TPIForm(FlaskForm):
+    coh_tpi = BooleanField('')
+
+
 ''' class UpdateStockForm(FlaskForm):
     items = Stock.query.all()
     for item in items:
         qty.item.id = IntegerField(label=item.stock_desc, default=item.qty)
     submit=SubmitField('Update Stock') '''
+
+# ---- DELETE form --------------
 
 
 class DeleteForm(FlaskForm):

@@ -2,8 +2,8 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course
 from app.main import bp
 
 
@@ -91,6 +91,32 @@ def club(id):
     return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts, comments=comments)
 
 
+@bp.route('/editclub/<id>', methods=['GET', 'POST'])
+@login_required
+def editclub(id):
+    club = Club.query.filter_by(id=id).first_or_404()
+    form = EditClubForm(id=id)
+    if form.validate_on_submit():
+        club.clb_name = form.clubname.data
+        club.clb_town = form.club_town.data
+        club.clb_postcode = form.club_postcode.data
+        club.division_id = form.club_division.data.id
+        club.clb_contract = form.club_contract.data
+        club.clb_collab = form.club_collab.data
+        club.clb_fundingapp = form.club_fundingapp.data
+        db.session.add(club)
+        db.session.commit()
+        flash('You have successfully updated '+ club.clb_name)
+        return redirect(url_for('main.club', id=club.id))
+    form.clubname.data = club.clb_name
+    form.club_town.data = club.clb_town
+    form.club_postcode.data = club.clb_postcode
+    form.club_division.data = Division.query.filter_by(id=club.division_id).first_or_404()
+    form.club_contract.data = club.clb_contract
+    form.club_collab.data = club.clb_collab
+    form.club_fundingapp.data = club.clb_fundingapp
+    return render_template('form.html', title="Edit Club Details", form = form, club = club)
+
 @bp.route('/contacts')
 def contacts():
     page = request.args.get('page', 1, type=int)
@@ -145,14 +171,13 @@ def editcontact(id):
 @login_required
 def deletecontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
-    flash(type(contact))
     form = DeleteForm(id=id)
     if form.validate_on_submit():
         db.session.delete(contact)
         db.session.commit()
         flash('Contact Deleted')
         return redirect(url_for('main.contacts'))
-    return render_template('form.html', title='Delete Contact: '+contact.con_firstname + ' ' + contact.con_surname, contact=contact, form=form)
+    return render_template('form.html', title='Delete Contact: {} {} ?'.format(contact.con_firstname, contact.con_surname), contact=contact, form=form)
 
 
 @bp.route('/prisons')
@@ -231,59 +256,37 @@ def cohort(id):
 def edit_cohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     form = EditCohortForm(id=id)
-    flash(cohort)
-    flash(cohort.coh_desc)
-    flash(cohort.coh_clubid)
-    flash(cohort.coh_prisonid)
-    flash(cohort.coh_probid)
-    flash(cohort.coh_startDate)
-    flash(cohort.coh_endDate)
-    flash(cohort.coh_participa)
-    flash(cohort)
-    flash(cohort)
     if form.validate_on_submit():
-        #club = form.coh_club.data
-        #prison = form.coh_prison.data
-        #probservice = form.coh_probserv.data
-        #course = form.coh_course.data
         cohort.coh_desc = form.coh_desc.data
-        #cohort.coh_clubid = cohort.coh_club
-        #cohort.coh_prisonid = cohort.coh_prisonid if cohort.coh_prisonid else None
-        #cohort.coh_probid = cohort.coh_probid if cohort.cohort_probid else None
+        club = form.coh_club.data
+        cohort.coh_clubid = club.id
+        prison = form.coh_prison.data
+        cohort.coh_prisonid = prison.id if prison else None
+        probservice = form.coh_probserv.data
+        cohort.coh_probid = probservice.id if probservice else None
         cohort.coh_startDate = form.coh_startDate.data
         cohort.coh_endDate = form.coh_endDate.data
-        #cohort.coh_course = cohort.coh_course
+        course = form.coh_course.data
+        cohort.coh_course = course.id
         cohort.coh_participants = form.coh_participants.data
         cohort.coh_grads = form.coh_grads.data
-        cohort.coh_tpi = form.coh_tpi.data
         db.session.add(cohort)
         db.session.commit()
         flash('Your changes have been saved')
         return redirect(url_for('main.cohort', id=id))
     elif request.method == 'GET':
         form.coh_desc.data = cohort.coh_desc
-        flash(cohort.coh_desc)
-        form.coh_club.data = cohort.coh_clubid
-        flash(cohort.clb_cohort.clb_name)
+        form.coh_club.data = Club.query.filter_by(id=cohort.coh_clubid).first_or_404()
         if cohort.coh_prisonid:
-            form.coh_prison.data = cohort.coh_prisonid
-            flash(cohort.prs_cohort.prs_name)
+            form.coh_prison.data = Prison.query.filter_by(id=cohort.coh_prisonid).first_or_404()
         if cohort.coh_probid:
-            form.coh_probserv.data = cohort.coh_probid
-            flash(cohort.prob_cohort.prob_name)
+            form.coh_probserv.data = Probation.query.filter_by(id=cohort.coh_probid).first_or_404()
         form.coh_startDate.data = cohort.coh_startDate
-        flash(cohort.coh_startDate)
         form.coh_endDate.data = cohort.coh_endDate
-        flash(cohort.coh_endDate)
-        form.coh_course.data = cohort.coh_course
-        flash(cohort.course_owner.course_type)
+        form.coh_course.data = Course.query.filter_by(id=cohort.coh_course).first_or_404()
         form.coh_participants.data = cohort.coh_participants
-        flash(cohort.coh_participants)
         if cohort.coh_grads:
             form.coh_grads.data = cohort.coh_grads
-            flash(cohort.coh_grads)
-        form.coh_tpi.data = cohort.coh_tpi
-        flash(cohort.coh_tpi)
     return render_template('form.html', title='Edit Cohort', cohort=cohort, form=form)
 
 
