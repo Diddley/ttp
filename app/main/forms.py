@@ -228,22 +228,32 @@ class EditClubForm(FlaskForm):
 
 
 class EditCohortForm(FlaskForm):
-    coh_desc = StringField('Cohort Name (optional)')
-    coh_club = StringField('Club')
-    coh_prison = StringField('Prison')
-    coh_probserv = StringField('Probation Service')
+    coh_desc = StringField('Cohort Name (optional)', validators=[Optional()])
+    coh_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda:Club.query, get_label="clb_name")
+    coh_prison = QuerySelectField('Prison', validators=[Optional()], query_factory=lambda:Prison.query, get_label="prs_name", allow_blank=True)
+    coh_probserv = QuerySelectField('Probation Service', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
     coh_startDate = DateField('Start Date', validators=[
-                              DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
-    coh_endDate = DateField('End Date', validators=[DataRequired()])
-    coh_course = QuerySelectField('Course')
-    coh_participants = IntegerField('Participants')
-    coh_grads = IntegerField('Graduates')
-    coh_tpi = BooleanField('TPI')
-    submit = SubmitField('Edit Cohort')
+                              DataRequired()], format='%Y-%m-%d')
+    coh_endDate = DateField('End Date', validators=[Optional()], format='%Y-%m-%d')
+    coh_course = QuerySelectField('Course', query_factory=lambda:Course.query, get_label="course_type")
+    coh_participants = IntegerField('Participants',validators=[DataRequired()])
+    coh_grads = IntegerField('Graduates', validators=[Optional()])
+    submit = SubmitField('Save Changes')
 
     def __init__(self, id, *args, **kwargs):
         super(EditCohortForm, self).__init__(*args, **kwargs)
         self.id = id
+
+    def validate_date(self, coh_startDate, coh_endDate):
+        if coh_endDate.data:
+            if coh_endDate.data < coh_startDate.data:
+                raise ValidationError('End Date should be after Start Date')
+
+    def validate_entity(self, coh_prison, coh_probserv):
+        pris = coh_prison.data
+        prob = coh_probserv.data
+        if not pris and not prob:
+            raise ValidationError('Please select either a Prison or a Probation Service')
 
 
 class TPIForm(FlaskForm):
