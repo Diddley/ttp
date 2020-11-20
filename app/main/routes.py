@@ -191,6 +191,14 @@ def prisons():
         'main.prisons', page=prisons.prev_num) if prisons.has_prev else None
     return render_template('prison.html', title='Prisons', prisons=prisons.items, next_url=next_url, prev_url=prev_url)
 
+@bp.route('/prison/<id>')
+@login_required
+def prison(id):
+    prison = Prison.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_prison=id).all()
+    cohorts = Cohort.query.filter_by(coh_prisonid=id).all()
+
+    return render_template('prisondetails.html', title = prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
 
 @bp.route('/cohorts')
 def cohorts():

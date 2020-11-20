@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block app_content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h3 class="card-title">{{ prison.prs_name }}</h3>
+                        <h4 class="card-category">{{ prison.cat_desc }}</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                            <th>CLub</th>
+                                            <th>Cohort</th>
+                                            <th>Course</th>
+                                            <th>Participants</th>
+                                            <th>Graduates</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for cohort in cohorts %}
+                                            <tr>
+                                                <td>{{ cohort.clb_cohort.clb_name }}</td>
+                                                <td>{{ cohort.coh_desc }}</td>
+                                                <td>{{ cohort.course_owner.course_type }}</td>
+                                                <td>{{ cohort.coh_participants }}</td>
+                                                <td>{{ cohort.coh_grads }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end of row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nav aria-label="...">
+                                    <ul class="pager">
+                                        <li><button class="btn btn-primary pull-right"><a href="#">Delete
+                                                    Prison</a></button></li>
+                                        <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
+                                                    Prison</a></button></li>
+                                        <li><button class="btn btn-primary pull-right" type="submit"><a
+                                                    href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
+                                        </li>
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <img src="/app/static/images/ttp_logo.png" alt="" class="img">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {{ Prison.prs_name }}
+                        </h4>
+                        <h6 class="card-category text-gray">
+                            {{ prison.prs_town }}, {{ prison.prs_postcode }}
+                        </h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-primary">
+                                    <th><i class="material-icons">person</i></th>
+                                    <th><i class="material-icons">email</i></th>
+                                    <th><i class="material-icons">call</i></th>
+                                </thead>
+                                <tbody>
+                                    {% for contact in contacts %}
+                                    <tr>
+                                        <td>{{ contact.con_firstname }} {{ contact.con_surname }}</td>
+                                        <td>{{ contact.con_email }}</td>
+                                        <td>{{ contact.con_phone }}</td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary pull-right" type="submit"><a href="#">Edit Contacts</a></button>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            {% if comments %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for comment in comments %}
+                        {% include '_comment.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#club');
+    newBtn.classList.add("active");
+</script>
+
+{% endblock %}

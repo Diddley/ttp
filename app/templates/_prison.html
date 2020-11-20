@@ -1,19 +1,17 @@
 <tbody>
     <tr style="text-align: left;">
-        <td>{{ prison.prs_name }}</td>
+        <td><a href="{{ url_for('main.prison',id=prison.id) }}">{{ prison.prs_name }}</a></td>
         <td>{{ prison.prs_town }}</td>
         <td>{{ prison.prison.cat_desc }} </td>
         <td>{% if prison.prs_contact.count() > 0 %}
-                {% for c in prison.prs_contact %}
-                    {{ c.con_firstname }}
-                    {{ c.con_surname }}<br>
-                {% endfor %}
+            {% for c in prison.prs_contact %}
+            {{ c.con_firstname }}
+            {{ c.con_surname }}<br>
+            {% endfor %}
             {% else %}
-                <a href="{{ url_for('main.newcontact', prison=prison.id) }}">Add Contact</a>
+            <a href="{{ url_for('main.newcontact', prison=prison.id) }}">Add Contact</a>
             {% endif %}
         </td>
         <!-- <td>{{ prison.prison.cat_shortcode}}</td> -->
     </tr>
 </tbody>
-
-
