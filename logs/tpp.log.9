@@ -1,30 +1,4 @@
-2020-11-16 16:53:20,561 ERROR: Exception on /editclub/3 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 98, in editclub
-    form = EditClubForm(id=id)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/wtforms/form.py", line 208, in __call__
-    return type.__call__(cls, *args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/forms.py", line 227, in __init__
-    self.club_division.default=club.query.filter_by(id=id).first_or_404().division_id
-AttributeError: 'EditClubForm' object has no attribute 'division_id'
-2020-11-17 11:06:41,017 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:16:58,495 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:17:48,235 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:18:46,832 ERROR: Exception on /editclub/3 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-11-17 15:48:29,610 ERROR: Exception on /editclub/3 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,7 +15,49 @@ Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 112, in editclub
-    return render_template('form.html', title="Edit Club Details", form = form, club = club)
+    flash(div[0])
+TypeError: 'Division' object does not support indexing
+2020-11-17 15:49:19,808 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 15:49:33,898 ERROR: Exception on /editclub/3 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 112, in editclub
+    flash(div[0])
+TypeError: 'Division' object does not support indexing
+2020-11-17 15:49:56,763 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 15:52:31,442 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 15:53:16,700 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 15:53:24,460 ERROR: Exception on /editclub/3 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 114, in editclub
+    return render_template('form.html', title="Edit Club Details", form = form, club = club, div=div)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
     ctx.app,
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
@@ -76,8 +92,10 @@ Traceback (most recent call last):
     rv = self._func(*arguments)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 119, in template
     {{field.label(class="control-label")|safe}}
-TypeError: 'int' object is not callable
-2020-11-17 11:20:24,573 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:20:57,349 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:32:46,227 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-17 11:36:11,952 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+TypeError: 'str' object is not callable
+2020-11-17 15:54:03,053 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 15:58:59,389 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 16:48:56,376 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 16:49:58,087 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 16:51:26,063 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-17 16:53:15,336 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
