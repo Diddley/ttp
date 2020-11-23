@@ -224,6 +224,16 @@ def probservices():
     return render_template('probservice.html', title='Probation Services', probservices=probservices.items, next_url=next_url, prev_url=prev_url)
 
 
+@bp.route('/probservice/<id>')
+@login_required
+def probservice(id):
+    probservice = Probation.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_probation=id).all()
+    cohorts = Cohort.query.filter_by(coh_probid=id).all()
+
+    return render_template('probservicedetails.html', title = probservice.prob_name, probservice = probservice, contacts = contacts, cohorts = cohorts)
+
+
 @bp.route('/cohort/<id>')
 @login_required
 def cohort(id):
