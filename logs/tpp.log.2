@@ -1,4 +1,4 @@
-2020-11-19 13:41:54,239 ERROR: Exception on /prison/2 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+2020-11-23 12:01:20,935 ERROR: Exception on /prison/2 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -28,7 +28,7 @@ Traceback (most recent call last):
     raise value.with_traceback(tb)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/prisondetails.html", line 2, in top-level template code
     {% import "bootstrap/wtf.html" as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 190, in top-level template code
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 193, in top-level template code
     {% if current_user.is_anonymous %}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
     {% block doc -%}
@@ -38,16 +38,23 @@ Traceback (most recent call last):
     {% block body -%}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
     {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 215, in block "content"
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 219, in block "content"
     {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/prisondetails.html", line 72, in block "app_content"
-    <img src="{{ club.clb_badge }}" alt="" class="img">
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/prisondetails.html", line 74, in block "app_content"
+    {{ Prison.prs_name }}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
     return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'club' is undefined
-2020-11-19 13:44:01,650 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-19 13:44:14,639 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2020-11-19 13:44:21,367 ERROR: Exception on /prison/2 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+jinja2.exceptions.UndefinedError: 'Prison' is undefined
+2020-11-23 12:03:04,080 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:07:22,096 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:08:00,680 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:10:15,036 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:10:52,635 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:11:27,481 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:13:01,914 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:24:09,997 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:24:51,772 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2020-11-23 12:24:57,193 ERROR: Exception on /probservice/1 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -63,35 +70,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 201, in prison
-    return render_template('prisondetails.html', title = prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/prisondetails.html", line 2, in top-level template code
-    {% import "bootstrap/wtf.html" as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 190, in top-level template code
-    {% if current_user.is_anonymous %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 215, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/prisondetails.html", line 73, in block "app_content"
-    <!--<img src="{{ club.clb_badge }}" alt="" class="img"> -->
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'club' is undefined
-2020-11-19 13:46:48,127 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 231, in probservice
+    contacts = Contact.query.filter_by(prob_contact=id).all()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in filter_by
+    for key, value in kwargs.items()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 1852, in <listcomp>
+    for key, value in kwargs.items()
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/sql/operators.py", line 365, in __eq__
+    return self.operate(eq, other)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 218, in operate
+    return op(self.comparator, *other, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 1208, in __eq__
+    other, adapt_source=self.adapter
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/relationships.py", line 1581, in _optimized_compare
+    state = attributes.instance_state(state)
+AttributeError: 'str' object has no attribute '_sa_instance_state'
+2020-11-23 12:28:00,788 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]

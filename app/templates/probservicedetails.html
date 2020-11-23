@@ -8,8 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h3 class="card-title">{{ prison.prs_name }}</h3>
-                        <h4 class="card-category">{{ prison.prison.cat_desc }}</h4>
+                        <h3 class="card-title">{{ probservice.prob_name }}</h3>
                     </div>
                     <div class="card-body">
 
@@ -45,9 +44,9 @@
                                 <nav aria-label="...">
                                     <ul class="pager">
                                         <li><button class="btn btn-primary pull-right"><a href="#">Delete
-                                                    Prison</a></button></li>
+                                                    Probation Service</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
-                                                    Prison</a></button></li>
+                                                    Probation Service</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a
                                                     href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
                                         </li>
@@ -71,10 +70,10 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{ prison.prs_name }}
+                            {{ probservice.prob_name }}
                         </h4>
                         <h6 class="card-category text-gray">
-                            {{ prison.prs_town }}, {{ prison.prs_postcode }}
+                            {{ probservice.prob_town }}, {{ probservice.prob_postcode }}
                         </h6>
 
                         <div class="table-responsive">
@@ -133,7 +132,7 @@
     if (currButton) {
         currButton.classList.remove("active");
     };
-    var newBtn = document.querySelector('#prison');
+    var newBtn = document.querySelector('#probservice');
     newBtn.classList.add("active");
 </script>
 
