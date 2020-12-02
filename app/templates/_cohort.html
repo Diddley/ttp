@@ -1,46 +1,44 @@
-<tbody>
-    <tr > <!-- style="text-align: left;" -->
-        <td>
-            {% if cohort.coh_desc=="" %}
-                <a href = "{{ url_for('main.cohort', id=cohort.id) }}">Details</a>
-            {% else %}
-                <a href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
-            {% endif %}
-        </td>
-        <td>{{ cohort.clb_cohort.clb_name }}</td>
-        <td>
-            {% if cohort.prs_cohort %}
-                {{ cohort.prs_cohort.prs_name }} 
-            {% elif cohort.prob_cohort %}
-                {{ cohort.prob_cohort.prob_name }} (PS)
-            {% endif %}
-        </td>
-        <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
-        
-        <td>
-            {% if cohort.coh_endDate %}
-                {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
-            {% endif %}
-        </td>
-        <td>{{ cohort.coh_participants }}</td>
-        <td style="text-align: center;">
-            {% if cohort.coh_tpi %}
-                <i class="material-icons">check_box</i>
-            {% else %}
-                <i class="material-icons">check_box_outline_blank</i>
-            {% endif %}
-        </td>
-        <td style="text-align: center;">
-            {% if cohort.coh_comment.count() > 0 %}
-                <span class="icon-wrap">
-                    <a href="{{ url_for('main.newcomment', source="cohort", sourceid = cohort.id) }}">
-                        <i class="far fa-comments" data-fa-transform="shrink-3 up-1"></i>
-                    </a>
-                </span>
-            {% else %}
-                <a href="{{ url_for('main.newcomment', source="cohort", sourceid = cohort.id) }}">Add Comment</a>
-            {% endif %}
-        </td>
-    </tr>
-</tbody>
+<tr>
+    <!-- style="text-align: left;" -->
+    <td>
+        {% if cohort.coh_desc=="" %}
+        <a href="{{ url_for('main.cohort', id=cohort.id) }}">Details</a>
+        {% else %}
+        <a href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
+        {% endif %}
+    </td>
+    <td>{{ cohort.clb_cohort.clb_name }}</td>
+    <td>
+        {% if cohort.prs_cohort %}
+        {{ cohort.prs_cohort.prs_name }}
+        {% elif cohort.prob_cohort %}
+        {{ cohort.prob_cohort.prob_name }} (PS)
+        {% endif %}
+    </td>
+    <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
 
+    <td>
+        {% if cohort.coh_endDate %}
+        {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
+        {% endif %}
+    </td>
+    <td>{{ cohort.coh_participants }}</td>
+    <td style="text-align: center;">
+        {% if cohort.coh_tpi %}
+        <i class="material-icons">check_box</i>
+        {% else %}
+        <i class="material-icons">check_box_outline_blank</i>
+        {% endif %}
+    </td>
+    <td style="text-align: center;">
+        {% if cohort.coh_comment.count() > 0 %}
+        <span class="icon-wrap">
+            <a href="{{ url_for('main.newcomment', source="cohort", sourceid = cohort.id) }}">
+                <i class="far fa-comments" data-fa-transform="shrink-3 up-1"></i>
+            </a>
+        </span>
+        {% else %}
+        <a href="{{ url_for('main.newcomment', source="cohort", sourceid = cohort.id) }}">Add Comment</a>
+        {% endif %}
+    </td>
+</tr>
