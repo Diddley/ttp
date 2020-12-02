@@ -83,11 +83,10 @@
                                     <ul class="pager">
                                         <li><button class="btn btn-primary pull-right"><a href="#">Delete
                                                     Club</a></button></li>
-                                        <li><button class="btn btn-primary pull-right" type="submit"><a href="{{ url_for('main.editclub', id = club.id)}}">Edit
-                                                    Club</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a
-                                                    href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
-                                        </li>
+                                                    href="{{ url_for('main.editclub', id = club.id)}}">Edit
+                                                    Club</a></button></li>
+
                                         <li><button class="btn btn-primary pull-right"><a
                                                     href="{{ url_for('main.newcomment', source="club", sourceid = id) }}">Add
                                                     Comment</a></button></li>
@@ -135,9 +134,13 @@
                                 </tbody>
                             </table>
                         </div>
+                        {% if contacts %}
                         <button class="btn btn-primary pull-right" type="submit"><a
                                 href="{{ url_for('main.clubcontacts', id=club.id) }}">Edit
                                 Contacts</a></button>
+                        {% endif %}
+                        <button class="btn btn-primary pull-right" type="submit"><a
+                                href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
 
 
 

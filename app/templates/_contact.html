@@ -1,19 +1,18 @@
-<tbody>
-    <tr style="text-align: left;">
-        <td>
-            {% if contact.con_club %}
-                {{ contact.clb_contact.clb_name }}
-            {% elif contact.con_prison %}
-                {{ contact.prs_contact.prs_name }}
-            {% elif contact.prob_contact %}    
-                {{ contact.prob_contact.prob_name }}
-            {% endif %}
-        </td>
-        <td>{{ contact.con_firstname }}</td>
-        <td>{{ contact.con_surname }}</td>
-        <td><a href="mailto:{{ contact.con_email }}">{{ contact.con_email }}</a> </td>
-        <td>{{ contact.con_phone}}</td>
-        <td><button class="btn btn-primary pull-right" type="submit"><a href="{{ url_for('main.contact', id=contact.id) }}">Details</a></button></td>
-        
-    </tr>
-</tbody>
+<tr style="text-align: left;">
+    <td>
+        {% if contact.con_club %}
+        {{ contact.clb_contact.clb_name }}
+        {% elif contact.con_prison %}
+        {{ contact.prs_contact.prs_name }}
+        {% elif contact.prob_contact %}
+        {{ contact.prob_contact.prob_name }}
+        {% endif %}
+    </td>
+    <td>{{ contact.con_firstname }}</td>
+    <td>{{ contact.con_surname }}</td>
+    <td><a href="mailto:{{ contact.con_email }}">{{ contact.con_email }}</a> </td>
+    <td>{{ contact.con_phone}}</td>
+    <td><button class="btn btn-primary pull-right" type="submit"><a
+                href="{{ url_for('main.contact', id=contact.id) }}">Details</a></button></td>
+
+</tr>

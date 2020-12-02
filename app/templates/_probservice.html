@@ -1,16 +1,14 @@
-<tbody>
-    <tr style="text-align: left;">
-        <td><a href="{{ url_for('main.probservice',id=probservice.id) }}">{{ probservice.prob_name }}</a></td>
-        <td>{{ probservice.prob_town }}</td>
-        <td>{% if probservice.prob_contact.count() > 0 %}
-            {% for c in probservice.prob_contact %}
-            {{ c.con_firstname }}
-            {{ c.con_surname }}<br>
-            {% endfor %}
-            {% else %}
-            <a href="{{ url_for('main.newcontact', probservice=probservice.id) }}">Add Contact</a>
-            {% endif %}
-        </td>
+<tr style="text-align: left;">
+    <td><a href="{{ url_for('main.probservice',id=probservice.id) }}">{{ probservice.prob_name }}</a></td>
+    <td>{{ probservice.prob_town }}</td>
+    <td>{% if probservice.prob_contact.count() > 0 %}
+        {% for c in probservice.prob_contact %}
+        {{ c.con_firstname }}
+        {{ c.con_surname }}<br>
+        {% endfor %}
+        {% else %}
+        <a href="{{ url_for('main.newcontact', probservice=probservice.id) }}">Add Contact</a>
+        {% endif %}
+    </td>
 
-    </tr>
-</tbody>
+</tr>

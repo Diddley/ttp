@@ -3,58 +3,75 @@
 
 {% block app_content %}
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-primary">
-                            <h4 class="card-title">HM Prisons</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="text-primary">
-                                        <th scope="col">Prison</th>
-                                        <th scope="col">Town</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Contact</th>
-                                    </thead>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">HM Prisons</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="prisonTable" style="width: 100%">
+                                <thead class="text-primary">
+                                    <th scope="col">Prison</th>
+                                    <th scope="col">Town</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Contact</th>
+                                </thead>
+                                <tbody>
                                     {% for prison in prisons %}
-                                        {% include '_prison.html' %}
+                                    {% include '_prison.html' %}
                                     {% endfor %}
-                                </table>
-                                <nav aria-label="...">
-                                    <ul class="pager">
-                                        <li class="previous{% if not prev_url %} disabled{% endif %}">
-                                            <a href="{{ prev_url  or '#' }}">
-                                                <span aria-hidden="true">&larr;</span> Prev
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url_for('main.newprison') }}">
-                                                <span aria-hidden="true"></span>Add Prison
-                                            </a>
-                                        </li>
-                                        <li class="next{% if not next_url %} disabled{% endif %}">
-                                            <a href="{{ next_url  or '#' }}">
-                                                Next <span aria-hidden="true">&rarr;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                                </tbody>
+                            </table>
+                            <!--<nav aria-label="...">
+                                <ul class="pager">
+                                    <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                        <a href="{{ prev_url  or '#' }}">
+                                            <span aria-hidden="true">&larr;</span> Prev
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('main.newprison') }}">
+                                            <span aria-hidden="true"></span>Add Prison
+                                        </a>
+                                    </li>
+                                    <li class="next{% if not next_url %} disabled{% endif %}">
+                                        <a href="{{ next_url  or '#' }}">
+                                            Next <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-   
-                
-    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li>
+                            <button class="btn btn-primary" type="submit"><a href="{{ url_for('main.newprison') }}">Add
+                                    Prison</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 
- 
+
+
+
+
 
 {% endblock %}
 {% block scripts %}
@@ -67,6 +84,21 @@
     };
     var newBtn = document.querySelector('#prison');
     newBtn.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#prisonTable').DataTable({
+            pagingType: "full_numbers",
+            buttons: ['copy', 'excel', 'pdf'],
+            autoWidth: false,
+
+
+        });
+
+        table.buttons().container().appendTo('#prisonTable_wrapper .col-md-6:eq(0)');
+
+    });
 </script>
 
 {% endblock %}

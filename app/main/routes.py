@@ -62,13 +62,14 @@ def index():
 
 @bp.route('/clubs')
 def clubs():
-    page = request.args.get('page', 1, type=int)
-    clubs = Club.query.order_by(Club.clb_name.asc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for(
-        'main.clubs', page=clubs.next_num) if clubs.has_next else None
-    prev_url = url_for(
-        'main.clubs', page=clubs.prev_num) if clubs.has_prev else None
+    #page = request.args.get('page', 1, type=int)
+    clubs = Club.query.order_by(Club.clb_name.asc()).all()
+    #paginate(
+    #    page, current_app.config['POSTS_PER_PAGE'], False)
+    #next_url = url_for(
+    #    'main.clubs', page=clubs.next_num) if clubs.has_next else None
+    #prev_url = url_for(
+    #    'main.clubs', page=clubs.prev_num) if clubs.has_prev else None
     # for club in clubs:
     #    flash(club.id)
     #    flash(club.clb_name)
@@ -76,7 +77,7 @@ def clubs():
     # flash(contact[0].con_firstname)
     #contacts = Contact.query.filter_by(Contact.con_club is not None).all()
     # flash(contacts[0])
-    return render_template('club.html', title='Clubs', clubs=clubs.items, next_url=next_url, prev_url=prev_url)
+    return render_template('club.html', title='Clubs', clubs=clubs)
 
 
 @bp.route('/club/<id>')
@@ -143,6 +144,22 @@ def clubcontacts(id):
     club = Club.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_club=id).all()
     return render_template('contact.html', title=club.clb_name + ' Contacts', contacts=contacts)
+
+@bp.route('/prisoncontacts/<id>')
+@login_required
+def prisoncontacts(id):
+    prison = Prison.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_prison=id).all()
+    return render_template('contact.html', title=prison.prs_name + ' Contacts', contacts=contacts)
+
+@bp.route('/probservcontacts/<id>')
+@login_required
+def probservcontacts(id):
+    ps = Probation.query.filter_by(id=id).first_or_404()
+    contacts = Contact.query.filter_by(con_probation=id).all()
+    return render_template('contact.html', title=ps.prob_name + ' Contacts', contacts=contacts)
+
+
 
 
 @bp.route('/editcontact/<id>', methods=['GET', 'POST'])
@@ -214,14 +231,9 @@ def cohorts():
 
 @bp.route('/probservices')
 def probservices():
-    page = request.args.get('page', 1, type=int)
-    probservices = Probation.query.order_by(Probation.prob_name.asc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for(
-        'main.probservices', page=probservices.next_num) if probservices.has_next else None
-    prev_url = url_for(
-        'main.probservices', page=probservices.prev_num) if probservices.has_prev else None
-    return render_template('probservice.html', title='Probation Services', probservices=probservices.items, next_url=next_url, prev_url=prev_url)
+    
+    probservices = Probation.query.order_by(Probation.prob_name.asc())
+    return render_template('probservice.html', title='Probation Services', probservices=probservices)
 
 
 @bp.route('/probservice/<id>')
@@ -232,7 +244,7 @@ def probservice(id):
     cohorts = Cohort.query.filter_by(coh_probid=id).all()
 
     return render_template('probservicedetails.html', title = probservice.prob_name, probservice = probservice, contacts = contacts, cohorts = cohorts)
-
+    
 
 @bp.route('/cohort/<id>')
 @login_required
