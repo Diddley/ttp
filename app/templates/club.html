@@ -3,64 +3,81 @@
 
 {% block app_content %}
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-primary">
-                            <h4 class="card-title">Clubs</h4>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Clubs</h4>
 
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="text-primary">
-                                        <th scope="col">Club</th>
-                                        <th scope="col">Town</th>
-                                        <!-- <th scope="col">PostCode</th> -->
-                                        <th scope="col">League</th>
-                                        <th scope="col">Contract</th>
-                                        <th scope="col">Collaboration</th>
-                                        <th scope="col">Funding</th>
-                                        <th scope="col">Contact</th>
-                                    </thead>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="clubTable" style="width:100%">
+                                <thead class="text-primary">
+                                    <th scope="col">Club</th>
+                                    <th scope="col">Town</th>
+                                    <!-- <th scope="col">PostCode</th> -->
+                                    <th scope="col">League</th>
+                                    <th scope="col">Contract</th>
+                                    <th scope="col">Collaboration</th>
+                                    <th scope="col">Funding</th>
+                                    <th scope="col">Contact</th>
+                                </thead>
+                                <tbody>
                                     {% for club in clubs %}
-                                        {% include '_club.html' %}
+                                    {% include '_club.html' %}
                                     {% endfor %}
-
-                                </table>
-                                <nav aria-label="...">
-                                    <ul class="pager">
-                                        <li class="previous{% if not prev_url %} disabled{% endif %}">
-                                            <a href="{{ prev_url  or '#' }}">
-                                                <span aria-hidden="true">&larr;</span> Previous
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url_for('main.newclub') }}">
-                                                <span aria-hidden="true"></span>Add Club
-                                            </a>
-                                        </li>
-                                        <li class="next{% if not next_url %} disabled{% endif %}">
-                                            <a href="{{ next_url  or '#' }}">
-                                                Next <span aria-hidden="true">&rarr;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                                </tbody>
+                            </table>
+                            <!--<nav aria-label="...">
+                                <ul class="pager">
+                                    <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                        <a href="{{ prev_url  or '#' }}">
+                                            <span aria-hidden="true">&larr;</span> Previous
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('main.newclub') }}">
+                                            <span aria-hidden="true"></span>Add Club
+                                        </a>
+                                    </li>
+                                    <li class="next{% if not next_url %} disabled{% endif %}">
+                                        <a href="{{ next_url  or '#' }}">
+                                            Next <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav> -->
                         </div>
-                    </div> <!-- card -->
-                </div>
+                    </div>
+                </div> <!-- card -->
             </div>
         </div>
-
-
-        
     </div>
 
- 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li>
+                            <button class="btn btn-primary" type="submit"><a href="{{ url_for('main.newclub') }}">Add
+                                    Club</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
 
 {% endblock %}
 
@@ -70,10 +87,25 @@
     // Add active class to the current button (highlight it)
     var currButton = document.querySelector('li.nav-item.active');
     if (currButton) {
-    currButton.classList.remove("active");
+        currButton.classList.remove("active");
     };
     var newBtn = document.querySelector('#club');
     newBtn.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#clubTable').DataTable({
+            pagingType: "full_numbers",
+            buttons: ['copy', 'excel', 'pdf'],
+            autoWidth: false,
+
+
+        });
+
+        table.buttons().container().appendTo('#clubTable_wrapper .col-md-6:eq(0)');
+
+    });
 </script>
 
 {% endblock %}

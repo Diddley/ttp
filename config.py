@@ -14,7 +14,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['steve@delphicapital.co.uk']
-    POSTS_PER_PAGE = 8
+    POSTS_PER_PAGE = 100
     COMMENTS_PER_PAGE = 3
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'uploads')

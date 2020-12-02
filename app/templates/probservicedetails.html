@@ -47,9 +47,7 @@
                                                     Probation Service</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
                                                     Probation Service</a></button></li>
-                                        <li><button class="btn btn-primary pull-right" type="submit"><a
-                                                    href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
-                                        </li>
+
 
 
                                     </ul>
@@ -95,7 +93,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary pull-right" type="submit"><a href="#">Edit Contacts</a></button>
+                        {% if contacts %}
+                        <button class="btn btn-primary pull-right" type="submit"><a
+                                href="{{ url_for('main.probservcontacts', id=probservice.id) }}">Edit
+                                Contacts</a></button>
+                        {% endif %}
+                        <button class="btn btn-primary pull-right" type="submit"><a
+                                href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
 
 
 

@@ -48,9 +48,7 @@
                                                     Prison</a></button></li>
                                         <li><button class="btn btn-primary pull-right" type="submit"><a href="#">Edit
                                                     Prison</a></button></li>
-                                        <li><button class="btn btn-primary pull-right" type="submit"><a
-                                                    href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
-                                        </li>
+
 
 
                                     </ul>
@@ -96,7 +94,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary pull-right" type="submit"><a href="#">Edit Contacts</a></button>
+                        {% if contacts %}
+                        <button class="btn btn-primary pull-right" type="submit"><a
+                                href="{{ url_for('main.prisoncontacts', id=prison.id) }}">Edit Contacts</a></button>
+                        {% endif %}
+                        <button class="btn btn-primary pull-right" type="submit"><a
+                                href="{{ url_for('main.newcontact') }}">Add Contact</a></button>
 
 
 
