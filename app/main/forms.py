@@ -225,6 +225,29 @@ class EditClubForm(FlaskForm):
         super(EditClubForm, self).__init__(*args, **kwargs)
         self.id = id
      
+class EditPrisonForm(FlaskForm):
+    prs_name = StringField('Prison Name', validators=[DataRequired()])
+    prs_town = StringField('Town', validators=[DataRequired()])
+    prs_postcode = StringField('PostCode', validators=[DataRequired()])
+    prs_cat = QuerySelectField('Category', validators=[DataRequired(
+    )], query_factory=lambda: Category.query, get_label="cat_desc")
+    submit = SubmitField('Save Changes')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditPrisonForm, self).__init__(*args, **kwargs)
+        self.id = id
+
+class EditProbationForm(FlaskForm):
+    prob_name = StringField('Probation Service Name',
+                            validators=[DataRequired()])
+    prob_town = StringField('Town', validators=[DataRequired()])
+    prob_postcode = StringField('PostCode', validators=[DataRequired()])
+    submit = SubmitField('Save Changes')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditProbationForm, self).__init__(*args, **kwargs)
+        self.id = id
+    
 
 
 class EditCohortForm(FlaskForm):

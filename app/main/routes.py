@@ -2,7 +2,7 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm
 from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course
 from app.main import bp
 
@@ -217,6 +217,26 @@ def prison(id):
 
     return render_template('prisondetails.html', title = prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
 
+@bp.route('/editprison/<id>', methods=['GET', 'POST']) 
+@login_required
+def editprison(id):
+    prison = Prison.query.filter_by(id=id).first_or_404()
+    form = EditPrisonForm(id=id)
+    if form.validate_on_submit():
+        prison.prs_name = form.prs_name.data
+        prison.prs_town = form.prs_town.data
+        prison.prs_postcode = form.prs_postcode.data
+        prison.prs_category = form.prs_cat.data.id
+        db.session.add(prison)
+        db.session.commit()
+        flash('You have successfully updated '+ prison.prs_name)
+        return redirect(url_for('main.prison', id=prison.id))
+    form.prs_name.data = prison.prs_name
+    form.prs_town.data = prison.prs_town
+    form.prs_postcode.data = prison.prs_postcode
+    form.prs_cat.data = Category.query.filter_by(id=prison.prs_category).first_or_404()
+    return render_template('form.html', title="Edit Prison Details", form = form, prison = prison)
+
 @bp.route('/cohorts')
 def cohorts():
     page = request.args.get('page', 1, type=int)
@@ -244,7 +264,25 @@ def probservice(id):
     cohorts = Cohort.query.filter_by(coh_probid=id).all()
 
     return render_template('probservicedetails.html', title = probservice.prob_name, probservice = probservice, contacts = contacts, cohorts = cohorts)
-    
+
+@bp.route('/editprobservice/<id>', methods=['GET', 'POST']) 
+@login_required
+def editprobservice(id):
+    probservice = Probation.query.filter_by(id=id).first_or_404()
+    form = EditProbationForm(id=id)
+    if form.validate_on_submit():
+        probservice.prob_name = form.prob_name.data
+        probservice.prob_town = form.prob_town.data
+        probservice.prob_postcode = form.prob_postcode.data
+        db.session.add(probservice)
+        db.session.commit()
+        flash('You have successfully updated '+ probservice.prob_name)
+        return redirect(url_for('main.probationservice', id=probservice.id))
+    form.prob_name.data = probservice.prob_name
+    form.prob_town.data = probservice.prob_town
+    form.prob_postcode.data = probservice.prob_postcode
+    return render_template('form.html', title="Edit Probation Service Details", form = form, probservice = probservice)
+
 
 @bp.route('/cohort/<id>')
 @login_required
