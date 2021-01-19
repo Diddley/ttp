@@ -90,14 +90,41 @@
 
 <script>
     $(document).ready(function () {
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var add_contact = "Add Contact";
+                        clean_data = data.replace(add_contact, '');
+                        return clean_data.replace(regex, '');
+
+                    }
+                }
+            }
+        };
         var table = $('#psTable').DataTable({
             pagingType: "full_numbers",
-            buttons: ['copy', 'excel', 'pdf'],
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ],
             autoWidth: false,
 
         });
-
-        table.buttons().container().appendTo('#psTable_wrapper .col-md-6:eq(0)');
 
     });
 </script>

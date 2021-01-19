@@ -94,15 +94,48 @@
 
 <script>
     $(document).ready(function () {
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_comment = "Add Comment";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_comment, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
         var table = $('#cohortTable').DataTable({
             pagingType: "full_numbers",
-            buttons: ['copy', 'excel', 'pdf'],
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ],
             autoWidth: false,
 
 
         });
-
-        table.buttons().container().appendTo('#cohortTable_wrapper .col-md-6:eq(0)');
 
     });
 </script>
