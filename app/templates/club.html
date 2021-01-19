@@ -13,7 +13,7 @@
 
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-repsonsive">
                             <table class="table table-hover" id="clubTable" style="width:100%">
                                 <thead class="text-primary">
                                     <th scope="col">Club</th>
@@ -95,17 +95,69 @@
 
 <script>
     $(document).ready(function () {
-        var table = $('#clubTable').DataTable({
-            pagingType: "full_numbers",
-            buttons: ['copy', 'excel', 'pdf'],
-            autoWidth: false,
 
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#clubTable').DataTable({
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
 
         });
 
-        table.buttons().container().appendTo('#clubTable_wrapper .col-md-6:eq(0)');
 
     });
 </script>
+<!--
+<script>
+    $(document).ready(function () {
+        $('#clubTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
+
+table.buttons().container().appendTo($('.col-md-6:eq(0)', table.table().container()));   
+
+return column === 0 ?
+data.replace(regex, '') :
+data;
+
+ -->
+
 
 {% endblock %}
