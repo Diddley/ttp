@@ -2,8 +2,8 @@ from datetime import datetime, date
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Link
 from app.main import bp
 
 
@@ -64,11 +64,11 @@ def index():
 def clubs():
     #page = request.args.get('page', 1, type=int)
     clubs = Club.query.order_by(Club.clb_name.asc()).all()
-    #paginate(
+    # paginate(
     #    page, current_app.config['POSTS_PER_PAGE'], False)
-    #next_url = url_for(
+    # next_url = url_for(
     #    'main.clubs', page=clubs.next_num) if clubs.has_next else None
-    #prev_url = url_for(
+    # prev_url = url_for(
     #    'main.clubs', page=clubs.prev_num) if clubs.has_prev else None
     # for club in clubs:
     #    flash(club.id)
@@ -98,6 +98,13 @@ def editclub(id):
     club = Club.query.filter_by(id=id).first_or_404()
     form = EditClubForm(id=id)
     if form.validate_on_submit():
+        try:
+            url = images.url(
+                images.save(request.files['club_badge']))
+        except:
+            url = ""
+        if url != "":
+            club.clb_badge = url
         club.clb_name = form.clubname.data
         club.clb_town = form.club_town.data
         club.clb_postcode = form.club_postcode.data
@@ -107,16 +114,18 @@ def editclub(id):
         club.clb_fundingapp = form.club_fundingapp.data
         db.session.add(club)
         db.session.commit()
-        flash('You have successfully updated '+ club.clb_name)
+        flash('You have successfully updated ' + club.clb_name)
         return redirect(url_for('main.club', id=club.id))
     form.clubname.data = club.clb_name
     form.club_town.data = club.clb_town
     form.club_postcode.data = club.clb_postcode
-    form.club_division.data = Division.query.filter_by(id=club.division_id).first_or_404()
+    form.club_division.data = Division.query.filter_by(
+        id=club.division_id).first_or_404()
     form.club_contract.data = club.clb_contract
     form.club_collab.data = club.clb_collab
     form.club_fundingapp.data = club.clb_fundingapp
-    return render_template('form.html', title="Edit Club Details", form = form, club = club)
+    return render_template('clubform.html', title="Edit Club Details", form=form, club=club)
+
 
 @bp.route('/contacts')
 def contacts():
@@ -145,6 +154,7 @@ def clubcontacts(id):
     contacts = Contact.query.filter_by(con_club=id).all()
     return render_template('contact.html', title=club.clb_name + ' Contacts', contacts=contacts)
 
+
 @bp.route('/prisoncontacts/<id>')
 @login_required
 def prisoncontacts(id):
@@ -152,14 +162,13 @@ def prisoncontacts(id):
     contacts = Contact.query.filter_by(con_prison=id).all()
     return render_template('contact.html', title=prison.prs_name + ' Contacts', contacts=contacts)
 
+
 @bp.route('/probservcontacts/<id>')
 @login_required
 def probservcontacts(id):
     ps = Probation.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_probation=id).all()
     return render_template('contact.html', title=ps.prob_name + ' Contacts', contacts=contacts)
-
-
 
 
 @bp.route('/editcontact/<id>', methods=['GET', 'POST'])
@@ -208,6 +217,7 @@ def prisons():
         'main.prisons', page=prisons.prev_num) if prisons.has_prev else None
     return render_template('prison.html', title='Prisons', prisons=prisons.items, next_url=next_url, prev_url=prev_url)
 
+
 @bp.route('/prison/<id>')
 @login_required
 def prison(id):
@@ -215,9 +225,10 @@ def prison(id):
     contacts = Contact.query.filter_by(con_prison=id).all()
     cohorts = Cohort.query.filter_by(coh_prisonid=id).all()
 
-    return render_template('prisondetails.html', title = prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
+    return render_template('prisondetails.html', title=prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
 
-@bp.route('/editprison/<id>', methods=['GET', 'POST']) 
+
+@bp.route('/editprison/<id>', methods=['GET', 'POST'])
 @login_required
 def editprison(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
@@ -229,13 +240,15 @@ def editprison(id):
         prison.prs_category = form.prs_cat.data.id
         db.session.add(prison)
         db.session.commit()
-        flash('You have successfully updated '+ prison.prs_name)
+        flash('You have successfully updated ' + prison.prs_name)
         return redirect(url_for('main.prison', id=prison.id))
     form.prs_name.data = prison.prs_name
     form.prs_town.data = prison.prs_town
     form.prs_postcode.data = prison.prs_postcode
-    form.prs_cat.data = Category.query.filter_by(id=prison.prs_category).first_or_404()
-    return render_template('form.html', title="Edit Prison Details", form = form, prison = prison)
+    form.prs_cat.data = Category.query.filter_by(
+        id=prison.prs_category).first_or_404()
+    return render_template('form.html', title="Edit Prison Details", form=form, prison=prison)
+
 
 @bp.route('/cohorts')
 def cohorts():
@@ -251,7 +264,7 @@ def cohorts():
 
 @bp.route('/probservices')
 def probservices():
-    
+
     probservices = Probation.query.order_by(Probation.prob_name.asc())
     return render_template('probservice.html', title='Probation Services', probservices=probservices)
 
@@ -263,9 +276,38 @@ def probservice(id):
     contacts = Contact.query.filter_by(con_probation=id).all()
     cohorts = Cohort.query.filter_by(coh_probid=id).all()
 
-    return render_template('probservicedetails.html', title = probservice.prob_name, probservice = probservice, contacts = contacts, cohorts = cohorts)
+    return render_template('probservicedetails.html', title=probservice.prob_name, probservice=probservice, contacts=contacts, cohorts=cohorts)
 
-@bp.route('/editprobservice/<id>', methods=['GET', 'POST']) 
+
+@bp.route('/link', methods=['GET', 'POST'])
+@login_required
+def createlink():
+
+    form = NewLinkForm()
+    if form.validate_on_submit():
+        club = form.lnk_club.data
+        prison = form.lnk_prs.data
+        probservice = form.lnk_prob.data
+        link = Link(
+            link_club=club.id if club else None,
+            link_prs=prison.id if prison else None,
+            link_prob=probservice.id if probservice else None
+        )
+        db.session.add(link)
+        flash('New link created')
+        return redirect_for(request.referrer)
+    x = request.referrer.rsplit('/')
+    entity = x[-2]
+    id = int(x[-1])
+    flash(entity)
+    flash(id)
+    if entity == 'club':
+        form.lnk_club.data = Club.query.filter_by(
+            id=id).first_or_404()
+    return render_template('form.html', title="Link Page", form=form)
+
+
+@bp.route('/editprobservice/<id>', methods=['GET', 'POST'])
 @login_required
 def editprobservice(id):
     probservice = Probation.query.filter_by(id=id).first_or_404()
@@ -276,12 +318,12 @@ def editprobservice(id):
         probservice.prob_postcode = form.prob_postcode.data
         db.session.add(probservice)
         db.session.commit()
-        flash('You have successfully updated '+ probservice.prob_name)
+        flash('You have successfully updated ' + probservice.prob_name)
         return redirect(url_for('main.probationservice', id=probservice.id))
     form.prob_name.data = probservice.prob_name
     form.prob_town.data = probservice.prob_town
     form.prob_postcode.data = probservice.prob_postcode
-    return render_template('form.html', title="Edit Probation Service Details", form = form, probservice = probservice)
+    return render_template('form.html', title="Edit Probation Service Details", form=form, probservice=probservice)
 
 
 @bp.route('/cohort/<id>')
@@ -344,14 +386,18 @@ def edit_cohort(id):
         return redirect(url_for('main.cohort', id=id))
     elif request.method == 'GET':
         form.coh_desc.data = cohort.coh_desc
-        form.coh_club.data = Club.query.filter_by(id=cohort.coh_clubid).first_or_404()
+        form.coh_club.data = Club.query.filter_by(
+            id=cohort.coh_clubid).first_or_404()
         if cohort.coh_prisonid:
-            form.coh_prison.data = Prison.query.filter_by(id=cohort.coh_prisonid).first_or_404()
+            form.coh_prison.data = Prison.query.filter_by(
+                id=cohort.coh_prisonid).first_or_404()
         if cohort.coh_probid:
-            form.coh_probserv.data = Probation.query.filter_by(id=cohort.coh_probid).first_or_404()
+            form.coh_probserv.data = Probation.query.filter_by(
+                id=cohort.coh_probid).first_or_404()
         form.coh_startDate.data = cohort.coh_startDate
         form.coh_endDate.data = cohort.coh_endDate
-        form.coh_course.data = Course.query.filter_by(id=cohort.coh_course).first_or_404()
+        form.coh_course.data = Course.query.filter_by(
+            id=cohort.coh_course).first_or_404()
         form.coh_participants.data = cohort.coh_participants
         if cohort.coh_grads:
             form.coh_grads.data = cohort.coh_grads
@@ -411,7 +457,11 @@ def newclub():
     form = NewClubForm()
     if form.validate_on_submit():
         division = form.club_division.data
-        filename = images.save(request.files['club_badge'])
+        try:
+            filename = images.save(request.files['club_badge'])
+        except:
+            filename = "no_badge.png"
+        flash(filename)
         url = images.url(filename)
         club = Club(
             clb_name=form.clubname.data,
@@ -423,6 +473,9 @@ def newclub():
             clb_fundingapp=form.club_fundingapp.data,
             clb_badge=url
         )
+        flash(filename)
+        flash(type(filename))
+        flash(url)
         db.session.add(club)
         db.session.commit()
         flash('You have successfully added ' + club.clb_name)

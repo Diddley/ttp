@@ -253,3 +253,13 @@ class Course(db.Model):
     course_type = db.Column(db.String(12), index=True)
     crs_cohort = db.relationship(
         'Cohort', backref='course_owner', lazy='dynamic')
+
+
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link_club = db.Column(db.Integer, db.ForeignKey('club.id'))
+    link_prs = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    link_prob = db.column(db.Integer, db.ForeignKey('probation.id'))
+
+    def __repr__(self):
+        return '<Link: club - {}; entity {}{}>'.format(self.link_club, self.link_prs, self.link_prob)

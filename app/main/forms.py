@@ -5,7 +5,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SelectField, SubmitField, DateField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder
+from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder, Link
 from app import db, images
 from datetime import datetime
 
@@ -32,7 +32,7 @@ class NewClubForm(FlaskForm):
     club_collab = BooleanField('Signed Collaboration Agreement Received')
     club_fundingapp = BooleanField('Funding Application Received')
     club_badge = FileField('Upload Badge', validators=[
-                           FileAllowed(images, 'Images only!')])
+        FileAllowed(images, 'Images only!')])
     submit = SubmitField('Add Club')
 
     def validate_clubname(self, clubname):
@@ -110,11 +110,11 @@ class NewProbServiceForm(FlaskForm):
 class NewCohortForm(FlaskForm):
     coh_desc = StringField('Cohort Name (optional)')
     coh_club = QuerySelectField('Club', validators=[DataRequired(
-    )], query_factory=lambda: Club.query, get_label="clb_name")
+    )], query_factory=lambda: Club.query.order_by(Club.clb_name.asc()), get_label="clb_name")
     coh_prison = QuerySelectField('Prison', validators=[Optional(
-    )], query_factory=lambda: Prison.query, get_label="prs_name", allow_blank=True)
+    )], query_factory=lambda: Prison.query.order_by(Prison.prs_name.asc()), get_label="prs_name", allow_blank=True)
     coh_prob = QuerySelectField('Probation Services', validators=[Optional(
-    )], query_factory=lambda: Probation.query, get_label="prob_name", allow_blank=True)
+    )], query_factory=lambda: Probation.query.order_by(Probation.prob_name.asc()), get_label="prob_name", allow_blank=True)
     coh_startDate = DateField('Start Date', validators=[
                               DataRequired()], format='%Y-%m-%d', default=datetime.utcnow)
     coh_endDate = DateField('End Date', validators=[
@@ -188,6 +188,16 @@ class NewStockItemForm(FlaskForm):
             raise ValidationError('This SKU already exists!')
 
 
+class NewLinkForm(FlaskForm):
+    lnk_club = QuerySelectField('Club', validators=[Optional(
+    )], query_factory=lambda: Club.query.order_by(Club.clb_name.asc()), get_label="clb_name")
+    lnk_prs = QuerySelectField('Prison', validators=[Optional(
+    )], query_factory=lambda: Prison.query.order_by(Prison.prs_name.asc()), get_label="prs_name", allow_blank=True)
+    lnk_prob = QuerySelectField('Probation Service', validators=[Optional(
+    )], query_factory=lambda: Probation.query.order_by(Probation.prob_name.asc()), get_label="prob_name", allow_blank=True)
+    submit = SubmitField('Create Link')
+
+
 # ---------- EDIT/UPDATE forms ---------------
 
 
@@ -215,16 +225,20 @@ class EditClubForm(FlaskForm):
     clubname = StringField('Club Name', validators=[DataRequired()])
     club_town = StringField('Town')
     club_postcode = StringField('PostCode')
-    club_division = QuerySelectField('Division', validators=[DataRequired()], query_factory=lambda:Division.query, get_label="div_desc")
+    club_division = QuerySelectField('Division', validators=[DataRequired(
+    )], query_factory=lambda: Division.query, get_label="div_desc")
     club_contract = BooleanField('Signed Contract Agreement Received')
     club_collab = BooleanField('Signed Collaboration Agreement Received')
     club_fundingapp = BooleanField('Funding Application Received')
+    club_badge = FileField('Upload Badge', validators=[
+        FileAllowed(images, 'Images only!')])
     submit = SubmitField('Save Changes')
 
     def __init__(self, id, *args, **kwargs):
         super(EditClubForm, self).__init__(*args, **kwargs)
         self.id = id
-     
+
+
 class EditPrisonForm(FlaskForm):
     prs_name = StringField('Prison Name', validators=[DataRequired()])
     prs_town = StringField('Town', validators=[DataRequired()])
@@ -237,6 +251,7 @@ class EditPrisonForm(FlaskForm):
         super(EditPrisonForm, self).__init__(*args, **kwargs)
         self.id = id
 
+
 class EditProbationForm(FlaskForm):
     prob_name = StringField('Probation Service Name',
                             validators=[DataRequired()])
@@ -247,19 +262,24 @@ class EditProbationForm(FlaskForm):
     def __init__(self, id, *args, **kwargs):
         super(EditProbationForm, self).__init__(*args, **kwargs)
         self.id = id
-    
 
 
 class EditCohortForm(FlaskForm):
     coh_desc = StringField('Cohort Name (optional)', validators=[Optional()])
-    coh_club = QuerySelectField('Club', validators=[DataRequired()], query_factory=lambda:Club.query, get_label="clb_name")
-    coh_prison = QuerySelectField('Prison', validators=[Optional()], query_factory=lambda:Prison.query, get_label="prs_name", allow_blank=True)
-    coh_probserv = QuerySelectField('Probation Service', validators=[Optional()], query_factory=lambda:Probation.query, get_label="prob_name", allow_blank=True)
+    coh_club = QuerySelectField('Club', validators=[DataRequired(
+    )], query_factory=lambda: Club.query, get_label="clb_name")
+    coh_prison = QuerySelectField('Prison', validators=[Optional(
+    )], query_factory=lambda: Prison.query, get_label="prs_name", allow_blank=True)
+    coh_probserv = QuerySelectField('Probation Service', validators=[Optional(
+    )], query_factory=lambda: Probation.query, get_label="prob_name", allow_blank=True)
     coh_startDate = DateField('Start Date', validators=[
                               DataRequired()], format='%Y-%m-%d')
-    coh_endDate = DateField('End Date', validators=[Optional()], format='%Y-%m-%d')
-    coh_course = QuerySelectField('Course', query_factory=lambda:Course.query, get_label="course_type")
-    coh_participants = IntegerField('Participants',validators=[DataRequired()])
+    coh_endDate = DateField('End Date', validators=[
+                            Optional()], format='%Y-%m-%d')
+    coh_course = QuerySelectField(
+        'Course', query_factory=lambda: Course.query, get_label="course_type")
+    coh_participants = IntegerField(
+        'Participants', validators=[DataRequired()])
     coh_grads = IntegerField('Graduates', validators=[Optional()])
     submit = SubmitField('Save Changes')
 
@@ -276,7 +296,8 @@ class EditCohortForm(FlaskForm):
         pris = coh_prison.data
         prob = coh_probserv.data
         if not pris and not prob:
-            raise ValidationError('Please select either a Prison or a Probation Service')
+            raise ValidationError(
+                'Please select either a Prison or a Probation Service')
 
 
 class TPIForm(FlaskForm):
