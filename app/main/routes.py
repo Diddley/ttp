@@ -461,7 +461,6 @@ def newclub():
             filename = images.save(request.files['club_badge'])
         except:
             filename = "no_badge.png"
-        flash(filename)
         url = images.url(filename)
         club = Club(
             clb_name=form.clubname.data,
@@ -473,9 +472,6 @@ def newclub():
             clb_fundingapp=form.club_fundingapp.data,
             clb_badge=url
         )
-        flash(filename)
-        flash(type(filename))
-        flash(url)
         db.session.add(club)
         db.session.commit()
         flash('You have successfully added ' + club.clb_name)
