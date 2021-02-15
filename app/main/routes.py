@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, jsonify, current_ap
 from flask_login import current_user, login_required
 from app import db, images
 from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Link
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course
 from app.main import bp
 
 
@@ -84,12 +84,15 @@ def clubs():
 @login_required
 def club(id):
     club = Club.query.filter_by(id=id).first_or_404()
+    prisons = club.clb_linked_prs.order_by(Prison.prs_name.asc())
+    probs = club.clb_linked_prob.order_by(Probation.prob_name.asc())
     contacts = Contact.query.filter_by(con_club=id).all()
     cohorts = Cohort.query.filter_by(coh_clubid=id).all()
 
     page = request.args.get('page', 1, type=int)
     comments = club.clb_comment.order_by(Comment.timestamp.desc()).all()
-    return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts, comments=comments)
+    return render_template('clubdetails.html', title=club.clb_name, club=club, id=id, contacts=contacts, cohorts=cohorts,
+                           prisons=prisons, probs=probs, comments=comments)
 
 
 @bp.route('/editclub/<id>', methods=['GET', 'POST'])
@@ -288,19 +291,22 @@ def createlink():
         club = form.lnk_club.data
         prison = form.lnk_prs.data
         probservice = form.lnk_prob.data
-        link = Link(
-            link_club=club.id if club else None,
-            link_prs=prison.id if prison else None,
-            link_prob=probservice.id if probservice else None
-        )
-        db.session.add(link)
+
+        if prison != None:
+            club.clb_linked_prs.append(prison)
+
+        if probservice != None:
+            club.clb_linked_prob.append(probservice)
+
+        db.session.add(club)
+        db.session.commit()
+
+        db.session.add(club)
         flash('New link created')
-        return redirect_for(request.referrer)
+        return redirect(url_for('main.club', id=club.id))
     x = request.referrer.rsplit('/')
     entity = x[-2]
     id = int(x[-1])
-    flash(entity)
-    flash(id)
     if entity == 'club':
         form.lnk_club.data = Club.query.filter_by(
             id=id).first_or_404()

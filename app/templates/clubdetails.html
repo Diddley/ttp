@@ -45,6 +45,29 @@
                             </div>
                         </div> <!-- end of row -->
                         <div class="row">
+                            <div class="col-md-4">
+                                <div>
+                                    <h4>Linked</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Prisons:</h4>
+                                {% for p in prisons %}
+                                <div>
+                                    {{ p.prs_name }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Probation Services:</h4>
+                                {% for prob in probs %}
+                                <div>
+                                    {{ prob.prob_name }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
 
                                 <div class="table-responsive">
