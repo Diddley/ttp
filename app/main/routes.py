@@ -225,10 +225,11 @@ def prisons():
 @login_required
 def prison(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
+    clubs = prison.prs_linked_clb.order_by(Club.clb_name.asc())
     contacts = Contact.query.filter_by(con_prison=id).all()
     cohorts = Cohort.query.filter_by(coh_prisonid=id).all()
 
-    return render_template('prisondetails.html', title=prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts)
+    return render_template('prisondetails.html', title=prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts, clubs=clubs)
 
 
 @bp.route('/editprison/<id>', methods=['GET', 'POST'])
@@ -276,10 +277,11 @@ def probservices():
 @login_required
 def probservice(id):
     probservice = Probation.query.filter_by(id=id).first_or_404()
+    clubs = probservice.prob_linked_clb.order_by(Club.clb_name.asc())
     contacts = Contact.query.filter_by(con_probation=id).all()
     cohorts = Cohort.query.filter_by(coh_probid=id).all()
 
-    return render_template('probservicedetails.html', title=probservice.prob_name, probservice=probservice, contacts=contacts, cohorts=cohorts)
+    return render_template('probservicedetails.html', title=probservice.prob_name, probservice=probservice, contacts=contacts, cohorts=cohorts, clubs=clubs)
 
 
 @bp.route('/link', methods=['GET', 'POST'])
