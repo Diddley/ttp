@@ -12,22 +12,7 @@
                         <h4 class="card-category">{{ prison.prison.cat_desc }}</h4>
                     </div>
                     <div class="card-body">
-                        {% if clubs.count()>0 %}
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4>Linked Clubs:</h4>
-                            </div>
-                            <div class="col-md-3">
-                                {% for c in clubs %}
-                                <div>
-                                    {{ c.clb_name }}
-                                </div>
-                                {% endfor %}
 
-                            </div>
-
-                        </div>
-                        {% endif %}
                         <div class="row">
                             <div class="col-md-12">
 
