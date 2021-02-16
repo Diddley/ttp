@@ -3,25 +3,10 @@ from datetime import datetime
 from hashlib import md5
 from flask_login import UserMixin
 from time import time
-from sqlalchemy.orm import backref, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import jwt
 from app import db, login
-
-prs_links = db.Table('prs_links',
-                     db.Column('prs_link_clb_id', db.Integer,
-                               db.ForeignKey('club.id')),
-                     db.Column('link_prs_id', db.Integer,
-                               db.ForeignKey('prison.id'))
-                     )
-
-prob_links = db.Table('prob_links',
-                      db.Column('prob_link_clb_id', db.Integer,
-                                db.ForeignKey('club.id')),
-                      db.Column('link_prob_id', db.Integer,
-                                db.ForeignKey('probation.id'))
-                      )
 
 
 class User(UserMixin, db.Model):
@@ -90,16 +75,6 @@ class Club(db.Model):
     clb_media = db.relationship('Media', backref='clb_press', lazy='dynamic')
     clb_comment = db.relationship(
         'Comment', backref='clb_comment', lazy='dynamic')
-    clb_linked_prs = db.relationship('Prison',
-                                     secondary=prs_links,
-                                     backref=db.backref(
-                                         'prisons', lazy='dynamic'),
-                                     lazy='dynamic')
-    clb_linked_prob = db.relationship('Probation',
-                                      secondary=prob_links,
-                                      backref=db.backref(
-                                          'probation', lazy='dynamic'),
-                                      lazy='dynamic')
 
     def __repr__(self):
         return '<Club {}>'.format(self.clb_name)
@@ -143,11 +118,6 @@ class Prison(db.Model):
         'Comment', backref='prs_comment', lazy='dynamic')
     prs_contact = db.relationship(
         'Contact', backref='prs_contact', lazy='dynamic')
-    prs_linked_clb = db.relationship('Club',
-                                     secondary=prs_links,
-                                     backref=db.backref(
-                                         'prs_clubs', lazy='dynamic'),
-                                     lazy='dynamic')
 
     def __repr__(self):
         return '<Prison {}>'.format(self.prs_name)
@@ -165,11 +135,6 @@ class Probation(db.Model):
     prob_media = db.relationship('Media', backref='prob_media', lazy='dynamic')
     prob_contact = db.relationship(
         'Contact', backref='prob_contact', lazy='dynamic')
-    prob_linked_clb = db.relationship('Club',
-                                      secondary=prob_links,
-                                      backref=db.backref(
-                                          'prob_clubs', lazy='dynamic'),
-                                      lazy='dynamic')
 
     def __repr__(self):
         return '<Probation Service {}>'.format(self.prob_name)
@@ -288,3 +253,13 @@ class Course(db.Model):
     course_type = db.Column(db.String(12), index=True)
     crs_cohort = db.relationship(
         'Cohort', backref='course_owner', lazy='dynamic')
+
+
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link_club = db.Column(db.Integer, db.ForeignKey('club.id'))
+    link_prs = db.Column(db.Integer, db.ForeignKey('prison.id'))
+    link_prob = db.column(db.Integer, db.ForeignKey('probation.id'))
+
+    def __repr__(self):
+        return '<Link: club - {}; entity {}{}>'.format(self.link_club, self.link_prs, self.link_prob)

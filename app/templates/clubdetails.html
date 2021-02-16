@@ -44,34 +44,6 @@
                                 {% endif %}
                             </div>
                         </div> <!-- end of row -->
-                        {% if prisons.count() >0 or probs.count() > 0 %}
-                        <div class="row">
-                            {% if prisons.count()>0 %}
-                            <div class="col-md-3">
-                                <h4>Linked Prisons:</h4>
-                            </div>
-                            <div class="col-md-3">
-                                {% for p in prisons %}
-                                <div>
-                                    {{ p.prs_name }}
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                            {% if probs.count()>0 %}
-                            <div class="col-md-3">
-                                <h4>Linked Probation Services:</h4>
-                            </div>
-                            <div class="col-md-3">
-                                {% for prob in probs %}
-                                <div>
-                                    {{ prob.prob_name }}
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endif %}
                         <div class="row">
                             <div class="col-md-12">
 
