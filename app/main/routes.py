@@ -827,11 +827,13 @@ def tasks():
     tasks = Task.query.filter(Task.tk_duedate <= end).filter(
         Task.tk_duedate >= start)
 
-    tasklist = {}
+    tasklist = []
     for task in tasks:
-        comment = Comment.query.filter_by(
+        taskdict = {}
+        taskdict['comment'] = Comment.query.filter_by(
             id=task.tk_comment).first_or_404().body
-        date = task.tk_duedate
-        notify = task.tk_notify
+        taskdict['date'] = task.tk_duedate.strftime("%Y/%m/%d")
+        taskdict['notify'] = task.tk_notify
+        tasklist.append(taskdict)
 
-    return render_template('notifications.html', title="Notifications", tasks=tasks)
+    return render_template('notifications.html', title="Notifications", tasks=tasks, tasklist=tasklist)

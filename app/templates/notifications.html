@@ -20,16 +20,17 @@
                                 <thead class="text-primary">
                                     <th scope="col">Task</th>
                                     <th scope="col">Due Date</th>
-                                    <th scope="col">Notify</th>
+                                    <th scope="col">Status</th>
                                 </thead>
                                 <tbody>
-                                    {% for t in tasks %}
+                                    {% for t in tasklist %}
                                     {% include '_notification.html' %}
                                     {% endfor %}
                                 </tbody>
 
                             </table>
                         </div>
+
 
 
 

@@ -1,5 +1,10 @@
 <tr style="text-align: left;">
-    <td>{{ t.tk_comment }}</td>
-    <td>{{ t.tk_duedate }}</td>
-    <td>{{ t.tk_notify }}</td>
+    <td>{{ t['comment'] }}</td>
+    <td>{{ t['date'] }}</td>
+    <td>{% if t['notify'] %}
+        <i class="material-icons">check_box_outline_blank</i>
+        {% else %}
+        <i class="material-icons">check_box</i>
+        {% endif %}
+    </td>
 </tr>
