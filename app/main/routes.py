@@ -1,9 +1,9 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm
+from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task
 from app.main import bp
 
 
@@ -631,31 +631,82 @@ def newcohort():
     # return render_template('cohort.html', title = 'Create a Cohort', cohorts=cohorts.items, prev_url=prev_url, next_url=next_url, form=form)
 
 
+# @bp.route('/newcomment/<source>/<sourceid>', methods=['GET', 'POST'])
+# @login_required
+# def newcomment(source, sourceid):
+#     form = NewCommentForm()
+#     user = current_user
+#     if form.validate_on_submit():
+#         comment = Comment(
+#             body=form.body.data,
+#             timestamp=datetime.utcnow(),
+#             user_id=user.id,
+#             club_id=sourceid if source == 'club' else None,
+#             cohort_id=sourceid if source == 'cohort' else None,
+#             fnd_id=sourceid if source == 'funding' else None,
+#             med_id=sourceid if source == 'media' else None,
+#             prob_id=sourceid if source == 'probation' else None
+#         )
+#         db.session.add(comment)
+#         db.session.commit()
+#         flash('New comment added!')
+#         return redirect(url_for('main.'+source, id=sourceid))
+#     """ page = request.args.get('page', 1, type = int)
+#     comments = Comment.query.filter_by(cohort_id = sourceid).order_by(Comment.timestamp.desc()).paginate(
+#         page, current_app.config['COMMENTS_PER_PAGE'], False)
+#     next_url = url_for('main.cohort', id = sourceid, page = comments.next_num) if comments.has_next else None
+#     prev_url = url_for ('main.cohort', id = sourceid, page = comments.prev_num) if comments.has_prev else None """
+
+#     return render_template('testform.html', title='Cohort Details', form=form)
+
+
 @bp.route('/newcomment/<source>/<sourceid>', methods=['GET', 'POST'])
 @login_required
 def newcomment(source, sourceid):
-    form = NewCommentForm()
+    form = CommentForm(id=sourceid, source=source)
     user = current_user
     if form.validate_on_submit():
+        cm_club = form.com_club.data
+        cm_prs = form.com_prs.data
+        cm_prob = form.com_prob.data
+
         comment = Comment(
             body=form.body.data,
             timestamp=datetime.utcnow(),
             user_id=user.id,
-            club_id=sourceid if source == 'club' else None,
+            club_id=cm_club.id if cm_club else None,
             cohort_id=sourceid if source == 'cohort' else None,
             fnd_id=sourceid if source == 'funding' else None,
             med_id=sourceid if source == 'media' else None,
-            prob_id=sourceid if source == 'probation' else None
+            prob_id=cm_prob.id if cm_prob else None,
+            prs_id=cm_prs.id if cm_prs else None
         )
         db.session.add(comment)
         db.session.commit()
-        flash('New comment added!')
+        if form.com_date.data != None:
+            task = Task(
+                tk_comment=comment.id,
+                tk_duedate=form.com_date.data,
+                tk_notify=True
+            )
+            db.session.add(task)
+            db.session.commit()
+            msg = 'New task added'
+        else:
+            msg = 'New comment added'
+
+        flash(msg)
+
         return redirect(url_for('main.'+source, id=sourceid))
-    """ page = request.args.get('page', 1, type = int)
-    comments = Comment.query.filter_by(cohort_id = sourceid).order_by(Comment.timestamp.desc()).paginate(
-        page, current_app.config['COMMENTS_PER_PAGE'], False)
-    next_url = url_for('main.cohort', id = sourceid, page = comments.next_num) if comments.has_next else None
-    prev_url = url_for ('main.cohort', id = sourceid, page = comments.prev_num) if comments.has_prev else None """
+    if source == 'club':
+        club = Club.query.filter_by(id=sourceid).first_or_404()
+        form.com_club.data = club
+    if source == 'prison':
+        prison = Prison.query.filter_by(id=sourceid).first_or_404()
+        form.com_prs.data = prison
+    if source == 'probservices':
+        prob = Probation.query.filter_by(id=sourceid).first_or_404()
+        form.com_prob.data = prob
 
     return render_template('testform.html', title='Cohort Details', form=form)
 
@@ -763,3 +814,24 @@ def addstockitem():
 def stock():
     stocks = Stock.query.order_by(Stock.qty.asc())
     return render_template('admin.html', title='Stock Levels', stocks=stocks)
+
+
+@bp.route('/tasks')
+@login_required
+def tasks():
+    num_days = 14
+    start = datetime.now() - timedelta(days=1)
+    end = start + timedelta(days=num_days)
+    now = datetime.today()
+
+    tasks = Task.query.filter(Task.tk_duedate <= end).filter(
+        Task.tk_duedate >= start)
+
+    tasklist = {}
+    for task in tasks:
+        comment = Comment.query.filter_by(
+            id=task.tk_comment).first_or_404().body
+        date = task.tk_duedate
+        notify = task.tk_notify
+
+    return render_template('notifications.html', title="Notifications", tasks=tasks)

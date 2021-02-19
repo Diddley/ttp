@@ -288,3 +288,18 @@ class Course(db.Model):
     course_type = db.Column(db.String(12), index=True)
     crs_cohort = db.relationship(
         'Cohort', backref='course_owner', lazy='dynamic')
+
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tk_comment = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    tk_duedate = db.Column(db.DateTime)
+    tk_notify = db.Column(db.Boolean)
+
+    def __init__(self, tk_comment, tk_duedate, tk_notify=False):
+        self.tk_comment = tk_comment
+        self.tk_duedate = tk_duedate
+        self.tk_notify = tk_notify
+
+    def __repr__(self):
+        return '<Task {} {} {}>'.format(self.tk_comment, self.tk_duedate, self.tk_notify)

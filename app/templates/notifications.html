@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h3 class="card-title">
+                            {{ title }}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="taskTable" style="width:100%;">
+                                <thead class="text-primary">
+                                    <th scope="col">Task</th>
+                                    <th scope="col">Due Date</th>
+                                    <th scope="col">Notify</th>
+                                </thead>
+                                <tbody>
+                                    {% for t in tasks %}
+                                    {% include '_notification.html' %}
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li>
+                            <button class="btn btn-primary" type="submit"><a href="#">New Task</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#notify');
+    newBtn.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#taskTable').DataTable({
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
+
+        });
+
+
+    });
+</script>
+
+
+{% endblock %}

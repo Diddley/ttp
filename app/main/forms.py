@@ -102,7 +102,7 @@ class NewProbServiceForm(FlaskForm):
     submit = SubmitField('Add Probation Service')
 
     def validate_probservice(self, prob_name):
-        prob = Probabtion.query.filter_by(prob_name=prob_name.data).first()
+        prob = Probation.query.filter_by(prob_name=prob_name.data).first()
         if prob is not None:
             raise ValidationError('This Probation Service already exists!')
 
@@ -127,7 +127,7 @@ class NewCohortForm(FlaskForm):
 
     def validate_date(self, coh_startDate, coh_endDate):
         if coh_endDate:
-            if date(coh_endDate.data) < date(coh_startDate.data):
+            if datetime.date(coh_endDate.data) < datetime.date(coh_startDate.data):
                 raise ValidationError('End date should be after Start Date')
 
     def validate_entity(self, coh_prison, coh_prob):
@@ -141,6 +141,24 @@ class NewCohortForm(FlaskForm):
 class NewCommentForm(FlaskForm):
     body = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Add Comment')
+
+
+class CommentForm(FlaskForm):
+    body = TextAreaField('Comment', validators=[DataRequired()])
+    com_club = QuerySelectField('Club', validators=[Optional(
+    )], query_factory=lambda: Club.query.order_by(Club.clb_name.asc()), get_label="clb_name", allow_blank=True)
+    com_prs = QuerySelectField('Prison', validators=[Optional(
+    )], query_factory=lambda: Prison.query.order_by(Prison.prs_name.asc()), get_label="prs_name", allow_blank=True)
+    com_prob = QuerySelectField('Probabtion Services', validators=[Optional(
+    )], query_factory=lambda: Probation.query.order_by(Probation.prob_name.asc()), get_label="prob_name", allow_blank=True)
+    com_date = DateField('Due Date', validators=[
+        Optional()], format='%Y-%m-%d')
+    submit = SubmitField('Add Comment')
+
+    def __init__(self, id, source, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.id = id
+        self.source = source
 
 
 class NewMediaForm(FlaskForm):
