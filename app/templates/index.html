@@ -3,83 +3,84 @@
 
 {% block app_content %}
 
-        <div class="content">
-                <div class="container-fluid">
-                        <div class="row">
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-info card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">sports_soccer</i>
-                                                        </div>
-                                                        <p class="card-category">Clubs</p>
-                                                        <h3 class="card-title">{{ numclubs }}</h3>
+<div class="content">
+        <div class="container-fluid">
+                <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-info card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">sports_soccer</i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-info">add_circle</i>
-                                                                <a href="{{ url_for('main.newclub') }}">add a club</a>
-                                                        </div>
+                                                <p class="card-category">Clubs</p>
+                                                <h3 class="card-title">{{ numclubs }}</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-info">add_circle</i>
+                                                        <a href="{{ url_for('main.newclub') }}">add a club</a>
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-danger card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">fence</i>
-                                                        </div>
-                                                        <p class="card-category">Prisons</p>
-                                                        <h3 class="card-title">{{ numprisons }}</h3>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-danger card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">fence</i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-danger">add_circle</i>
-                                                                <a href="{{ url_for('main.newprison') }}">add a prison</a>
-                                                        </div>
-                                                </div>
+                                                <p class="card-category">Prisons</p>
+                                                <h3 class="card-title">{{ numprisons }}</h3>
                                         </div>
-                                </div>  
-                                
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-warning card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">lock_open</i>
-                                                        </div>
-                                                        <p class="card-category">Probation Services</p>
-                                                        <h3 class="card-title">{{ numprobs }}</h3>
-                                                </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-warning">add_circle</i>
-                                                                <a href="{{ url_for('main.newprobservice') }}">add a probation service</a>
-                                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-danger">add_circle</i>
+                                                        <a href="{{ url_for('main.newprison') }}">add a prison</a>
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-success card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">groups</i>
-                                                        </div>
-                                                        <p class="card-category">Cohorts</p>
-                                                        <h3 class="card-title">{{ numcohorts }}</h3>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-warning card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">lock_open</i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-success">group_add</i>
-                                                                <a href="{{ url_for('main.newcohort') }}">create a
-                                                                        cohort</a>
-                                                        </div>
+                                                <p class="card-category">Probation Services</p>
+                                                <h3 class="card-title">{{ numprobs }}</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-warning">add_circle</i>
+                                                        <a href="{{ url_for('main.newprobservice') }}">add a probation
+                                                                service</a>
                                                 </div>
                                         </div>
                                 </div>
-                        </div> <!-- End of row 1-->
-                        <div class="row">
-                                
-                               <!--  <div class="col-md-4">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-success card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">groups</i>
+                                                </div>
+                                                <p class="card-category">Cohorts</p>
+                                                <h3 class="card-title">{{ numcohorts }}</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-success">group_add</i>
+                                                        <a href="{{ url_for('main.newcohort') }}">create a
+                                                                cohort</a>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div> <!-- End of row 1-->
+                <div class="row">
+
+                        <!--  <div class="col-md-4">
                                         <div class="card card-chart">
                                                 <div class="card-header card-header-success">
                                                         <div class="ct-chart" id="dailySalesChart"></div>
@@ -98,39 +99,41 @@
                                                 </div>
                                         </div>
                                 </div> -->
-                                <div class="col-md-4">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-success card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">account_balance</i>
-                                                        </div>
-                                                        <p class="card-category">Funding</p>
-                                                        <h3 class="card-title">{{ "£ {:,.2f}".format(totalfunding) }}</h3>
+                        <div class="col-md-4">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-success card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">account_balance</i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-success">date_range</i> {{ moment(today).format('LL') }}
-                                                        </div>
+                                                <p class="card-category">Funding</p>
+                                                <h3 class="card-title">{{ "£ {:,.2f}".format(totalfunding) }}</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-success">date_range</i>
+                                                        {{ moment(today).format('LL') }}
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="col-md-4">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-info card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="material-icons">school</i>
-                                                        </div>
-                                                        <p class="card-category">Graduates</p>
-                                                        <h3 class="card-title">{{ graduates }}/{{ participants }}</h3>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-info card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="material-icons">school</i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="material-icons text-info">date_range</i>  {{ moment(today).format('LL') }}
-                                                        </div>
+                                                <p class="card-category">Graduates</p>
+                                                <h3 class="card-title">{{ graduates }}/{{ participants }}</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="material-icons text-info">date_range</i>
+                                                        {{ moment(today).format('LL') }}
                                                 </div>
                                         </div>
                                 </div>
-                                <!-- <div class="col-md-4">
+                        </div>
+                        <!-- <div class="col-md-4">
                                         <div class="card card-chart">
                                                 <div class="card-header card-header-danger">
                                                         <div class="ct-chart" id="completedTasksChart"></div>
@@ -146,20 +149,23 @@
                                                 </div>
                                         </div>
                                 </div> -->
-                                <div class="col-md-4">
-                                        <div class="card card-stats">
-                                                <div class="card-header card-header-danger card-header-icon">
-                                                        <div class="card-icon">
-                                                                <i class="fas fa-tshirt"></i>
-                                                        </div>
-                                                        <p class="card-category">Kit</p>
-                                                        <h3 class="card-title">{{ tot_kit }}</h3>
-                                                        
+                        <div class="col-md-4">
+                                <div class="card card-stats">
+                                        <div class="card-header card-header-danger card-header-icon">
+                                                <div class="card-icon">
+                                                        <i class="fas fa-tshirt"></i>
                                                 </div>
-                                                <div class="card-footer">
-                                                        <div class="stats">
-                                                                <i class="fas fa-tshirt text-danger" data-fa-transform="down-5"></i>&thinsp; Small: {{ tot_small }} &emsp; Medium: {{ tot_medium }} &emsp; Large: {{ tot_large }} &emsp; X-Large: {{ tot_xlarge }}
-                                                                <!-- <div class="table-responsive">
+                                                <p class="card-category">Kit</p>
+                                                <h3 class="card-title">{{ tot_kit }}</h3>
+
+                                        </div>
+                                        <div class="card-footer">
+                                                <div class="stats">
+                                                        <i class="fas fa-tshirt text-danger"
+                                                                data-fa-transform="down-5"></i>&thinsp; Small:
+                                                        {{ tot_small }} &emsp; Medium: {{ tot_medium }} &emsp; Large:
+                                                        {{ tot_large }} &emsp; X-Large: {{ tot_xlarge }}
+                                                        <!-- <div class="table-responsive">
                                                                         <table class="table table-hover"
                                                                                 style="color:#3c4858;">
                                                                                 <td scope="col">Small</td>
@@ -172,11 +178,11 @@
                                                                                 <td scope="col">{{ tot_xlarge }}</td>
                                                                         </table>
                                                                 </div> -->
-                                                        </div>
                                                 </div>
                                         </div>
                                 </div>
-                                <!--<div class="col-md-4">
+                        </div>
+                        <!--<div class="col-md-4">
                                         <div class="card card-stats">
                                                 <div class="card-header card-header-danger card-header-icon">
                                                         <div class="card-icon">
@@ -193,103 +199,114 @@
                                                 </div>
                                         </div>
                                 </div> -->
-                        </div> <!-- end of row 2-->
-                        <div class="row">
-                                <div class="col-lg-6 col-md-12">
-                                        <div class="card">
-                                                <div class="card-header card-header-warning">
-                                                        <h4 class="card-title">Active Cohorts</h4>
-                                                        <p class="card-category">Currently active cohorts</p>
-                                                </div>
-                                                <div class="card-body table-responsive">
-                                                        <table class="table table-hover">
-                                                                <thead class="text-warning">
-                                                                        <th scope="col">Cohort Description</th>
-                                                                        <th scope="col">Start Date</th>
-                                                                        <th scope="col">End Date</th>
-                                                                        <th scope="col">Course</th>
-                                                                        <th scope="col">Participants</th>
-                                                                </thead>
-                                                                {% for cohort in cohorts %}
-                                                                        {% include '_dashcohort.html' %}
-                                                                {% endfor %}
-                                                        </table>
-                                                </div>
+                </div> <!-- end of row 2-->
+                <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                                <div class="card">
+                                        <div class="card-header card-header-warning">
+                                                <h4 class="card-title">Active Cohorts</h4>
+                                                <p class="card-category">Currently active cohorts</p>
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                        <thead class="text-warning">
+                                                                <th scope="col">Cohort Description</th>
+                                                                <th scope="col">Start Date</th>
+                                                                <th scope="col">End Date</th>
+                                                                <th scope="col">Course</th>
+                                                                <th scope="col">Participants</th>
+                                                        </thead>
+                                                        {% for cohort in cohorts %}
+                                                        {% include '_dashcohort.html' %}
+                                                        {% endfor %}
+                                                </table>
                                         </div>
                                 </div>
-                                <div class="col-lg-6 col-md-12">
-                                        <div class="card">
-                                                <div class="card-header card-header-tabs card-header-primary">
-                                                        <div class="nav-tabs-navigation">
-                                                                <div class="nav-tabs-wrapper">
-                                                                        <span class="nav-tabs-title">Tasks:</span>
-                                                                        <ul class="nav nav-tabs" data-tabs="tabs">
-                                                                                <li class="nav-item">
-                                                                                        <a href="#" class="nav-link" data-toggle="tab">
-                                                                                                <i class="material-icons">monetization_on</i> Funding
-                                                                                                <div class="ripple-container"></div>
-                                                                                        </a>
-                                                                                </li>
-                                                                                <li class="nav-item">
-                                                                                        <a href="#"
-                                                                                                class="nav-link active"
-                                                                                                data-toggle="tab">
-                                                                                                <i
-                                                                                                        class="material-icons">sports_soccer</i>
-                                                                                                Club
-                                                                                                <div
-                                                                                                        class="ripple-container">
-                                                                                                </div>
-                                                                                        </a>
-                                                                                </li>
-                                                                                <li class="nav-item">
-                                                                                        <a href="#"
-                                                                                                class="nav-link"
-                                                                                                data-toggle="tab">
-                                                                                                <i
-                                                                                                        class="material-icons">group</i>
-                                                                                                Cohort
-                                                                                                <div
-                                                                                                        class="ripple-container">
-                                                                                                </div>
-                                                                                        </a>
-                                                                                </li>
-                                                                        </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                                <div class="card">
+                                        <div class="card-header card-header-tabs card-header-primary">
+                                                <div class="nav-tabs-navigation">
+                                                        <div class="nav-tabs-wrapper">
+                                                                <span class="nav-tabs-title">Tasks:</span>
+                                                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                                                        <li class="nav-item">
+                                                                                <a href="#" class="nav-link"
+                                                                                        data-toggle="tab">
+                                                                                        <i
+                                                                                                class="material-icons">monetization_on</i>
+                                                                                        Funding
+                                                                                        <div class="ripple-container">
+                                                                                        </div>
+                                                                                </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                                <a href="#" class="nav-link active"
+                                                                                        data-toggle="tab">
+                                                                                        <i
+                                                                                                class="material-icons">sports_soccer</i>
+                                                                                        Club
+                                                                                        <div class="ripple-container">
+                                                                                        </div>
+                                                                                </a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                                <a href="#" class="nav-link"
+                                                                                        data-toggle="tab">
+                                                                                        <i
+                                                                                                class="material-icons">group</i>
+                                                                                        Cohort
+                                                                                        <div class="ripple-container">
+                                                                                        </div>
+                                                                                </a>
+                                                                        </li>
+                                                                </ul>
 
-                                                                </div>
                                                         </div>
                                                 </div>
-                                                <div class="class-body">
-                                                        <div class="tab-content">
-                                                                <div class="tab-pane active" id="profile">
-                                                                        <table class="table">
-                                                                                <tbody>
-                                                                                        <tr>
-                                                                                                <td>
-                                                                                                        <div class="form-check">
-                                                                                                                <label class="form-check-label">
-                                                                                                                        <input type="checkbox" class="form-check-input" value="" checked>
-                                                                                                                        <span class="form-check-sign">
-                                                                                                                                <span class="check"></span>
-                                                                                                                        </span>
-                                                                                                                </label>
-                                                                                                        </div>
-                                                                                                </td>
-                                                                                                <td>Order kit from Puma</td>
-                                                                                                <td class="td-actions text-right">
-                                                                                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                                                                                                <i class="material-icons">edit</i>
-                                                                                                        </button>
-                                                                                                        <button type="button"
-                                                                                                                rel="tooltip"
-                                                                                                                title="Remove"
-                                                                                                                class="btn btn-primary btn-link btn-sm">
-                                                                                                                <i
-                                                                                                                        class="material-icons">close</i>
-                                                                                                        </button>
-                                                                                                </td>
-                                                                                        </tr>
-                                                                                                                                       <tr>
+                                        </div>
+                                        <div class="class-body">
+                                                <div class="tab-content">
+                                                        <div class="tab-pane active" id="profile">
+                                                                <table class="table">
+                                                                        <tbody>
+                                                                                <tr>
+                                                                                        <td>
+                                                                                                <div class="form-check">
+                                                                                                        <label
+                                                                                                                class="form-check-label">
+                                                                                                                <input type="checkbox"
+                                                                                                                        class="form-check-input"
+                                                                                                                        value=""
+                                                                                                                        checked>
+                                                                                                                <span
+                                                                                                                        class="form-check-sign">
+                                                                                                                        <span
+                                                                                                                                class="check"></span>
+                                                                                                                </span>
+                                                                                                        </label>
+                                                                                                </div>
+                                                                                        </td>
+                                                                                        <td>Order kit from Puma</td>
+                                                                                        <td
+                                                                                                class="td-actions text-right">
+                                                                                                <button type="button"
+                                                                                                        rel="tooltip"
+                                                                                                        title="Edit Task"
+                                                                                                        class="btn btn-primary btn-link btn-sm">
+                                                                                                        <i
+                                                                                                                class="material-icons">edit</i>
+                                                                                                </button>
+                                                                                                <button type="button"
+                                                                                                        rel="tooltip"
+                                                                                                        title="Remove"
+                                                                                                        class="btn btn-primary btn-link btn-sm">
+                                                                                                        <i
+                                                                                                                class="material-icons">close</i>
+                                                                                                </button>
+                                                                                        </td>
+                                                                                </tr>
+                                                                                <!-- <tr>
                                                                                                                                                <td>
                                                                                                                                                        <div
                                                                                                                                                                class="form-check">
@@ -327,18 +344,18 @@
                                                                                                                                                                        class="material-icons">close</i>
                                                                                                                                                        </button>
                                                                                                                                                </td>
-                                                                                                                                       </tr>
+                                                                                                                                       </tr> -->
 
-                                                                                </tbody>
-                                                                        </table>
-                                                                </div>
+                                                                        </tbody>
+                                                                </table>
                                                         </div>
                                                 </div>
                                         </div>
                                 </div>
-                        </div> <!-- end of row 3-->
-                </div> <!-- container-fluid -->
-        </div> <!-- content -->
+                        </div>
+                </div> <!-- end of row 3-->
+        </div> <!-- container-fluid -->
+</div> <!-- content -->
 
 
 
@@ -346,14 +363,14 @@
 
 {% block scripts %}
 {{ super() }}
-        <script>
-                // Add active class to the current button (highlight it)
-                var currButton = document.querySelector('li.nav-item.active');
-                if (currButton) {
-                        currButton.classList.remove("active");
-                };
-                var newBtn = document.querySelector('#dash');
-                newBtn.classList.add("active");
-        </script>
+<script>
+        // Add active class to the current button (highlight it)
+        var currButton = document.querySelector('li.nav-item.active');
+        if (currButton) {
+                currButton.classList.remove("active");
+        };
+        var newBtn = document.querySelector('#dash');
+        newBtn.classList.add("active");
+</script>
 
 {% endblock %}

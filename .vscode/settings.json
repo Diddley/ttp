@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "venv/bin/python",
+    "python.pythonPath": "E:\\Program Files\\Python37\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": false,
     "git.ignoreLimitWarning": true,
