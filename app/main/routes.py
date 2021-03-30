@@ -229,7 +229,8 @@ def prison(id):
     contacts = Contact.query.filter_by(con_prison=id).all()
     cohorts = Cohort.query.filter_by(coh_prisonid=id).all()
 
-    return render_template('prisondetails.html', title=prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts, clubs=clubs)
+    comments = prison.prs_comment.order_by(Comment.timestamp.desc()).all()
+    return render_template('prisondetails.html', title=prison.prs_name, prison=prison, contacts=contacts, cohorts=cohorts, clubs=clubs, comments=comments)
 
 
 @bp.route('/editprison/<id>', methods=['GET', 'POST'])
@@ -270,6 +271,7 @@ def cohorts():
 def probservices():
 
     probservices = Probation.query.order_by(Probation.prob_name.asc())
+
     return render_template('probservice.html', title='Probation Services', probservices=probservices)
 
 
@@ -281,7 +283,9 @@ def probservice(id):
     contacts = Contact.query.filter_by(con_probation=id).all()
     cohorts = Cohort.query.filter_by(coh_probid=id).all()
 
-    return render_template('probservicedetails.html', title=probservice.prob_name, probservice=probservice, contacts=contacts, cohorts=cohorts, clubs=clubs)
+    comments = probservice.prob_comment.order_by(
+        Comment.timestamp.desc()).all()
+    return render_template('probservicedetails.html', title=probservice.prob_name, probservice=probservice, contacts=contacts, cohorts=cohorts, clubs=clubs, comments=comments)
 
 
 @bp.route('/link', methods=['GET', 'POST'])
