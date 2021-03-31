@@ -87,3 +87,6 @@ Traceback (most recent call last):
 AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Probation.prob_comment has an attribute 'order_by'
 2021-03-26 12:52:08,910 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
 2021-03-26 12:52:48,415 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2021-03-31 12:16:16,959 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2021-03-31 12:18:47,987 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2021-03-31 15:57:55,934 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
