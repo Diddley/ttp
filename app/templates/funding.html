@@ -3,53 +3,55 @@
 
 {% block app_content %}
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-primary">
-                            <h4 class="card-title">Funding</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="text-primary">
-                                         <th scope="col">Date</th>
-                                         <th scope="col">Cohort</th>
-                                         <th scope="col">Amount</th>
-                                         <th scope="col">Comment</th>
-                                    </thead>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Funding</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="fundingTable" style="width:100%">
+                                <thead class="text-primary">
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Cohort</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Comment</th>
+                                </thead>
+                                <tbody>
                                     {% for fund in funds %}
                                     {% include '_funding.html' %}
                                     {% endfor %}
-                                </table>
-                                <nav aria-label="...">
-                                    <ul class="pager">
-                                        <li class="previous{% if not prev_url %} disabled{% endif %}">
-                                            <a href="{{ prev_url  or '#' }}">
-                                                <span aria-hidden="true">&larr;</span> Prev
-                                            </a>
-                                        </li>
+                                </tbody>
+                            </table>
+                            <nav aria-label="...">
+                                <ul class="pager">
+                                    <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                        <a href="{{ prev_url  or '#' }}">
+                                            <span aria-hidden="true">&larr;</span> Prev
+                                        </a>
+                                    </li>
 
-                                        <li class="next{% if not next_url %} disabled{% endif %}">
-                                            <a href="{{ next_url  or '#' }}">
-                                                Next <span aria-hidden="true">&rarr;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                                    <li class="next{% if not next_url %} disabled{% endif %}">
+                                        <a href="{{ next_url  or '#' }}">
+                                            Next <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
- 
-    
- 
+
+
+
 
 {% endblock %}
 
@@ -63,6 +65,53 @@
     };
     var newBtn = document.querySelector('#funding');
     newBtn.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#fundingTable').DataTable({
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
+
+        });
+
+
+    });
 </script>
 
 {% endblock %}
