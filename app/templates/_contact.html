@@ -6,6 +6,8 @@
         {{ contact.prs_contact.prs_name }}
         {% elif contact.prob_contact %}
         {{ contact.prob_contact.prob_name }}
+        {% else %}
+        Other
         {% endif %}
     </td>
     <td>{{ contact.con_firstname }}</td>
