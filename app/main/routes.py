@@ -132,15 +132,9 @@ def editclub(id):
 
 @bp.route('/contacts')
 def contacts():
-    page = request.args.get('page', 1, type=int)
-    contacts = Contact.query.order_by(Contact.con_surname.asc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for(
-        'main.contacts', page=contacts.next_num) if contacts.has_next else None
-    prev_url = url_for(
-        'main.contacts', page=contacts.prev_num) if contacts.has_prev else None
+    contacts = Contact.query.order_by(Contact.con_surname.asc()).all()
     # flash(type(contacts))
-    return render_template('contact.html', title='Contacts', contacts=contacts.items, next_url=next_url, prev_url=prev_url)
+    return render_template('contact.html', title='Contacts', contacts=contacts)
 
 
 @bp.route('/contact/<id>')
