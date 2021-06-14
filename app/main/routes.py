@@ -685,7 +685,7 @@ def newcomment(source, sourceid):
             task = Task(
                 tk_comment=comment.id,
                 tk_duedate=form.com_date.data,
-                tk_notify=True
+                tk_notify=False
             )
             db.session.add(task)
             db.session.commit()
@@ -694,8 +694,10 @@ def newcomment(source, sourceid):
             msg = 'New comment added'
 
         flash(msg)
-
-        return redirect(url_for('main.'+source, id=sourceid))
+        if source == 'blank':
+            return redirect(url_for('main.tasks'))
+        else:
+            return redirect(url_for('main.'+source, id=sourceid))
     if source == 'club':
         club = Club.query.filter_by(id=sourceid).first_or_404()
         form.com_club.data = club
@@ -817,7 +819,7 @@ def stock():
 @bp.route('/tasks')
 @login_required
 def tasks():
-    num_days = 14
+    num_days = current_app.config['NOTIFICATION_DAYS']
     start = datetime.now() - timedelta(days=1)
     end = start + timedelta(days=num_days)
     now = datetime.today()
@@ -830,8 +832,22 @@ def tasks():
         taskdict = {}
         taskdict['comment'] = Comment.query.filter_by(
             id=task.tk_comment).first_or_404().body
+        taskdict['task_id'] = task.id
         taskdict['date'] = task.tk_duedate.strftime("%Y/%m/%d")
         taskdict['notify'] = task.tk_notify
         tasklist.append(taskdict)
 
     return render_template('notifications.html', title="Notifications", tasks=tasks, tasklist=tasklist)
+
+
+@bp.route('/task/<id>', methods=['GET', 'POST'])
+@login_required
+def task(id):
+    task = Task.query.filter_by(id=id).first_or_404()
+    if task.tk_notify:
+        task.tk_notify = False
+    else:
+        task.tk_notify = True
+
+    db.session.commit()
+    return redirect(url_for('main.tasks'))

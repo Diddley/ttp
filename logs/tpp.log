@@ -1,68 +1,4 @@
-2021-03-26 12:49:40,850 ERROR: Exception on /probservices [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 228, in __getattr__
-    return getattr(self.comparator, key)
-AttributeError: 'Comparator' object has no attribute 'order_by'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 275, in probservices
-    comments = Probation.prob_comment.order_by(Comment.timestamp.desc()).all()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 241, in __getattr__
-    replace_context=err,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Probation.prob_comment has an attribute 'order_by'
-2021-03-26 12:49:43,161 ERROR: Exception on /probservices [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 228, in __getattr__
-    return getattr(self.comparator, key)
-AttributeError: 'Comparator' object has no attribute 'order_by'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 275, in probservices
-    comments = Probation.prob_comment.order_by(Comment.timestamp.desc()).all()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 241, in __getattr__
-    replace_context=err,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Probation.prob_comment has an attribute 'order_by'
-2021-03-26 12:51:05,673 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-26 12:51:10,989 ERROR: Exception on /probservice/6 [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 228, in __getattr__
-    return getattr(self.comparator, key)
-AttributeError: 'Comparator' object has no attribute 'order_by'
-
-The above exception was the direct cause of the following exception:
-
+2021-06-14 16:44:43,652 ERROR: Exception on /newcomment/blank/0 [POST] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -78,26 +14,17 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 286, in probservice
-    comments = Probation.prob_comment.order_by(Comment.timestamp.desc()).all()
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 241, in __getattr__
-    replace_context=err,
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Probation.prob_comment has an attribute 'order_by'
-2021-03-26 12:52:08,910 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-26 12:52:48,415 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 12:16:16,959 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 12:18:47,987 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 15:57:55,934 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:02:08,861 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:09:36,517 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:14:30,145 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:18:35,830 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:21:39,900 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:23:27,309 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:24:35,697 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-03-31 16:26:01,641 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-04-13 11:26:00,655 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-04-13 11:29:53,478 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-04-13 11:33:25,838 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 698, in newcomment
+    return redirect(url_for('main.'+source, id=sourceid))
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2020, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'main.blank' with values ['id']. Did you mean 'main.task' instead?
+2021-06-14 16:57:12,745 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]

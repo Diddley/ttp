@@ -7,7 +7,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h3 class="card-title">
@@ -20,7 +20,7 @@
                                 <thead class="text-primary">
                                     <th scope="col">Task</th>
                                     <th scope="col">Due Date</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col" style="text-align: center;">Status</th>
                                 </thead>
                                 <tbody>
                                     {% for t in tasklist %}
@@ -46,7 +46,8 @@
                 <nav aria-label="...">
                     <ul class="pager">
                         <li>
-                            <button class="btn btn-primary" type="submit"><a href="#">New Task</a>
+                            <button class="btn btn-primary" type="submit"><a
+                                    href="{{ url_for('main.newcomment', source="blank", sourceid=0 ) }}">New Task</a>
                             </button>
                         </li>
                     </ul>
@@ -111,6 +112,7 @@
 
 
             ]
+
 
         });
 
