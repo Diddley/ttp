@@ -1,4 +1,4 @@
-2021-02-19 16:11:17,621 ERROR: Exception on /tasks [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+2021-02-19 16:13:10,415 ERROR: Exception on /tasks [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -43,10 +43,10 @@ Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/notifications.html", line 27, in block "app_content"
     {% include '_notification.html' %}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/_notification.html", line 3, in top-level template code
-    <td>{{ t['date'].format('DD/MM/YYYY') }}</td>
-jinja2.exceptions.UndefinedError: 'datetime.datetime object' has no attribute 'format'
-2021-02-19 16:12:03,227 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
-2021-02-19 16:12:06,243 ERROR: Exception on /tasks [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
+    <td>{{ t['date'].type() }}</td>
+jinja2.exceptions.UndefinedError: 'datetime.datetime object' has no attribute 'type'
+2021-02-19 16:13:35,542 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]
+2021-02-19 16:13:40,258 ERROR: Exception on /tasks [GET] [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -91,7 +91,6 @@ Traceback (most recent call last):
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/notifications.html", line 27, in block "app_content"
     {% include '_notification.html' %}
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/_notification.html", line 3, in top-level template code
-    <td>{{ moment.t['date'].format('DD/MM/YYYY') }}</td>
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/TTP/venv/lib/python3.7/site-packages/jinja2/environment.py", line 452, in getitem
-    return obj[argument]
-jinja2.exceptions.UndefinedError: 'type object' has no attribute 't'
+    <td>{{ type(t['date']) }}</td>
+jinja2.exceptions.UndefinedError: 'type' is undefined
+2021-02-19 16:15:50,701 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 89]

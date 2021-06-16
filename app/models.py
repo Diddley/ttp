@@ -1,7 +1,7 @@
 from flask import current_app
 from datetime import datetime
 from hashlib import md5
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from time import time
 from sqlalchemy.orm import backref, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -295,11 +295,13 @@ class Task(db.Model):
     tk_comment = db.Column(db.Integer, db.ForeignKey('comment.id'))
     tk_duedate = db.Column(db.DateTime)
     tk_notify = db.Column(db.Boolean)
+    tk_user = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, tk_comment, tk_duedate, tk_notify=False):
+    def __init__(self, tk_comment, tk_duedate, tk_notify=False, tk_user=current_user):
         self.tk_comment = tk_comment
         self.tk_duedate = tk_duedate
         self.tk_notify = tk_notify
+        self.tk_user = tk_user
 
     def __repr__(self):
         return '<Task {} {} {}>'.format(self.tk_comment, self.tk_duedate, self.tk_notify)

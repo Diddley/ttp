@@ -835,6 +835,8 @@ def tasks():
         taskdict['task_id'] = task.id
         taskdict['date'] = task.tk_duedate.strftime("%Y/%m/%d")
         taskdict['notify'] = task.tk_notify
+        taskdict['task_user'] = User.query.filter_by(
+            id=task.tk_user).first_or_404().username
         tasklist.append(taskdict)
 
     return render_template('notifications.html', title="Notifications", tasks=tasks, tasklist=tasklist)
