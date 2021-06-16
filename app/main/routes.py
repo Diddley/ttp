@@ -685,7 +685,8 @@ def newcomment(source, sourceid):
             task = Task(
                 tk_comment=comment.id,
                 tk_duedate=form.com_date.data,
-                tk_notify=False
+                tk_notify=False,
+                tk_user=current_user.id
             )
             db.session.add(task)
             db.session.commit()
