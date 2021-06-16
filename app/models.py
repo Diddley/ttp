@@ -1,5 +1,5 @@
 from flask import current_app
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import md5
 from flask_login import UserMixin, current_user
 from time import time
@@ -32,9 +32,18 @@ class User(UserMixin, db.Model):
     profile = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.relationship('Comment', backref='author', lazy="dynamic")
+    tasks = db.relationship(
+        'Task', foreign_keys="Task.tk_user", backref='assignee', lazy="dynamic")
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+    def num_tasks(self):
+        tk_start = datetime.now() - timedelta(days=1)
+        tk_end = tk_start + \
+            timedelta(days=current_app.config['NOTIFICATION_DAYS'])
+        return Task.query.filter(Task.tk_duedate <= tk_end).filter(
+            Task.tk_duedate >= tk_start).filter(Task.tk_notify == False).filter_by(tk_user=self.id).count()
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

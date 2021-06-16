@@ -141,11 +141,7 @@ Welcome to The Twinning Project
                     </button>
                     <div class="collapse navbar-collapse justify-content-end">
                         <ul class="navbar-nav">
-                            <li class="nav-item" id="notify">
-                                <a class="nav-link" href="{{ url_for('main.tasks') }}">
-                                    <i class="material-icons">notifications</i> Notifications
-                                </a>
-                            </li>
+
                             {% if current_user.is_anonymous %}
                             <li class="nav-item " id="login">
                                 <a class="nav-link" href="{{ url_for('auth.login') }}">
@@ -153,6 +149,16 @@ Welcome to The Twinning Project
                                 </a>
                             </li>
                             {% else %}
+                            <li class="nav-item" id="notify">
+                                <a class="nav-link" href="{{ url_for('main.tasks') }}">
+                                    <i class="material-icons">notifications</i> Notifications
+                                    {% set num_tasks = current_user.num_tasks() %}
+                                    <span id="task_count" class="badge"
+                                        style="visibility: {% if num_tasks >0 %}visible {% else %}hidden {% endif %};">
+                                        {{ num_tasks }}
+                                    </span>
+                                </a>
+                            </li>
                             <li class="nav-item" id="admin">
                                 <a class="nav-link" href="{{ url_for('main.admin') }}">
                                     <i class="material-icons">admin_panel_settings</i> Admin
