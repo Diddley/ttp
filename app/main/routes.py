@@ -826,7 +826,7 @@ def tasks():
     now = datetime.today()
 
     tasks = Task.query.filter(Task.tk_duedate <= end).filter(
-        Task.tk_duedate >= start)
+        Task.tk_duedate >= start).filter(Task.tk_notify == False)
 
     tasklist = []
     for task in tasks:

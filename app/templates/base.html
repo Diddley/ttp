@@ -617,6 +617,13 @@ Welcome to The Twinning Project
             </script>
 
             <script>
+                function set_task_count(n) {
+                    $('#task_count').text(n);
+                    $('#task_count').css('visibility', n ? 'visible' : 'hidden');
+                }
+            </script>
+
+            <script>
                 $(document).ready(function () {
                     // Javascript method's body can be found in assets/js/demos.js
                     md.initDashboardPageCharts();
