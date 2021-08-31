@@ -5,6 +5,18 @@
     <!-- <td>{{ club.clb_postcode }}</td> -->
     <td>{{ club.member.div_desc }}</td>
     <td>
+        {% if club.clb_linked_prs %}
+        {% for l in club.clb_linked_prs %}
+        {{ l.prs_name}}<br>
+        {% endfor %}
+        {% endif %}
+        {% if club.clb_linked_prob %}
+        {% for l in club.clb_linked_prob %}
+        {{ l.prob_name}}<br>
+        {% endfor %}
+        {% endif %}
+    </td>
+    <td>
         {% if club.clb_contract %}
         <i class="material-icons">check_box</i>
         {% else %}
