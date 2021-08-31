@@ -45,13 +45,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <a href="{{ url_for('main.admin') }}">Add New Item</a>
+                                <a href="{{ url_for('main.stock') }}">View Current Stock Levels</a>
                             </div>
                             <div class="col-md-4">
-                                <a href="{{ url_for('main.admin') }}">Add Stock</a>
+                                <a href="#">Add Stock</a>
                             </div>
                             <div class="col-md-4">
-                                <a href="{{ url_for('main.admin') }}">View Current Stock Levels</a>
+                                <a href="{{ url_for('main.addstockitem')}}">Add New Item</a>
                             </div>
                         </div>
                     </div>
@@ -85,24 +85,61 @@
                             <thead class="text-primary">
                                 <th scope="col">SKU</th>
                                 <th scope="col">Item Description</th>
+                                <th scope="col">Size</th>
                                 <th scope="col">Qty</th>
                             </thead>
-                            {% for stock in stocks %}
+
                             <tbody>
-                                <tr>
+                                {% for stock in stocks %}
+                                {% if stock.qty < lowstock and stock.qty > 0 %}
+                                <tr style="background-color: sandybrown; color: brown;">
                                     <td>{{ stock.sku }}</td>
-                                    <td>{{ stock.stock_desc }}</td>
+                                    {% for item in items %}
+                                    {% if stock.sku == item.item_sku %}
+                                    <td>{{ item.item_desc }}</td>
+                                    <td>{{ item.item_size }}</td>
+                                    {% endif %}
+                                    {% endfor %}
                                     <td>{{ stock.qty }}</td>
                                 </tr>
+                                {% elif stock.qty <= 0 %}
+                                <tr style="background-color: red; color: white;">
+                                    <td>{{ stock.sku }}</td>
+                                    {% for item in items %}
+                                    {% if stock.sku == item.item_sku %}
+                                    <td>{{ item.item_desc }}</td>
+                                    <td>{{ item.item_size }}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>{{ stock.qty }}</td>
+                                </tr>
+                                {% else %}
+                                <tr style="background-color: lightgreen; color: darkgreen;">
+                                    <td>{{ stock.sku }}</td>
+                                    {% for item in items %}
+                                    {% if stock.sku == item.item_sku %}
+                                    <td>{{ item.item_desc }}</td>
+                                    <td>{{ item.item_size }}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>{{ stock.qty }}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
                             </tbody>
-                            {% endfor %}
+
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
         {% endif %}
     </div>
+
 </div>
 
 
@@ -123,14 +160,50 @@
 
 <script>
     $(document).ready(function () {
+
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
         var table = $('#stockTable').DataTable({
-            lengthChange: false,
-            buttons: ['copy', 'excel', 'pdf']
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
+
         });
 
-        table.buttons().container()
-            .appendTo('#stockTable_wrapper .col-md-6:eq(0)');
+
     });
 </script>
+
 
 {% endblock %}

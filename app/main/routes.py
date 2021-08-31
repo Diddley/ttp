@@ -1,10 +1,13 @@
 from datetime import datetime, date, timedelta
-from flask import render_template, flash, redirect, url_for, jsonify, current_app, request
+from flask import json, render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
+from wtforms.fields.core import StringField
+from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm
-from app.models import User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task
+from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateStockForm
+from app.models import Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory
 from app.main import bp
+from app.decorators import permission_required, admin_required
 
 
 @bp.before_app_request
@@ -62,7 +65,7 @@ def index():
 
 @bp.route('/clubs')
 def clubs():
-    #page = request.args.get('page', 1, type=int)
+    # page = request.args.get('page', 1, type=int)
     clubs = Club.query.order_by(Club.clb_name.asc()).all()
     # paginate(
     #    page, current_app.config['POSTS_PER_PAGE'], False)
@@ -73,9 +76,9 @@ def clubs():
     # for club in clubs:
     #    flash(club.id)
     #    flash(club.clb_name)
-    #contact = Contact.query.filter_by(con_club=clubs.items[0].id).all()
+    # contact = Contact.query.filter_by(con_club=clubs.items[0].id).all()
     # flash(contact[0].con_firstname)
-    #contacts = Contact.query.filter_by(Contact.con_club is not None).all()
+    # contacts = Contact.query.filter_by(Contact.con_club is not None).all()
     # flash(contacts[0])
     return render_template('club.html', title='Clubs', clubs=clubs)
 
@@ -618,7 +621,7 @@ def newcohort():
         db.session.commit()
         flash('You have successfully created the cohort')
         return redirect(url_for('main.cohorts'))
-    #page = request.args.get('page', 1, type=int)
+    # page = request.args.get('page', 1, type=int)
     # cohorts = Cohort.query.order_by(Cohort.coh_startDate.asc()).paginate(
     #    page, current_app.config['POSTS_PER_PAGE'], False)
     # next_url = url_for(
@@ -758,7 +761,7 @@ def newfunding(cohortid):
         db.session.commit()
         flash('New funding assigned')
         return redirect(url_for('main.funding'))
-    #page = request.args.get('page', 1, type=int)
+    # page = request.args.get('page', 1, type=int)
     # funds = Funding.query.order_by(Funding.fnd_date.desc()).paginate(
     #    page, current_app.config['POSTS_PER_PAGE'], False)
     # next_url = url_for(
@@ -797,24 +800,84 @@ def map():
 def addstockitem():
     form = NewStockItemForm()
     if form.validate_on_submit():
-        stock = Stock(
-            sku=form.item_sku.data,
-            stock_desc=form.item_desc.data,
-            qty=form.item_qty.data
+        item = stockItem(
+            item_sku=form.item_sku.data,
+            item_desc=form.item_desc.data,
+            item_size=form.item_size.data
         )
-        flash(stock)
-        db.session.add(stock)
+        inv = Inventory(
+            sku=form.item_sku.data,
+            qty=int(form.item_qty.data) if form.item_qty.data else 0
+        )
+        db.session.add(item)
+        db.session.add(inv)
         db.session.commit()
-        flash(stock.stock_desc + ' added')
-        return redirect(url_for('main.index'))
+        flash(item.item_desc + ' added')
+        return redirect(url_for('main.admin'))
     return render_template('admin.html', title="Add stock item", form=form)
 
 
 @bp.route('/stock')
-@login_required
 def stock():
-    stocks = Stock.query.order_by(Stock.qty.asc())
-    return render_template('admin.html', title='Stock Levels', stocks=stocks)
+    stocks = Inventory.query.order_by(Inventory.qty.asc())
+    items = stockItem.query.all()
+    lowstock = current_app.config['STOCK_LOW']
+    return render_template('admin.html', title='Stock Levels', stocks=stocks, items=items, lowstock=lowstock)
+
+
+@bp.route('/updatestock', methods=['GET', 'POST'])
+@login_required
+def updatestock():
+    # items = stockItem.query.group_by(stockItem.item_desc)
+    # sizes = stockItem.query.group_by(stockItem.item_size)
+
+    # item_choice = []
+    # size_choice = []
+    # for item in items:
+    #     i = str(item.item_desc)
+    #     if i not in item_choice:
+    #         item_choice.append(i)
+
+    # for size in sizes:
+    #     s = str(size.item_size)
+    #     if s not in size_choice:
+    #         size_choice.append(s)
+
+    # form = UpdateStockForm()
+    # form.item_desc.choices = item_choice
+    # form.item_size.choices = size_choice
+
+    form = UpdateStockForm()
+    form.item_desc.choices = [(i.item_desc) for i in stockItem.query]
+    form.item_size.choices = [(s.item_size) for s in stockItem.query]
+
+    # flash(items)
+    # flash(type(items))
+
+    # flash(item_choice[0])
+    # flash(type(item_choice))
+
+    # flash(size_choice[0])
+    # flash(type(size_choice))
+
+    # x = len(item_choice)
+    # for ic in range(x):
+    #     flash(item_choice[ic])
+  
+    if form.validate_on_submit():
+        item = form.item_desc.data
+        size = form.item_size.data
+        qty = form.item_qty.data
+
+        flash(item)
+        flash(size)
+        flash(qty)
+        flash(type(item))
+        flash(type(size))
+        flash(type(qty))
+
+        return redirect(url_for('main.admin'))
+    return render_template("stockform.html", title="Update Stock Levels", form=form)
 
 
 @bp.route('/tasks')

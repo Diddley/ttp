@@ -1,12 +1,15 @@
 from flask import request
 from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, SelectField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField
+from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField
+from wtforms.fields.core import Field, FieldList
 from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder
+from wtforms_alchemy import ModelForm, ModelFieldList, model_form_factory
+from wtforms_alchemy.fields import ModelFormField
+from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder, stockItem, Inventory
 from app import db, images
 from datetime import datetime
 
@@ -197,12 +200,12 @@ class NewFundingForm(FlaskForm):
 class NewStockItemForm(FlaskForm):
     item_sku = StringField('SKU', validators=[DataRequired()])
     item_desc = StringField('Description', validators=[DataRequired()])
-    item_qty = IntegerField('Opening Stock', validators=[
-                            Optional()], default=0)
+    item_size = StringField('Size', validators=[DataRequired()])
+    item_qty = StringField('Opening Stock', validators=[Optional()])
     submit = SubmitField('Add Item')
 
     def validate_sku(self, item_sku):
-        item = Stock.query.filter_by(sku=item_sku.data).first()
+        item = stockItem.query.filter_by(sku=item_sku.data).first()
         if item is not None:
             raise ValidationError('This SKU already exists!')
 
@@ -323,11 +326,44 @@ class TPIForm(FlaskForm):
     coh_tpi = BooleanField('')
 
 
-''' class UpdateStockForm(FlaskForm):
-    items = Stock.query.all()
-    for item in items:
-        qty.item.id = IntegerField(label=item.stock_desc, default=item.qty)
-    submit=SubmitField('Update Stock') '''
+BaseModelForm = model_form_factory(FlaskForm)
+
+
+class ModelForm(BaseModelForm):
+    @classmethod
+    def get_session(self):
+        return db.session
+
+
+# class UpdateItemForm(ModelForm):
+#     class Meta:
+#         model = stockItem
+
+
+# class UpdateStockForm(ModelForm):
+#     class Meta:
+#         model = Inventory
+#         include_foreign_keys = True
+#         include = ['sku']
+
+# class UpdateItemForm(FlaskForm):
+#     item_desc = QuerySelectField('Item', validators=[DataRequired(
+#     )], query_factory=lambda: stockItem.query.group_by(stockItem.item_desc), get_label="item_desc")
+#     item_size = QuerySelectField('Size', validators=[DataRequired(
+#     )], query_factory=lambda: stockItem.query.group_by(stockItem.item_size), get_label="item_size")
+
+
+# class UpdateStockForm(FlaskForm):
+#     stock_item = FormField(UpdateItemForm)
+#     item_qty = IntegerField('Qty', validators=[DataRequired()])
+#     submit = SubmitField('Update Stock')
+
+class UpdateStockForm(FlaskForm):
+    item_desc = SelectField('Item', choices=[])
+    item_size = SelectField('Size', choices=[])
+    item_qty = IntegerField('Qty', validators=[DataRequired()])
+    submit = SubmitField('Update Stock')
+
 
 # ---- DELETE form --------------
 

@@ -22,3 +22,4 @@ class Config(object):
     UPLOADS_DEFAULT_DEST = os.path.join(basedir, 'uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     NOTIFICATION_DAYS = 14
+    STOCK_LOW = 20

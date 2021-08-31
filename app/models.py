@@ -1,13 +1,15 @@
 from flask import current_app
 from datetime import datetime, timedelta
 from hashlib import md5
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin, current_user, AnonymousUserMixin
 from time import time
 from sqlalchemy.orm import backref, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import jwt
 from app import db, login
+
+
 
 prs_links = db.Table('prs_links',
                      db.Column('prs_link_clb_id', db.Integer,
@@ -23,17 +25,79 @@ prob_links = db.Table('prob_links',
                                 db.ForeignKey('probation.id'))
                       )
 
+class Permission:
+    READ = 1
+    COMMENT = 2
+    WRITE = 4
+    EDIT = 8
+    ADMIN = 16
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean, default=False, index = True)
+    permissions = db.Column(db.Integer)
+    users = db.relationship('User', backref='role', lazy = 'dynamic')
+
+    def __init__(self, **kwargs):
+        super(Role, self).__init__(**kwargs)
+        if self.persmissions is None:
+            self.permissions = 0
+
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'Viewer' : [Permission.READ],
+            'User' : [Permission.READ, Permission.COMMENT, Permission.WRITE],
+            'Manager' : [Permission.READ, Permission.COMMENT, Permission.WRITE, Permission.EDIT],
+            'Administrator' : [Permission.READ, Permission.COMMENT, Permission.WRITE, Permission.EDIT, Permission.ADMIN],
+        }
+        default_role = 'Viewer'
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role= Role(name=r)
+            role.reset_permissions()
+            for perm in roles[r]:
+                role.add_permission(perm)
+            role.default= (role.name ==default_role)
+            db.session.add(role)
+        db.session.commit()
+
+    def add_permsiion(self, perm):
+        if not self.has_persmission(perm):
+            self.permissions += perm
+    
+    def remove_permission(self, perm):
+        if self.has_permission(perm):
+            self.permissions -= perm
+    
+    def reset_permissions(self):
+        self.permissions = 0
+
+    def has_permissions(self, perm):
+        return self.permissions & perm == perm
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     profile = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.relationship('Comment', backref='author', lazy="dynamic")
     tasks = db.relationship(
         'Task', foreign_keys="Task.tk_user", backref='assignee', lazy="dynamic")
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['ADMINS']:
+                self.role = Role.query.filter_by(name='Administrator').first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
+
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -65,6 +129,21 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.get(id)
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+login.anonymous_user = AnonymousUser
 
 
 @login.user_loader
@@ -314,3 +393,50 @@ class Task(db.Model):
 
     def __repr__(self):
         return '<Task {} {} {}>'.format(self.tk_comment, self.tk_duedate, self.tk_notify)
+
+
+class stockItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_sku = db.Column(db.String(12), index=True, unique=True)
+    item_desc = db.Column(db.String(40))
+    item_size = db.Column(db.String(6))
+
+    def __repr__(self):
+        return '<SKU {} - Item {}>'.format(self.item_sku, self.item_desc)
+
+
+class Inventory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(12), db.ForeignKey('stock_item.item_sku'))
+    qty = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Stock of {} - {}>'.format(self.sku, self.qty)
+
+# class Stock(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     sku = db.Column(db.String(40), index=True, unique=True)
+#     stock_desc = db.Column(db.String(40))
+#     qty = db.Column(db.Integer)
+
+#     def __repr__(self):
+#         return '<Item: {} >'.format(self.id)
+
+
+# class KitItem(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     item = db.Column(db.String(40), db.ForeignKey('stock.sku'))
+#     order_qty = db.Column(db.Integer)
+
+#     def __repr__(self):
+#         return '<Orderline: {}, {} >'.format(self.item, self.order_qty)
+
+
+# class KitOrder(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     order_cohortid = db.Column(db.Integer, db.ForeignKey('cohort.id'))
+#     order_time = db.Column(db.DateTime, default=datetime.today())
+#     order_item = db.Column(db.Integer, db.ForeignKey('kit_item.id'))
+
+#     def __repr__(self):
+#         return '<Order: {}>'.format(self.id)
