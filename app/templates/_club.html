@@ -41,6 +41,7 @@
     <td>
         {% if club.clb_contact %}
         {% for c in club.clb_contact %}
+        {% if c.con_title %} {{ c.con_title }} {% endif %}
         {{ c.con_firstname }}
         {{ c.con_surname }}<br>
         {% endfor %}

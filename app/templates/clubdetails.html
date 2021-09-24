@@ -156,7 +156,8 @@
                                 <tbody>
                                     {% for contact in contacts %}
                                     <tr>
-                                        <td>{{ contact.con_firstname }} {{ contact.con_surname }}</td>
+                                        <td>{% if contact.con_title %} {{ contact.con_title }}
+                                            {% endif %} {{ contact.con_firstname }} {{ contact.con_surname }}</td>
                                         <td>{{ contact.con_email }}</td>
                                         <td>{{ contact.con_phone }}</td>
                                     </tr>

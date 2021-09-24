@@ -10,6 +10,7 @@
         Other
         {% endif %}
     </td>
+    <td>{% if contact.con_title %} {{ contact.con_title }} {% endif %}</td>
     <td>{{ contact.con_firstname }}</td>
     <td>{{ contact.con_surname }}</td>
     <td><a href="mailto:{{ contact.con_email }}">{{ contact.con_email }}</a> </td>

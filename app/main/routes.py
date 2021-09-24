@@ -23,6 +23,12 @@ def index():
     funding = Funding.query.all()
     for fund in funding:
         totalfunding += float(fund.fnd_amount)
+    funding_ytd = 0
+    this_year = datetime.now().year
+    fnd_startDate = datetime(this_year, 1, 1)
+    ytd = Funding.query.filter(Funding.fnd_date >= fnd_startDate)
+    for x in ytd:
+        funding_ytd += float(x.fnd_amount)
     numclubs = Club.query.count()
     numprisons = Prison.query.count()
     numcohorts = Cohort.query.count()
@@ -59,7 +65,7 @@ def index():
     prev_url = url_for(
         'main.index', page=cohorts.prev_num) if cohorts.has_prev else None
     return render_template('index.html', title='Home', today=today, cohorts=cohorts.items, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
-                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, tot_kit=tot_kit, tot_small=tot_small,
+                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, tot_kit=tot_kit, tot_small=tot_small,
                            tot_medium=tot_medium, tot_large=tot_large, tot_xlarge=tot_xlarge, next_url=next_url, prev_url=prev_url)
 
 
@@ -177,6 +183,7 @@ def editcontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
     form = EditContactForm(id=id)
     if form.validate_on_submit():
+        contact.con_title = form.con_title.data
         contact.con_firstname = form.con_firstname.data
         contact.con_surname = form.con_surname.data
         contact.con_email = form.con_email.data
@@ -185,6 +192,7 @@ def editcontact(id):
         db.session.commit()
         flash('You have successfully edited ' + contact.con_firstname)
         return redirect(url_for('main.contacts'))
+    form.con_title.data = contact.con_title
     form.con_firstname.data = contact.con_firstname
     form.con_surname.data = contact.con_surname
     form.con_email.data = contact.con_email
@@ -516,6 +524,7 @@ def newcontact():
         prison = form.con_prs.data
         probservice = form.con_prob.data
         contact = Contact(
+            con_title=form.con_title.data,
             con_firstname=form.con_firstname.data,
             con_surname=form.con_surname.data,
             con_email=form.con_email.data,
@@ -863,7 +872,7 @@ def updatestock():
     # x = len(item_choice)
     # for ic in range(x):
     #     flash(item_choice[ic])
-  
+
     if form.validate_on_submit():
         item = form.item_desc.data
         size = form.item_size.data

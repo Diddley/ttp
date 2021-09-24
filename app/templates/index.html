@@ -106,7 +106,10 @@
                                                         <i class="material-icons">account_balance</i>
                                                 </div>
                                                 <p class="card-category">Funding</p>
-                                                <h3 class="card-title">{{ "£ {:,.2f}".format(totalfunding) }}</h3>
+                                                <h3 class="card-title">Year To Date
+                                                        {{ "£ {:,.2f}".format(funding_ytd) }}</h3>
+                                                <h4 class="card-title">Total: {{ "£ {:,.2f}".format(totalfunding) }}
+                                                </h4>
                                         </div>
                                         <div class="card-footer">
                                                 <div class="stats">
@@ -208,7 +211,7 @@
                                                 <p class="card-category">Currently active cohorts</p>
                                         </div>
                                         <div class="card-body table-responsive">
-                                                <table class="table table-hover">
+                                                <table class="table table-hover" id="dashCohTable">
                                                         <thead class="text-warning">
                                                                 <th scope="col">Cohort Description</th>
                                                                 <th scope="col">Start Date</th>
@@ -216,9 +219,11 @@
                                                                 <th scope="col">Course</th>
                                                                 <th scope="col">Participants</th>
                                                         </thead>
-                                                        {% for cohort in cohorts %}
-                                                        {% include '_dashcohort.html' %}
-                                                        {% endfor %}
+                                                        <tbody>
+                                                                {% for cohort in cohorts %}
+                                                                {% include '_dashcohort.html' %}
+                                                                {% endfor %}
+                                                        </tbody>
                                                 </table>
                                         </div>
                                 </div>
@@ -371,6 +376,57 @@
         };
         var newBtn = document.querySelector('#dash');
         newBtn.classList.add("active");
+</script>
+
+<script>
+        $(document).ready(function () {
+
+                var buttonCommon = {
+                        exportOptions: {
+                                format: {
+                                        body: function (data, row, column, node) {
+                                                var regex = /(<([^>]+)>)/ig;
+                                                var fls_chk_box =
+                                                        "check_box_outline_blank";
+                                                var tr_chk_box = "check_box";
+                                                var add_contact = "Add Contact";
+                                                no_html_data = data.replace(regex, '');
+                                                fls_data = no_html_data.replace(
+                                                        fls_chk_box, 'N');
+                                                tr_data = fls_data.replace(tr_chk_box,
+                                                        'Y');
+                                                clean_data = tr_data.replace(
+                                                        add_contact, '');
+                                                return clean_data;
+
+                                        }
+                                }
+                        }
+                };
+
+                var table = $('#dashCohTable').DataTable({
+                        dom: 'Bflrtip',
+                        buttons: [
+                                $.extend(true, {}, buttonCommon, {
+                                        extend: 'copy'
+                                }),
+                                $.extend(true, {}, buttonCommon, {
+                                        extend: 'excel'
+                                }),
+                                $.extend(true, {}, buttonCommon, {
+                                        extend: 'csv'
+                                }),
+                                $.extend(true, {}, buttonCommon, {
+                                        extend: 'pdf'
+                                })
+
+
+                        ]
+
+                });
+
+
+        });
 </script>
 
 {% endblock %}

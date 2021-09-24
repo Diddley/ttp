@@ -46,6 +46,7 @@ class NewClubForm(FlaskForm):
 
 
 class NewContactForm(FlaskForm):
+    con_title = StringField('Title', validators=[Optional()])
     con_firstname = StringField('First Name', validators=[DataRequired()])
     con_surname = StringField('Surname')
     con_email = StringField('Email', validators=[DataRequired(), Email()])
@@ -224,6 +225,7 @@ class NewLinkForm(FlaskForm):
 
 
 class EditContactForm(FlaskForm):
+    con_title = StringField('Title', validators=[Optional()])
     con_firstname = StringField('First Name', validators=[DataRequired()])
     con_surname = StringField('Surname')
     con_email = StringField('Email', validators=[DataRequired(), Email()])
