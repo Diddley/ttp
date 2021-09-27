@@ -90,7 +90,6 @@ def clubs():
 
 
 @bp.route('/club/<id>')
-@login_required
 def club(id):
     club = Club.query.filter_by(id=id).first_or_404()
     prisons = club.clb_linked_prs.order_by(Prison.prs_name.asc())
@@ -147,14 +146,12 @@ def contacts():
 
 
 @bp.route('/contact/<id>')
-@login_required
 def contact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
     return render_template('contactdetails.html', title=contact.con_firstname + ' ' + contact.con_surname, contact=contact)
 
 
 @bp.route('/clubcontacts/<id>')
-@login_required
 def clubcontacts(id):
     club = Club.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_club=id).all()
@@ -162,7 +159,6 @@ def clubcontacts(id):
 
 
 @bp.route('/prisoncontacts/<id>')
-@login_required
 def prisoncontacts(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_prison=id).all()
@@ -170,7 +166,6 @@ def prisoncontacts(id):
 
 
 @bp.route('/probservcontacts/<id>')
-@login_required
 def probservcontacts(id):
     ps = Probation.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_probation=id).all()
@@ -227,7 +222,6 @@ def prisons():
 
 
 @bp.route('/prison/<id>')
-@login_required
 def prison(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
     clubs = prison.prs_linked_clb.order_by(Club.clb_name.asc())
@@ -281,7 +275,6 @@ def probservices():
 
 
 @bp.route('/probservice/<id>')
-@login_required
 def probservice(id):
     probservice = Probation.query.filter_by(id=id).first_or_404()
     clubs = probservice.prob_linked_clb.order_by(Club.clb_name.asc())
@@ -344,7 +337,6 @@ def editprobservice(id):
 
 
 @bp.route('/cohort/<id>')
-@login_required
 def cohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     funding = Funding.query.filter_by(
@@ -450,7 +442,6 @@ def media():
 
 
 @bp.route('/funding')
-@login_required
 def funding():
     page = request.args.get('page', 1, type=int)
     funds = Funding.query.order_by(Funding.fnd_date.desc()).paginate(
@@ -504,6 +495,7 @@ def newclub():
 
 
 @bp.route('/newdivision', methods=['GET', 'POST'])
+@login_required
 def newdivision():
     form = NewDivisionForm()
     if form.validate_on_submit():
