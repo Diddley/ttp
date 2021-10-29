@@ -15,18 +15,23 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ url_for('auth.newuser') }}">Add User</a>
 
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <a href="{{ url_for('auth.edituser') }}">Validate User</a>
+
+
+                            </div>
+                            <div class="col-md-3">
 
                                 <a href="{{ url_for('main.newdivision') }}">Add Division</a>
                                 <!-- {{ form }} -->
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ url_for('main.newcategory') }}">Add a Prison Category</a>
 
                             </div>

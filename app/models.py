@@ -45,6 +45,20 @@ class Role(db.Model):
         if self.permissions is None:
             self.permissions = 0
 
+    def add_permission(self, perm):
+        if not self.has_permission(perm):
+            self.permissions += perm
+
+    def remove_permission(self, perm):
+        if self.has_permission(perm):
+            self.permissions -= perm
+
+    def reset_permissions(self):
+        self.permissions = 0
+
+    def has_permission(self, perm):
+        return self.permissions & perm == perm
+
     @staticmethod
     def insert_roles():
         roles = {
@@ -65,20 +79,6 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
-    def add_permission(self, perm):
-        if not self.has_permission(perm):
-            self.permissions += perm
-
-    def remove_permission(self, perm):
-        if self.has_permission(perm):
-            self.permissions -= perm
-
-    def reset_permissions(self):
-        self.permissions = 0
-
-    def has_permission(self, perm):
-        return self.permissions & perm == perm
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -89,6 +89,7 @@ class User(UserMixin, db.Model):
     profile = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.relationship('Comment', backref='author', lazy="dynamic")
+    confirmed = db.Column(db.Boolean, default=False)
     tasks = db.relationship(
         'Task', foreign_keys="Task.tk_user", backref='assignee', lazy="dynamic")
 
@@ -102,6 +103,17 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
     def num_tasks(self):
         tk_start = datetime.now() - timedelta(days=1)
@@ -131,12 +143,6 @@ class User(UserMixin, db.Model):
             return
         return User.query.get(id)
 
-    def can(self, perm):
-        return self.role is not None and self.role.has_permission(perm)
-
-    def is_administrator(self):
-        return self.can(Permission.ADMIN)
-
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
@@ -150,8 +156,8 @@ login.anonymous_user = AnonymousUser
 
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 class Division(db.Model):

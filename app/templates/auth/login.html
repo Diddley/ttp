@@ -2,18 +2,40 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block app_content %}
-    <h1>Sign In</h1>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h3 class="card-title" style="text-transform: capitalize;">Sign In
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ wtf.quick_form(form) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <p>Don't have a login?<a href="{{ url_for('auth.newuser') }}">Click to create one</a></p>
+
+                    </div>
+                </div>
+                <!-- <div class="card-body">
+                    <div class="row">
+                        <p>
+                            Forgot your password?
+                            <a href="{{ url_for('auth.reset_password_request') }}">Click to reset it</a>
+                        </p>
+                    </div>
+                </div> -->
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- <p>Don't have a login?<a href="{{ url_for('auth.newuser') }}">Click to create one</a></p>  -->
-    <p>
-        Forgot your password?
-        <a href="{{ url_for('auth.reset_password_request') }}">Click to reset it</a>
-    </p>
 {% endblock %}
 
 {% block scripts %}

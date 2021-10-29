@@ -10,14 +10,9 @@ from app.main import bp
 from app.decorators import permission_required, admin_required
 
 
-@bp.before_app_request
-def before_request():
-    if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
-
-
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
+@login_required
 def index():
     totalfunding = 0
     funding = Funding.query.all()
@@ -70,6 +65,8 @@ def index():
 
 
 @bp.route('/clubs')
+@login_required
+@permission_required(Permission.READ)
 def clubs():
     # page = request.args.get('page', 1, type=int)
     clubs = Club.query.order_by(Club.clb_name.asc()).all()
@@ -90,6 +87,8 @@ def clubs():
 
 
 @bp.route('/club/<id>')
+@login_required
+@permission_required(Permission.READ)
 def club(id):
     club = Club.query.filter_by(id=id).first_or_404()
     prisons = club.clb_linked_prs.order_by(Prison.prs_name.asc())
@@ -105,6 +104,7 @@ def club(id):
 
 @bp.route('/editclub/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def editclub(id):
     club = Club.query.filter_by(id=id).first_or_404()
     form = EditClubForm(id=id)
@@ -139,6 +139,8 @@ def editclub(id):
 
 
 @bp.route('/contacts')
+@login_required
+@permission_required(Permission.READ)
 def contacts():
     contacts = Contact.query.order_by(Contact.con_surname.asc()).all()
     # flash(type(contacts))
@@ -146,12 +148,16 @@ def contacts():
 
 
 @bp.route('/contact/<id>')
+@login_required
+@permission_required(Permission.READ)
 def contact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
     return render_template('contactdetails.html', title=contact.con_firstname + ' ' + contact.con_surname, contact=contact)
 
 
 @bp.route('/clubcontacts/<id>')
+@login_required
+@permission_required(Permission.READ)
 def clubcontacts(id):
     club = Club.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_club=id).all()
@@ -159,6 +165,8 @@ def clubcontacts(id):
 
 
 @bp.route('/prisoncontacts/<id>')
+@login_required
+@permission_required(Permission.READ)
 def prisoncontacts(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_prison=id).all()
@@ -166,6 +174,8 @@ def prisoncontacts(id):
 
 
 @bp.route('/probservcontacts/<id>')
+@login_required
+@permission_required(Permission.READ)
 def probservcontacts(id):
     ps = Probation.query.filter_by(id=id).first_or_404()
     contacts = Contact.query.filter_by(con_probation=id).all()
@@ -174,6 +184,7 @@ def probservcontacts(id):
 
 @bp.route('/editcontact/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def editcontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
     form = EditContactForm(id=id)
@@ -198,6 +209,7 @@ def editcontact(id):
 
 @bp.route('/deletecontact/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.ADMIN)
 def deletecontact(id):
     contact = Contact.query.filter_by(id=id).first_or_404()
     form = DeleteForm(id=id)
@@ -210,6 +222,8 @@ def deletecontact(id):
 
 
 @bp.route('/prisons')
+@login_required
+@permission_required(Permission.READ)
 def prisons():
     page = request.args.get('page', 1, type=int)
     prisons = Prison.query.join(Category).order_by(Prison.prs_name.asc()).paginate(
@@ -222,6 +236,8 @@ def prisons():
 
 
 @bp.route('/prison/<id>')
+@login_required
+@permission_required(Permission.READ)
 def prison(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
     clubs = prison.prs_linked_clb.order_by(Club.clb_name.asc())
@@ -234,6 +250,7 @@ def prison(id):
 
 @bp.route('/editprison/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def editprison(id):
     prison = Prison.query.filter_by(id=id).first_or_404()
     form = EditPrisonForm(id=id)
@@ -255,6 +272,8 @@ def editprison(id):
 
 
 @bp.route('/cohorts')
+@login_required
+@permission_required(Permission.READ)
 def cohorts():
     page = request.args.get('page', 1, type=int)
     cohorts = Cohort.query.order_by(Cohort.coh_startDate.desc()).paginate(
@@ -267,6 +286,8 @@ def cohorts():
 
 
 @bp.route('/probservices')
+@login_required
+@permission_required(Permission.READ)
 def probservices():
 
     probservices = Probation.query.order_by(Probation.prob_name.asc())
@@ -275,6 +296,8 @@ def probservices():
 
 
 @bp.route('/probservice/<id>')
+@login_required
+@permission_required(Permission.READ)
 def probservice(id):
     probservice = Probation.query.filter_by(id=id).first_or_404()
     clubs = probservice.prob_linked_clb.order_by(Club.clb_name.asc())
@@ -288,6 +311,7 @@ def probservice(id):
 
 @bp.route('/link', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def createlink():
 
     form = NewLinkForm()
@@ -319,6 +343,7 @@ def createlink():
 
 @bp.route('/editprobservice/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def editprobservice(id):
     probservice = Probation.query.filter_by(id=id).first_or_404()
     form = EditProbationForm(id=id)
@@ -337,6 +362,8 @@ def editprobservice(id):
 
 
 @bp.route('/cohort/<id>')
+@login_required
+@permission_required(Permission.READ)
 def cohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     funding = Funding.query.filter_by(
@@ -372,6 +399,7 @@ def cohort(id):
 
 @bp.route('/edit_cohort/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def edit_cohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     form = EditCohortForm(id=id)
@@ -415,6 +443,7 @@ def edit_cohort(id):
 
 @bp.route('/toggletpi/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.EDIT)
 def toggletpi(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     current_tpi = cohort.coh_tpi
@@ -430,6 +459,8 @@ def toggletpi(id):
 
 
 @bp.route('/media')
+@login_required
+@permission_required(Permission.READ)
 def media():
     page = request.args.get('page', 1, type=int)
     media = Media.query.order_by(Media.med_date.desc()).paginate(
@@ -442,6 +473,8 @@ def media():
 
 
 @bp.route('/funding')
+@login_required
+@permission_required(Permission.READ)
 def funding():
     page = request.args.get('page', 1, type=int)
     funds = Funding.query.order_by(Funding.fnd_date.desc()).paginate(
@@ -455,12 +488,14 @@ def funding():
 
 @bp.route('/admin')
 @login_required
+@admin_required
 def admin():
     return render_template('admin.html', title='Admin')
 
 
 @bp.route('/newclub', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newclub():
     form = NewClubForm()
     if form.validate_on_submit():
@@ -496,6 +531,7 @@ def newclub():
 
 @bp.route('/newdivision', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newdivision():
     form = NewDivisionForm()
     if form.validate_on_submit():
@@ -509,6 +545,7 @@ def newdivision():
 
 @bp.route('/newcontact', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newcontact():
     form = NewContactForm()
     if form.validate_on_submit():
@@ -541,6 +578,7 @@ def newcontact():
 
 @bp.route('/newcategory', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newcategory():
     form = NewCategoryForm()
     if form.validate_on_submit():
@@ -557,6 +595,7 @@ def newcategory():
 
 @bp.route('/newprison', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newprison():
     form = NewPrisonForm()
     if form.validate_on_submit():
@@ -582,6 +621,7 @@ def newprison():
 
 @bp.route('/newprobservice', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newprobservice():
     form = NewProbServiceForm()
     if form.validate_on_submit():
@@ -600,6 +640,7 @@ def newprobservice():
 
 @bp.route('/newcohort', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newcohort():
     form = NewCohortForm()
     if form.validate_on_submit():
@@ -664,6 +705,7 @@ def newcohort():
 
 @bp.route('/newcomment/<source>/<sourceid>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newcomment(source, sourceid):
     form = CommentForm(id=sourceid, source=source)
     user = current_user
@@ -718,6 +760,7 @@ def newcomment(source, sourceid):
 
 @bp.route('/newmedia', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newmedia():
     form = NewMediaForm()
     if form.validate_on_submit():
@@ -750,6 +793,7 @@ def newmedia():
 
 @bp.route('/newfunding/<cohortid>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newfunding(cohortid):
     form = NewFundingForm()
     if form.validate_on_submit():
@@ -774,6 +818,7 @@ def newfunding(cohortid):
 
 @bp.route('/newkit/<cohortid>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def newkit(cohortid):
     form = NewKitForm()
     if form.validate_on_submit():
@@ -792,12 +837,15 @@ def newkit(cohortid):
 
 
 @bp.route('/map')
+@login_required
+@permission_required(Permission.READ)
 def map():
     return render_template('map.html', title='Map')
 
 
 @bp.route('/addstockitem', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def addstockitem():
     form = NewStockItemForm()
     if form.validate_on_submit():
@@ -819,6 +867,8 @@ def addstockitem():
 
 
 @bp.route('/stock')
+@login_required
+@permission_required(Permission.READ)
 def stock():
     stocks = Inventory.query.order_by(Inventory.qty.asc())
     items = stockItem.query.all()
@@ -828,6 +878,7 @@ def stock():
 
 @bp.route('/updatestock', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def updatestock():
     # items = stockItem.query.group_by(stockItem.item_desc)
     # sizes = stockItem.query.group_by(stockItem.item_size)
@@ -883,6 +934,7 @@ def updatestock():
 
 @bp.route('/tasks')
 @login_required
+@permission_required(Permission.WRITE)
 def tasks():
     num_days = current_app.config['NOTIFICATION_DAYS']
     start = datetime.now() - timedelta(days=1)
@@ -909,6 +961,7 @@ def tasks():
 
 @bp.route('/task/<id>', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.WRITE)
 def task(id):
     task = Task.query.filter_by(id=id).first_or_404()
     if task.tk_notify:

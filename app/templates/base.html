@@ -26,7 +26,7 @@ Welcome to The Twinning Project
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">
 
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/static/images/Favicon.png">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Favicon.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
@@ -55,7 +55,9 @@ Welcome to The Twinning Project
 
 <body>
     <div class="wrapper ">
+
         {% block navbar %}
+        {% if current_user.is_authenticated %}
         <div class="sidebar" data-color="twinning" data-background-color="white"
             data-image="/static/images/sidebarKit.png">
 
@@ -175,7 +177,9 @@ Welcome to The Twinning Project
                     </div>
                 </div>
             </nav>
+            {% endif %}
             {% endblock %}
+
             <!--                <nav class="navbar navbar-default">
                     <div class="container">
                         <div class="navbar-header">
