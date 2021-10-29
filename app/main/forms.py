@@ -46,9 +46,9 @@ class NewClubForm(FlaskForm):
 
 
 class NewContactForm(FlaskForm):
-    con_title = StringField('Title', validators=[Optional()])
     con_firstname = StringField('First Name', validators=[DataRequired()])
     con_surname = StringField('Surname')
+    con_title = StringField('Job Title', validators=[Optional()])
     con_email = StringField('Email', validators=[DataRequired(), Email()])
     email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
         'con_email', message="The email addresses do not match")])
@@ -225,9 +225,9 @@ class NewLinkForm(FlaskForm):
 
 
 class EditContactForm(FlaskForm):
-    con_title = StringField('Title', validators=[Optional()])
     con_firstname = StringField('First Name', validators=[DataRequired()])
     con_surname = StringField('Surname')
+    con_title = StringField('Job Title', validators=[Optional()])
     con_email = StringField('Email', validators=[DataRequired(), Email()])
     email2 = StringField('Verify Email', validators=[DataRequired(), EqualTo(
         'con_email', message="The email addresses do not match")])

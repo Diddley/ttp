@@ -8,9 +8,11 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h3 class="card-title">{% if contact.con_title %} {{ contact.con_title }} {% endif %}
+                        <h3 class="card-title">
                             {{ contact.con_firstname }}
                             {{ contact.con_surname }}</h3>
+                        <h4>{% if contact.con_title %} {{ contact.con_title }}</h4> {% endif %}
+
                     </div>
                     <div class="card-body">
                         <div class="row">

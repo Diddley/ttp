@@ -204,11 +204,11 @@ class Club(db.Model):
 
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    con_title = db.Column(db.String(8))
     con_firstname = db.Column(db.String(64))
     con_surname = db.Column(db.String(64), index=True)
     con_email = db.Column(db.String(120), index=True, unique=True)
     con_phone = db.Column(db.String(20), index=True)
+    con_title = db.Column(db.String(64))
     con_club = db.Column(db.Integer, db.ForeignKey('club.id'))
     con_prison = db.Column(db.Integer, db.ForeignKey('prison.id'))
     con_probation = db.Column(db.Integer, db.ForeignKey('probation.id'))
