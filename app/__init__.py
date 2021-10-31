@@ -86,3 +86,5 @@ def create_app(config_class=Config):
         app.logger.info('The Twinning Project')
 
     return app
+
+from app import models
