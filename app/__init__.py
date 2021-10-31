@@ -1,4 +1,5 @@
 
+from app import models
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
@@ -86,5 +87,3 @@ def create_app(config_class=Config):
         app.logger.info('The Twinning Project')
 
     return app
-
-from app import models
