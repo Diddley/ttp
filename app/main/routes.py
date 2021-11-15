@@ -1,10 +1,10 @@
 from datetime import datetime, date, timedelta
 from flask import json, render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
-from wtforms.fields.core import StringField
+from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateStockForm
+from app.main.forms import BatchUpdateItemForm, NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
 from app.models import Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory
 from app.main import bp
 from app.decorators import permission_required, admin_required
@@ -900,8 +900,8 @@ def updatestock():
     # form.item_size.choices = size_choice
 
     form = UpdateStockForm()
-    form.item_desc.choices = [(i.item_desc) for i in stockItem.query]
-    form.item_size.choices = [(s.item_size) for s in stockItem.query]
+    # form.item_desc.choices = [(i.item_desc) for i in stockItem.query]
+    # form.item_size.choices = [(s.item_size) for s in stockItem.query]
 
     # flash(items)
     # flash(type(items))
@@ -917,24 +917,105 @@ def updatestock():
     #     flash(item_choice[ic])
 
     if form.validate_on_submit():
-        item = form.item_desc.data
-        size = form.item_size.data
-        qty = form.item_qty.data
+        # item = form.item_desc.data
+        # size = form.item_size.data
+        # qty = form.item_qty.data
 
-        flash(item)
-        flash(size)
-        flash(qty)
-        flash(type(item))
-        flash(type(size))
-        flash(type(qty))
+        # flash(item)
+        # flash(size)
+        # flash(qty)
+        # flash(type(item))
+        # flash(type(size))
+        # flash(type(qty))
+
+        items = request.form
+        label_str = "items-"
+        stock_item = {x: items[x] for x in items if label_str in x}
+        flash(items)
+        flash(stock_item)
 
         return redirect(url_for('main.admin'))
+
     return render_template("stockform.html", title="Update Stock Levels", form=form)
 
 
-@bp.route('/tasks')
+@bp.route('/updatestockitem', methods=['GET', 'POST'])
 @login_required
-@permission_required(Permission.WRITE)
+@admin_required
+def updatestockitem():
+    form = UpdateItemForm()
+    if form.validate_on_submit():
+        sku = form.stock_desc.data
+        str_sku = form.stock_desc.data
+        inv = Inventory.query.filter_by(sku=sku).first()
+        qty = form.stock_qty.data
+        inv.qty = inv.qty + qty
+        db.session.add(inv)
+        db.session.commit()
+        flash(str(qty) + ' ' + str(str_sku) +
+              ' added. Updated Quantity: ' + str(inv.qty))
+
+        return redirect(url_for('main.admin'))
+    return render_template("admin.html", title="Update Stock", form=form)
+
+
+@bp.route('/batchupdatestock', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def batchupdatestock():
+    num_items = stockItem.query.count()
+    item_size = []
+    stockitems = stockItem.query.all()
+    for si in stockitems:
+        label = str(si.item_desc+' ('+si.item_size+') ')
+        item_size.append(label)
+
+    class LocalForm(UpdateStockForm):
+        pass
+    LocalForm.items = FieldList(
+        FormField(BatchUpdateItemForm), min_entries=num_items)
+    form = LocalForm()
+
+    if form.validate_on_submit():
+        flash('Woo Hoo!!')
+        return redirect(url_for('main.admin'))
+
+    return render_template('stockform.html', title="Update Stock", form=form, item_size=item_size)
+
+
+@bp.route('/batchstock', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def batchstock():
+    num_items = Inventory.query.count()
+    invs = Inventory.query.all()
+
+    items = request.form
+
+    for item in items:
+        label_str = "items-"
+        stock_update = {x: items[x] for x in items if label_str in x}
+
+    clean_stock = []
+    for su in stock_update:
+        clean_stock.append(stock_update[su])
+
+    for n in range(num_items):
+        inv = Inventory.query.filter_by(sku=invs[n].sku).first()
+        if clean_stock[n]:
+            new_stock = int(clean_stock[n])
+            inv.qty = inv.qty + new_stock
+            db.session.add(inv)
+            flash(clean_stock[n] + " " + inv.sku + " added.")
+
+    db.session.commit()
+    flash("Inventory updated successfully!")
+    return render_template('admin.html')
+
+
+@ bp.route('/tasks')
+@ login_required
+@ permission_required(Permission.WRITE)
 def tasks():
     num_days = current_app.config['NOTIFICATION_DAYS']
     start = datetime.now() - timedelta(days=1)
@@ -959,9 +1040,9 @@ def tasks():
     return render_template('notifications.html', title="Notifications", tasks=tasks, tasklist=tasklist)
 
 
-@bp.route('/task/<id>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/task/<id>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def task(id):
     task = Task.query.filter_by(id=id).first_or_404()
     if task.tk_notify:

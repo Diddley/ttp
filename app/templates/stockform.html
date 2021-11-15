@@ -15,8 +15,29 @@
                         </h3>
                     </div>
                     <div class="card-body">
+                        <form method="POST" action="{{ url_for('main.batchstock') }}" role=form>
+                            {{ form.hidden_tag() }}
+                            <div class="row">
+                                {% set count = [] %}
+                                {% for i in form.items %}
 
-                        {{ wtf.quick_form(form) }}
+                                <div class="col-md-4">
+                                    <label>{{ item_size[count |length] }}</label>
+                                </div>
+                                <div class="col-md-2">
+                                    {{ i.form.stock_qty }}
+                                </div>
+                                {% set __ = count.append(1)%}
+                                {% endfor %}
+
+                                <hr class="col-md-8">
+                                <div class="col-md-12">
+                                    <h4 class="text-center">{{ form.submit }}</h4>
+                                </div>
+                            </div>
+                        </form>
+
+
 
 
                     </div>

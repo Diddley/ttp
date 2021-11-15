@@ -1,5 +1,5 @@
 from flask import request
-from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
+# from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
 from flask_wtf import FlaskForm, Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField
@@ -360,10 +360,30 @@ class ModelForm(BaseModelForm):
 #     item_qty = IntegerField('Qty', validators=[DataRequired()])
 #     submit = SubmitField('Update Stock')
 
+# class UpdateStockForm(FlaskForm):
+#     item_desc = SelectField('Item', choices=[])
+#     item_size = SelectField('Size', choices=[])
+#     item_qty = IntegerField('Qty', validators=[DataRequired()])
+#     submit = SubmitField('Update Stock')
+
+class UpdateItemForm(FlaskForm):
+    stock_desc = SelectField(
+        'Stock Item', validators=[DataRequired()])
+    stock_qty = IntegerField('Qty', validators=[DataRequired()])
+    submit = SubmitField('Update Stock')
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateItemForm, self).__init__(*args, **kwargs)
+        self.stock_desc.choices = [(si.item_sku, si.item_desc + ' (' + si.item_size + ')')
+                                   for si in stockItem.query.all()]
+
+
+class BatchUpdateItemForm(Form):
+    stock_qty = IntegerField('Qty', validators=[Optional()])
+
+
 class UpdateStockForm(FlaskForm):
-    item_desc = SelectField('Item', choices=[])
-    item_size = SelectField('Size', choices=[])
-    item_qty = IntegerField('Qty', validators=[DataRequired()])
+    items = FieldList(FormField(BatchUpdateItemForm), min_entries=1)
     submit = SubmitField('Update Stock')
 
 
