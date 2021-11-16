@@ -36,21 +36,25 @@ def index():
         if p.coh_grads:
             graduates += int(p.coh_grads)
 
-    kit = Kit.query.all()
-    tot_small = 0
-    tot_medium = 0
-    tot_large = 0
-    tot_xlarge = 0
-    for k in kit:
-        if k.kit_numSmall:
-            tot_small += k.kit_numSmall
-        if k.kit_numMedium:
-            tot_medium += k.kit_numMedium
-        if k.kit_numLarge:
-            tot_large += k.kit_numLarge
-        if k.kit_numXlarge:
-            tot_xlarge += k.kit_numXlarge
-    tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
+    stocks = Inventory.query.order_by(Inventory.qty.asc())
+    items = stockItem.query.all()
+    lowstock = current_app.config['STOCK_LOW']
+    
+    # kit = Kit.query.all()
+    # tot_small = 0
+    # tot_medium = 0
+    # tot_large = 0
+    # tot_xlarge = 0
+    # for k in kit:
+    #     if k.kit_numSmall:
+    #         tot_small += k.kit_numSmall
+    #     if k.kit_numMedium:
+    #         tot_medium += k.kit_numMedium
+    #     if k.kit_numLarge:
+    #         tot_large += k.kit_numLarge
+    #     if k.kit_numXlarge:
+    #         tot_xlarge += k.kit_numXlarge
+    # tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
     today = datetime.utcnow()
     page = request.args.get('page', 1, type=int)
     cohorts = Cohort.query.filter(Cohort.coh_startDate <= today, Cohort.coh_endDate == None).order_by(
@@ -60,8 +64,7 @@ def index():
     prev_url = url_for(
         'main.index', page=cohorts.prev_num) if cohorts.has_prev else None
     return render_template('index.html', title='Home', today=today, cohorts=cohorts.items, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
-                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, tot_kit=tot_kit, tot_small=tot_small,
-                           tot_medium=tot_medium, tot_large=tot_large, tot_xlarge=tot_xlarge, next_url=next_url, prev_url=prev_url)
+                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks = stocks, items = items, lowstock=lowstock, next_url=next_url, prev_url=prev_url)
 
 
 @bp.route('/clubs')
