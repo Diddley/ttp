@@ -164,16 +164,16 @@
                                                 {% if stocks[n].sku == item.item_sku %}
                                                 {% if stocks[n].qty <= 0 %}
                                                 <h4 class="card-title" style="color:red;">
-                                                        {{ item.item_desc }} {{ item.item_size }} {{ stocks[n].qty }}
+                                                        {{ item.item_desc }} {{ item.item_size }} - {{ stocks[n].qty }}
                                                 </h4>
                                                 {% elif stocks[n].qty > 0 and stocks[n].qty < lowstock %}
                                                 <h4 class="card-title" style="color:orange;">
-                                                        {{ item.item_desc }} {{ item.item_size }}
+                                                        {{ item.item_desc }} {{ item.item_size }} -
                                                         {{ stocks[n].qty }}
                                                 </h4>
                                                 {% else %}
                                                 <h4 class="card-title" style="color:green;">
-                                                        {{ item.item_desc }} {{ item.item_size }}
+                                                        {{ item.item_desc }} {{ item.item_size }} -
                                                         {{ stocks[n].qty }}
                                                 </h4>
                                                 {% endif %}

@@ -3,59 +3,59 @@
 
 {% block app_content %}
 
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-primary">
-                            <h3 class="card-title">Cohort - {{ cohort.coh_desc }}</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="text-primary">
-                                        
-                                        <th scope="col">Club</th>
-                                        <th scope="col">Prison/PS</th>
-                                        <th scope="col">Start Date</th>
-                                        <th scope="col">End Date</th>
-                                        <th scope="col">Course</th>
-                                        <th scope="col">Participants</th>
-                                        <th scope="col">Graduates</th>
-                                        <th scope="col">TPI</th>
-                                        <!-- <th scope="col">Comment</th> -->
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <!-- style="text-align: left;" -->
-                                            
-                                            <td>{{ cohort.clb_cohort.clb_name }}</td>
-                                            <td>
-                                                {% if cohort.prs_cohort %}
-                                                    {{ cohort.prs_cohort.prs_name }}
-                                                {% elif cohort.prob_cohort %}
-                                                    {{ cohort.prob_cohort.prob_name }} (PS)
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h3 class="card-title">Cohort - {{ cohort.coh_desc }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
 
-                                            <td>
-                                                {% if cohort.coh_endDate %}
-                                                    {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ cohort.course_owner.course_type }}</td>
-                                            <td>{{ cohort.coh_participants }}</td>
-                                            <td>{{ cohort.coh_grads }}</td>
-                                            <td style="text-align: center;">
-                                                {% if cohort.coh_tpi %}
-                                                <i class="material-icons">check_box</i>
-                                                {% else %}
-                                                <i class="material-icons">check_box_outline_blank</i>
-                                                {% endif %}
-                                            </td>
-                                           <!--  <td style="text-align: center;">
+                                    <th scope="col">Club</th>
+                                    <th scope="col">Prison/PS</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Participants</th>
+                                    <th scope="col">Graduates</th>
+                                    <th scope="col">TPI</th>
+                                    <!-- <th scope="col">Comment</th> -->
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- style="text-align: left;" -->
+
+                                        <td>{{ cohort.clb_cohort.clb_name }}</td>
+                                        <td>
+                                            {% if cohort.prs_cohort %}
+                                            {{ cohort.prs_cohort.prs_name }}
+                                            {% elif cohort.prob_cohort %}
+                                            {{ cohort.prob_cohort.prob_name }} (PS)
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
+
+                                        <td>
+                                            {% if cohort.coh_endDate %}
+                                            {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ cohort.course_owner.course_type }}</td>
+                                        <td>{{ cohort.coh_participants }}</td>
+                                        <td>{{ cohort.coh_grads }}</td>
+                                        <td style="text-align: center;">
+                                            {% if cohort.coh_tpi %}
+                                            <i class="material-icons">check_box</i>
+                                            {% else %}
+                                            <i class="material-icons">check_box_outline_blank</i>
+                                            {% endif %}
+                                        </td>
+                                        <!--  <td style="text-align: center;">
                                                 {% if cohort.coh_comment.count() > 0 %}
                                                 <span class="icon-wrap">
                                                     <a
@@ -70,87 +70,88 @@
                                                     Comment</a>
                                                 {% endif %}
                                             </td> -->
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav aria-label="...">
+                                <ul class="pager">
+                                    <li><button class="btn btn-primary" type="submit"><a
+                                                href="{{ url_for('main.edit_cohort', id=id) }}">Edit
+                                                Cohort</a></button></li>
+                                    <li><button class="btn btn-primary"><a
+                                                href="{{ url_for('main.newfunding', cohortid=id) }}">Add
+                                                Funding</a></button></li>
+                                    <li><button class="btn btn-primary"><a
+                                                href="{{ url_for('main.orderkit', cohortid=id) }}">Add
+                                                Kit</a></button></li>
+                                    <li><button class="btn btn-primary"><a
+                                                href="{{ url_for('main.newcomment', source="cohort", sourceid = id) }}">Add
+                                                Comment</a></button></li>
+                                    <li><button class="btn btn-primary"><a
+                                                href="{{ url_for('main.toggletpi', id=id) }}">TPI</a></button></li>
+                                    <li><button class="btn btn-primary"><a href="#">Delete
+                                                Cohort</a></button></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="row">  -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-category">Comments</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            {% if comments %}
+                            <table class="table table-hover">
+                                {% for comment in comments %}
+                                {% include '_comment.html' %}
+                                {% endfor %}
                                 <nav aria-label="...">
                                     <ul class="pager">
-                                        <li><button class="btn btn-primary" type="submit"><a
-                                                    href="{{ url_for('main.edit_cohort', id=id) }}">Edit
-                                                    Cohort</a></button></li>
-                                        <li><button class="btn btn-primary"><a
-                                                    href="{{ url_for('main.newfunding', cohortid=id) }}">Add
-                                                    Funding</a></button></li>
-                                        <li><button class="btn btn-primary"><a
-                                                    href="{{ url_for('main.newkit', cohortid=id) }}">Add
-                                                    Kit</a></button></li>
-                                        <li><button class="btn btn-primary"><a
-                                                    href="{{ url_for('main.newcomment', source="cohort", sourceid = id) }}">Add
-                                                    Comment</a></button></li>
-                                        <li><button class="btn btn-primary"><a
-                                                    href="{{ url_for('main.toggletpi', id=id) }}">TPI</a></button></li>
-                                        <li><button class="btn btn-primary"><a href="#">Delete
-                                                    Cohort</a></button></li>
+                                        <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                            <a href="{{ prev_url  or '#' }}">
+                                                <span aria-hidden="true">&larr;</span> Previous
+                                            </a>
+                                        </li>
+
+                                        <li class="next{% if not next_url %} disabled{% endif %}">
+                                            <a href="{{ next_url  or '#' }}">
+                                                Next <span aria-hidden="true">&rarr;</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </table>
+                            {% endif %}
                         </div>
-
                     </div>
+
                 </div>
-                <!-- <div class="row">  -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-primary">
-                                <h4 class="card-category">Comments</h3>
-                            </div>
-                           
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    {% if comments %}
-                                    <table class="table table-hover">
-                                        {% for comment in comments %}
-                                            {% include '_comment.html' %}
-                                        {% endfor %}
-                                        <nav aria-label="...">
-                                            <ul class="pager">
-                                                <li class="previous{% if not prev_url %} disabled{% endif %}">
-                                                    <a href="{{ prev_url  or '#' }}">
-                                                        <span aria-hidden="true">&larr;</span> Previous
-                                                    </a>
-                                                </li>
-
-                                                <li class="next{% if not next_url %} disabled{% endif %}">
-                                                    <a href="{{ next_url  or '#' }}">
-                                                        Next <span aria-hidden="true">&rarr;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </table>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            
-                        </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-category">Funding to date:
+                            <strong>{{ "£ {:,.2f}".format(totalfunding) }}</strong></h4>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-primary">
-                                <h4 class="card-category">Funding to date: <strong>{{ "£ {:,.2f}".format(totalfunding) }}</strong></h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    {% if funding %}
-                                    <table class="table table-hover">
-                                        {% for fund in funding %}
-                                            {% include '_funding.html' %}
-                                        {% endfor %}
-                                        <!-- <nav aria-label="...">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            {% if funding %}
+                            <table class="table table-hover">
+                                {% for fund in funding %}
+                                {% include '_funding.html' %}
+                                {% endfor %}
+                                <!-- <nav aria-label="...">
                                             <ul class="pager">
                                                 <li class="previous{% if not prev_url %} disabled{% endif %}">
                                                     <a href="{{ prev_url  or '#' }}">
@@ -165,48 +166,48 @@
                                                 </li>
                                             </ul>
                                         </nav> -->
-                                    </table>
-                                    {% endif %}
-                                </div>
-                            </div>
+                            </table>
+                            {% endif %}
                         </div>
                     </div>
-                <!-- </div> -->
-                {% if tot_kit>0 %}
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-primary">
-                                <h4 class="card-category">Kit - {{ tot_kit }} kits assigned </h3>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                
-                                    <table class="table table-hover">
-                                        <td scope="col">Small</td>
-                                        <td scope="col">{{ tot_small }}</td>
-                                        <td scope="col">Medium</td>
-                                        <td scope="col">{{ tot_medium }}</td>
-                                        <td scope="col">Large</td>
-                                        <td scope="col">{{ tot_large }}</td>
-                                        <td scope="col">X-Large</td>
-                                        <td scope="col">{{ tot_xlarge }}</td>
-                                    </table>
-                                
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                {% endif %}
+                </div>
             </div>
+            <!-- </div> -->
+            {% if tot_kit>0 %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-category">Kit - {{ tot_kit }} kits assigned </h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <td scope="col">Small</td>
+                                <td scope="col">{{ tot_small }}</td>
+                                <td scope="col">Medium</td>
+                                <td scope="col">{{ tot_medium }}</td>
+                                <td scope="col">Large</td>
+                                <td scope="col">{{ tot_large }}</td>
+                                <td scope="col">X-Large</td>
+                                <td scope="col">{{ tot_xlarge }}</td>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
+</div>
 
- 
-            
-              
-      
+
+
+
+
 {% endblock %}
 {% block scripts %}
 {{ super() }}

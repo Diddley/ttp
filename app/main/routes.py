@@ -5,7 +5,7 @@ from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
 from app.main.forms import BatchUpdateItemForm, NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
-from app.models import Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory
+from app.models import KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
 from app.decorators import permission_required, admin_required
 
@@ -39,7 +39,7 @@ def index():
     stocks = Inventory.query.order_by(Inventory.qty.asc())
     items = stockItem.query.all()
     lowstock = current_app.config['STOCK_LOW']
-    
+
     # kit = Kit.query.all()
     # tot_small = 0
     # tot_medium = 0
@@ -64,7 +64,7 @@ def index():
     prev_url = url_for(
         'main.index', page=cohorts.prev_num) if cohorts.has_prev else None
     return render_template('index.html', title='Home', today=today, cohorts=cohorts.items, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
-                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks = stocks, items = items, lowstock=lowstock, next_url=next_url, prev_url=prev_url)
+                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks=stocks, items=items, lowstock=lowstock, next_url=next_url, prev_url=prev_url)
 
 
 @bp.route('/clubs')
@@ -837,6 +837,75 @@ def newkit(cohortid):
         flash('New kit assigned')
         return redirect(url_for('main.cohort', id=cohortid))
     return render_template('form.html', title="Kit", form=form)
+
+
+@bp.route('/orderkit/<cohortid>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def orderkit(cohortid):
+    num_items = stockItem.query.count()
+    item_size = []
+    stockitems = stockItem.query.all()
+    for si in stockitems:
+        label = str(si.item_desc+' ('+si.item_size+') ')
+        item_size.append(label)
+
+    class LocalForm(UpdateStockForm):
+        pass
+    LocalForm.items = FieldList(
+        FormField(BatchUpdateItemForm), min_entries=num_items)
+    form = LocalForm()
+
+    return render_template('kitorder.html', title="Assign Kit", form=form, item_size=item_size, cohortid=cohortid)
+
+
+@bp.route('/assignkit/<cohortid>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def assignkit(cohortid):
+    order = KitOrder(
+        order_cohortid=cohortid,
+        order_time=datetime.today())
+    db.session.add(order)
+    db.session.commit()
+
+    num_items = Inventory.query.count()
+    invs = Inventory.query.all()
+
+    items = request.form
+
+    # for item in items:
+    label_str = "items-"
+    stock_update = {x: items[x] for x in items if label_str in x}
+
+    clean_stock = []
+    for su in stock_update:
+        clean_stock.append(stock_update[su])
+
+    msg_list = []
+    for n in range(num_items):
+        if clean_stock[n]:
+            stock_item = Inventory.query.filter_by(sku=invs[n].sku).first()
+            stock_qty = stock_item.qty
+            item_sku = stock_item.sku
+            item_qty = int(clean_stock[n])
+            if item_qty > stock_qty:
+                flash('Not enough stock of ' + item_sku)
+            else:
+                stock_item.qty = stock_qty - item_qty
+                order_item = KitItem(
+                    order_id=order.id,
+                    item=item_sku,
+                    order_qty=item_qty
+                )
+                msg = (clean_stock[n] + " x "+item_sku+" ")
+                msg_list.append(msg)
+                db.session.add(order_item)
+                db.session.add(stock_item)
+
+    db.session.commit()
+    flash('Kit Assigned: ' + str(msg_list))
+    return redirect(url_for('main.cohort', id=cohortid))
 
 
 @bp.route('/map')

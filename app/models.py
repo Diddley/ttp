@@ -335,6 +335,7 @@ class Stock(db.Model):
 
 class KitItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('kit_order.id'))
     item = db.Column(db.String(40), db.ForeignKey('stock.sku'))
     order_qty = db.Column(db.Integer)
 
@@ -346,7 +347,6 @@ class KitOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_cohortid = db.Column(db.Integer, db.ForeignKey('cohort.id'))
     order_time = db.Column(db.DateTime, default=datetime.today())
-    order_item = db.Column(db.Integer, db.ForeignKey('kit_item.id'))
 
     def __repr__(self):
         return '<Order: {}>'.format(self.id)
