@@ -374,21 +374,35 @@ def cohort(id):
     totalfunding = 0
     for fund in funding:
         totalfunding += float(fund.fnd_amount)
-    kit = Kit.query.filter_by(kit_cohortid=id).all()
-    tot_small = 0
-    tot_medium = 0
-    tot_large = 0
-    tot_xlarge = 0
-    for k in kit:
-        if k.kit_numSmall:
-            tot_small += k.kit_numSmall
-        if k.kit_numMedium:
-            tot_medium += k.kit_numMedium
-        if k.kit_numLarge:
-            tot_large += k.kit_numLarge
-        if k.kit_numXlarge:
-            tot_xlarge += k.kit_numXlarge
-    tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
+
+    order_ids = []
+    order_dates = []
+    kit_orders = KitOrder.query.filter_by(order_cohortid=id).all()
+    for ko in kit_orders:
+        order_ids.append(ko.id)
+        order_dates.append(ko.order_time)
+
+    num_orders = len(order_ids)
+
+    kit_items = KitItem.query.filter(KitItem.order_id.in_(order_ids)).all()
+
+    stock_items = stockItem.query.all()
+
+    # kit = Kit.query.filter_by(kit_cohortid=id).all()
+    # tot_small = 0
+    # tot_medium = 0
+    # tot_large = 0
+    # tot_xlarge = 0
+    # for k in kit:
+    #     if k.kit_numSmall:
+    #         tot_small += k.kit_numSmall
+    #     if k.kit_numMedium:
+    #         tot_medium += k.kit_numMedium
+    #     if k.kit_numLarge:
+    #         tot_large += k.kit_numLarge
+    #     if k.kit_numXlarge:
+    #         tot_xlarge += k.kit_numXlarge
+    # tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
     page = request.args.get('page', 1, type=int)
     comments = cohort.coh_comment.order_by(Comment.timestamp.desc()).paginate(
         page, current_app.config['COMMENTS_PER_PAGE'], False)
@@ -397,7 +411,7 @@ def cohort(id):
     prev_url = url_for('main.cohort', id=id,
                        page=comments.prev_num) if comments.has_prev else None
     return render_template('cohortdetails.html', cohort=cohort, comments=comments.items, id=id, totalfunding=totalfunding, funding=funding,
-                           tot_kit=tot_kit, tot_small=tot_small, tot_medium=tot_medium, tot_large=tot_large, tot_xlarge=tot_xlarge, prev_url=prev_url, next_url=next_url)
+                           kit_orders=kit_orders, order_ids=order_ids, order_dates=order_dates, kit_items=kit_items, num_orders=num_orders, stock_items=stock_items, prev_url=prev_url, next_url=next_url)
 
 
 @bp.route('/edit_cohort/<id>', methods=['GET', 'POST'])

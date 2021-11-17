@@ -173,26 +173,37 @@
                 </div>
             </div>
             <!-- </div> -->
-            {% if tot_kit>0 %}
+            {% if kit_orders %}
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-category">Kit - {{ tot_kit }} kits assigned </h3>
+                        <h4 class="card-category">Kit Assigned </h3>
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="row">
+                            {% for n in range(num_orders) %}
+                            {% set oid = order_ids[n] %}
+                            <div class="col-md-12">
+                                {{ moment(order_dates[n]).format('DD/MM/YYYY') }}
+                            </div>
+                            <br>
 
-                            <table class="table table-hover">
-                                <td scope="col">Small</td>
-                                <td scope="col">{{ tot_small }}</td>
-                                <td scope="col">Medium</td>
-                                <td scope="col">{{ tot_medium }}</td>
-                                <td scope="col">Large</td>
-                                <td scope="col">{{ tot_large }}</td>
-                                <td scope="col">X-Large</td>
-                                <td scope="col">{{ tot_xlarge }}</td>
-                            </table>
+                            {% for ki in kit_items %}
+                            {% if ki.order_id == oid %}
+                            {% for si in stock_items %}
+                            {% if ki.item == si.item_sku %}
+                            <div class="col-md-4">{{ si.item_desc }} ( {{ si.item_size }} ) x {{ ki.order_qty }}</div>
+                            {% endif %}
+                            {% endfor %}
+
+                            <br>
+                            {% endif %}
+
+                            {% endfor %}
+                            <hr class="col-md-8">
+
+                            {% endfor %}
 
                         </div>
                     </div>
