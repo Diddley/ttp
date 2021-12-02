@@ -940,11 +940,13 @@ def addstockitem():
             item_desc=form.item_desc.data,
             item_size=form.item_size.data
         )
+        db.session.add(item)
+        db.session.commit()
         inv = Inventory(
             sku=form.item_sku.data,
             qty=int(form.item_qty.data) if form.item_qty.data else 0
         )
-        db.session.add(item)
+
         db.session.add(inv)
         db.session.commit()
         flash(item.item_desc + ' added')
