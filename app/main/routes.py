@@ -1094,6 +1094,7 @@ def batchstock():
             new_stock = int(clean_stock[n])
             inv.qty = inv.qty + new_stock
             db.session.add(inv)
+            db.session.commit()
             flash(clean_stock[n] + " " + inv.sku + " added.")
 
     db.session.commit()
