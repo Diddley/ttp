@@ -1097,7 +1097,6 @@ def batchstock():
             db.session.commit()
             flash(clean_stock[n] + " " + inv.sku + " added.")
 
-    db.session.commit()
     flash("Inventory updated successfully!")
     return render_template('admin.html')
 
