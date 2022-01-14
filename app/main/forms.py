@@ -26,6 +26,16 @@ class NewDivisionForm(FlaskForm):
             raise ValidationError('This Division is already in the system')
 
 
+class NewCourseForm(FlaskForm):
+    course = StringField('Course', validators=[DataRequired()])
+    submit = SubmitField('Add Course')
+
+    def validate_course(self, course):
+        course_name = Course.query.filter_by(course_type=course.data).first()
+        if course_name is not None:
+            raise ValidationError('A course with this name already exists.')
+
+
 class NewClubForm(FlaskForm):
     clubname = StringField('Club Name', validators=[DataRequired()])
     club_town = StringField('Town', validators=[DataRequired()])

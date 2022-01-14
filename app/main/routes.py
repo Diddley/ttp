@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import BatchUpdateItemForm, NewClubForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
+from app.main.forms import BatchUpdateItemForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
 from app.models import KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
 from app.decorators import permission_required, admin_required
@@ -560,6 +560,21 @@ def newdivision():
     return render_template('admin.html', title='Add Division', form=form)
 
 
+@bp.route('/newcourse', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def newcourse():
+    form = NewCourseForm()
+    if form.validate_on_submit():
+        crs = Course(course_type=form.course.data)
+        db.session.add(crs)
+        db.session.commit()
+        msg = ('New course: {} successfully added').format(form.course.data)
+        flash(msg)
+        return redirect(url_for('main.admin'))
+    return render_template('admin.html', title="Add course", form=form)
+
+
 @bp.route('/newcontact', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.WRITE)
@@ -1053,7 +1068,7 @@ def updatestockitem():
 def batchupdatestock():
     num_items = stockItem.query.count()
     item_size = []
-    stockitems = stockItem.query.all()
+    stockitems = stockItem.query.order_by(stockItem.id.asc()).all()
     for si in stockitems:
         label = str(si.item_desc+' ('+si.item_size+') ')
         item_size.append(label)
@@ -1076,7 +1091,7 @@ def batchupdatestock():
 @admin_required
 def batchstock():
     num_items = Inventory.query.count()
-    invs = Inventory.query.all()
+    invs = Inventory.query.order_by(Inventory.id.asc()).all()
 
     items = request.form
 

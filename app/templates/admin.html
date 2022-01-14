@@ -15,26 +15,39 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+
+
                             <div class="col-md-3">
-                                <a href="{{ url_for('auth.newuser') }}">Add User</a>
-
-
-                            </div>
-                            <div class="col-md-3">
-                                <a href="{{ url_for('auth.edituser') }}">Validate User</a>
-
-
-                            </div>
-                            <div class="col-md-3">
-
                                 <a href="{{ url_for('main.newdivision') }}">Add Division</a>
-                                <!-- {{ form }} -->
-
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ url_for('main.newcourse') }}">Add a Course</a>
                             </div>
                             <div class="col-md-3">
                                 <a href="{{ url_for('main.newcategory') }}">Add a Prison Category</a>
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-category">User Management</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="{{ url_for('auth.newuser') }}">Add User</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ url_for('auth.edituser') }}">Validate User</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
