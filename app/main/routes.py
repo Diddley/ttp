@@ -874,7 +874,7 @@ def newkit(cohortid):
 def orderkit(cohortid):
     num_items = stockItem.query.count()
     item_size = []
-    stockitems = stockItem.query.all()
+    stockitems = stockItem.query.order_by(stockItem.id.asc()).all()
     for si in stockitems:
         label = str(si.item_desc+' ('+si.item_size+') ')
         item_size.append(label)
@@ -899,7 +899,7 @@ def assignkit(cohortid):
     db.session.commit()
 
     num_items = Inventory.query.count()
-    invs = Inventory.query.all()
+    invs = Inventory.query.order_by(Inventory.id.asc()).all()
 
     items = request.form
 
