@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Education Services</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="cohortTable" style="width:100%;">
+                                <thead class="text-primary">
+                                    <th scope="col">Cohort Description</th>
+                                    <th scope="col">Club</th>
+                                    <th scope="col">Prison/PS</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Participants</th>
+                                    <th scope="col">TPI</th>
+                                    <th scope="col">Comment</th>
+                                </thead>
+                                <tbody>
+                                    {% for cohort in education %}
+                                    {% include '_cohort.html' %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <!-- <nav aria-label="...">
+                                <ul class="pager">
+                                    <li class="previous{% if not prev_url %} disabled{% endif %}">
+                                        <a href="{{ prev_url  or '#' }}">
+                                            <span aria-hidden="true">&larr;</span> Newer
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('main.newcohort') }}">
+                                            <span aria-hidden="true"></span>Create Cohort
+                                        </a>
+                                    </li>
+                                    <li class="next{% if not next_url %} disabled{% endif %}">
+                                        <a href="{{ next_url  or '#' }}">
+                                            Older <span aria-hidden="true">&rarr;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <li>
+                            <button class="btn btn-primary" type="submit"><a href="{{ url_for('main.newcohort') }}">Add
+                                    Cohort</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    // Add active class to the current button (highlight it)
+    var currButton = document.querySelector('li.nav-item.active');
+    if (currButton) {
+        currButton.classList.remove("active");
+    };
+    var newBtn = document.querySelector('#education');
+    newBtn.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function () {
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_comment = "Add Comment";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_comment, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#cohortTable').DataTable({
+            pagingType: "full_numbers",
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ],
+            autoWidth: false,
+
+
+        });
+
+    });
+</script>
+
+{% endblock %}

@@ -288,6 +288,15 @@ def cohorts():
     return render_template('cohort.html', title='Cohorts', cohorts=cohorts.items, next_url=next_url, prev_url=prev_url)
 
 
+@bp.route('/education')
+@login_required
+@permission_required(Permission.READ)
+def education():
+    education = Cohort.query.filter_by(coh_course=4).order_by(
+        Cohort.coh_startDate.desc()).all()
+    return render_template('education.html', title='Education Services', education=education)
+
+
 @bp.route('/probservices')
 @login_required
 @permission_required(Permission.READ)
