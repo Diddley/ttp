@@ -486,6 +486,24 @@ def toggletpi(id):
     return redirect(url_for('main.cohort', id=id))
 
 
+@bp.route('/deletecohort/<id>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.ADMIN)
+def deletecohort(id):
+    cohort = Cohort.query.filter_by(id=id).first_or_404()
+    if cohort.coh_endDate:
+        msg = 'This cohort has ended are you wwant to delete {} ?'
+    else:
+        msg = 'Delete Cohort {} ?'
+    form = DeleteForm(id=id)
+    if form.validate_on_submit():
+        db.session.delete(cohort)
+        db.session.commit()
+        flash('Cohort Deleted')
+        return redirect(url_for('main.cohorts'))
+    return render_template('form.html', title=msg.format(cohort.coh_desc), cohort=cohort, form=form)
+
+
 @bp.route('/media')
 @login_required
 @permission_required(Permission.READ)
