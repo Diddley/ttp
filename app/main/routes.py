@@ -1,10 +1,12 @@
 from datetime import datetime, date, timedelta
+from urllib.request import Request
+from wsgiref.util import request_uri
 from flask import json, render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import BatchUpdateItemForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, NewCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
+from app.main.forms import BatchUpdateItemForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
 from app.models import KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
 from app.decorators import permission_required, admin_required
@@ -799,9 +801,36 @@ def newcomment(source, sourceid):
     return render_template('testform.html', title='Cohort Details', form=form)
 
 
-@bp.route('/newmedia', methods=['GET', 'POST'])
+# def redirect_url(default='index'):
+#     return request.args.get('next') or \
+#         request.referrer or \
+#         url_for(default)
+
+
+@bp.route('/edit_comment/<id>', methods=['GET', 'POST'])
 @login_required
-@permission_required(Permission.WRITE)
+@permission_required(Permission.EDIT)
+def editcomment(id):
+    comment = Comment.query.filter_by(id=id).first_or_404()
+    form = EditCommentForm(id=id)
+    user = current_user
+    if form.validate_on_submit():
+        comment.body = form.body.data
+        comment.timestamp = datetime.utcnow()
+        comment.user_id = user.id
+        db.session.add(comment)
+        db.session.commit()
+        url = form.referer.data
+        flash('Comment updated')
+        return redirect(url)
+    form.body.data = comment.body
+    form.referer.data = request.referrer
+    return render_template('form.html', title="Edit comment", form=form, comment=comment)
+
+
+@ bp.route('/newmedia', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newmedia():
     form = NewMediaForm()
     if form.validate_on_submit():
@@ -832,9 +861,9 @@ def newmedia():
     return render_template('form.html', title='Media', media=media.items, form=form)
 
 
-@bp.route('/newfunding/<cohortid>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newfunding/<cohortid>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newfunding(cohortid):
     form = NewFundingForm()
     if form.validate_on_submit():
@@ -857,9 +886,9 @@ def newfunding(cohortid):
     return render_template('form.html', title='Funding', form=form)
 
 
-@bp.route('/newkit/<cohortid>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newkit/<cohortid>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newkit(cohortid):
     form = NewKitForm()
     if form.validate_on_submit():
@@ -877,9 +906,9 @@ def newkit(cohortid):
     return render_template('form.html', title="Kit", form=form)
 
 
-@bp.route('/orderkit/<cohortid>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/orderkit/<cohortid>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def orderkit(cohortid):
     num_items = stockItem.query.count()
     item_size = []
@@ -897,9 +926,9 @@ def orderkit(cohortid):
     return render_template('kitorder.html', title="Assign Kit", form=form, item_size=item_size, cohortid=cohortid)
 
 
-@bp.route('/assignkit/<cohortid>', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/assignkit/<cohortid>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def assignkit(cohortid):
     order = KitOrder(
         order_cohortid=cohortid,
@@ -946,16 +975,16 @@ def assignkit(cohortid):
     return redirect(url_for('main.cohort', id=cohortid))
 
 
-@bp.route('/map')
-@login_required
-@permission_required(Permission.READ)
+@ bp.route('/map')
+@ login_required
+@ permission_required(Permission.READ)
 def map():
     return render_template('map.html', title='Map')
 
 
-@bp.route('/addstockitem', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/addstockitem', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def addstockitem():
     form = NewStockItemForm()
     if form.validate_on_submit():
@@ -978,9 +1007,9 @@ def addstockitem():
     return render_template('admin.html', title="Add stock item", form=form)
 
 
-@bp.route('/stock')
-@login_required
-@permission_required(Permission.READ)
+@ bp.route('/stock')
+@ login_required
+@ permission_required(Permission.READ)
 def stock():
     stocks = Inventory.query.order_by(Inventory.qty.asc())
     items = stockItem.query.all()
@@ -988,9 +1017,9 @@ def stock():
     return render_template('admin.html', title='Stock Levels', stocks=stocks, items=items, lowstock=lowstock)
 
 
-@bp.route('/updatestock', methods=['GET', 'POST'])
-@login_required
-@admin_required
+@ bp.route('/updatestock', methods=['GET', 'POST'])
+@ login_required
+@ admin_required
 def updatestock():
     # items = stockItem.query.group_by(stockItem.item_desc)
     # sizes = stockItem.query.group_by(stockItem.item_size)
@@ -1051,9 +1080,9 @@ def updatestock():
     return render_template("stockform.html", title="Update Stock Levels", form=form)
 
 
-@bp.route('/updatestockitem', methods=['GET', 'POST'])
-@login_required
-@admin_required
+@ bp.route('/updatestockitem', methods=['GET', 'POST'])
+@ login_required
+@ admin_required
 def updatestockitem():
     form = UpdateItemForm()
     if form.validate_on_submit():
@@ -1071,9 +1100,9 @@ def updatestockitem():
     return render_template("admin.html", title="Update Stock", form=form)
 
 
-@bp.route('/batchupdatestock', methods=['GET', 'POST'])
-@login_required
-@admin_required
+@ bp.route('/batchupdatestock', methods=['GET', 'POST'])
+@ login_required
+@ admin_required
 def batchupdatestock():
     num_items = stockItem.query.count()
     item_size = []
@@ -1095,9 +1124,9 @@ def batchupdatestock():
     return render_template('stockform.html', title="Update Stock", form=form, item_size=item_size)
 
 
-@bp.route('/batchstock', methods=['GET', 'POST'])
-@login_required
-@admin_required
+@ bp.route('/batchstock', methods=['GET', 'POST'])
+@ login_required
+@ admin_required
 def batchstock():
     num_items = Inventory.query.count()
     invs = Inventory.query.order_by(Inventory.id.asc()).all()

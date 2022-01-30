@@ -2,7 +2,7 @@ from flask import request
 # from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
 from flask_wtf import FlaskForm, Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField
+from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField, HiddenField
 from wtforms.fields.core import Field, FieldList
 from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
@@ -232,6 +232,15 @@ class NewLinkForm(FlaskForm):
 
 
 # ---------- EDIT/UPDATE forms ---------------
+
+class EditCommentForm(FlaskForm):
+    referer = HiddenField('refer')
+    body = TextAreaField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Edit Comment')
+
+    def __init__(self, id, *args, **kwargs):
+        super(EditCommentForm, self).__init__(*args, **kwargs)
+        self.id = id
 
 
 class EditContactForm(FlaskForm):
