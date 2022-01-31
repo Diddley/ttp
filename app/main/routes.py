@@ -44,7 +44,6 @@ def index():
 
     today = datetime.today()
     six_wk = today + timedelta(days=42)
-    flash(six_wk)
     page = request.args.get('page', 1, type=int)
     cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
         Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
