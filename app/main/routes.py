@@ -42,24 +42,11 @@ def index():
     items = stockItem.query.all()
     lowstock = current_app.config['STOCK_LOW']
 
-    # kit = Kit.query.all()
-    # tot_small = 0
-    # tot_medium = 0
-    # tot_large = 0
-    # tot_xlarge = 0
-    # for k in kit:
-    #     if k.kit_numSmall:
-    #         tot_small += k.kit_numSmall
-    #     if k.kit_numMedium:
-    #         tot_medium += k.kit_numMedium
-    #     if k.kit_numLarge:
-    #         tot_large += k.kit_numLarge
-    #     if k.kit_numXlarge:
-    #         tot_xlarge += k.kit_numXlarge
-    # tot_kit = tot_small+tot_large+tot_medium+tot_xlarge
-    today = datetime.utcnow()
+    today = datetime.today()
+    six_wk = today + timedelta(days=42)
+    flash(six_wk)
     page = request.args.get('page', 1, type=int)
-    cohorts = Cohort.query.filter(Cohort.coh_startDate <= today, Cohort.coh_endDate == None).order_by(
+    cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
         Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
         'main.index', page=cohorts.next_num) if cohorts.has_next else None
