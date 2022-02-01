@@ -1,6 +1,9 @@
 from datetime import datetime, date, timedelta
+from http import server
+from telnetlib import TLS
 from urllib.request import Request
 from wsgiref.util import request_uri
+from xmlrpc.client import ProtocolError
 from flask import json, render_template, flash, redirect, url_for, jsonify, current_app, request
 from flask_login import current_user, login_required
 from wtforms.fields.core import FieldList, FormField, StringField
@@ -1197,3 +1200,14 @@ def task(id):
 
     db.session.commit()
     return redirect(url_for('main.tasks'))
+
+
+@bp.route('/mailvars')
+@login_required
+@permission_required(Permission.ADMIN)
+def mailvars():
+    server = current_app.config['MAIL_SERVER']
+    port = current_app.config['MAIL_PORT']
+    tls = current_app.config['MAIL_USE_TLS']
+    admins = current_app.config['ADMINS']
+    return render_template('mailvars.html', title="Mail Variables", server=server, port=port, tls=tls, admins=admins)
