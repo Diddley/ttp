@@ -46,3 +46,4 @@ AttributeError: 'datetime.datetime' object has no attribute 'type'
 2022-02-01 20:25:10,674 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
 2022-02-01 20:35:04,272 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
 2022-02-01 22:09:58,341 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-02 09:39:52,393 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]

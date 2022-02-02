@@ -1209,5 +1209,5 @@ def mailvars():
     server = current_app.config['MAIL_SERVER']
     port = current_app.config['MAIL_PORT']
     tls = current_app.config['MAIL_USE_TLS']
-    admins = current_app.config['ADMINS']
+    admins = current_app.config['ADMINS'][0]
     return render_template('mailvars.html', title="Mail Variables", server=server, port=port, tls=tls, admins=admins)
