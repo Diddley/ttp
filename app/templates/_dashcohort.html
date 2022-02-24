@@ -2,8 +2,8 @@
     <td>
         <a href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
     </td>
-    <td>{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
-    <td>
+    <td data-sort="{{ (cohort.coh_startDate) }}">{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
+    <td data-sort="{{ (cohort.coh_endDate) }}">
         {% if cohort.coh_endDate %}
         {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
         {% endif %}

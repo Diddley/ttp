@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Active Cohorts</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="coReportTable" style="width:100%">
+                                <thead class="text-primary">
+                                    <th scope="col">Cohort</th>
+                                    <th scope="col">Club</th>
+                                    <th scope="col">Prison/PS</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Participants</th>
+                                    <th scope="col">Start Date</th>
+                                </thead>
+                                <tbody>
+                                    {% for coh in cohorts %}
+                                    <tr>
+                                        <td>
+                                            {{ coh.coh_desc}}
+                                        </td>
+                                        <td>
+                                            {{ coh.clb_cohort.clb_name }}
+                                        </td>
+                                        <td>
+                                            {% if coh.prs_cohort %}
+                                            {{ coh.prs_cohort.prs_name }}
+                                            {% elif coh.prob_cohort %}
+                                            {{ coh.prob_cohort.prob_name }} (PS)
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ coh.course_owner.course_type }}
+                                        </td>
+                                        <td>
+                                            {{ coh.coh_participants }}
+                                        </td>
+                                        <td data-sort="{{ (coh.coh_startDate) }}">
+                                            {{ moment(coh.coh_startDate).format('DD/MM/YYYY') }}</td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Total Participants: {{ participants }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <!--    <div class="col-md-2">Total Participants: </div> -->
+                        <!-- <div class=col-md-1"> </div> -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Monthly Graduates </h4>
+                    </div>
+                    <div class="card-body">
+
+                        {% for gg in g_grads %}
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                {{ gg }} {{ thisyear }}
+                            </div>
+                            <div class="col-md-2" style="text-align: right;">
+                                {{ g_grads[gg] }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2"><strong>Total Graduates (YTD):</strong></div>
+                            <div class="col-md-2" style="text-align: right;"><strong>{{ grads }}</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Total Graduates: {{ grads }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <!--    <div class="col-md-2">Total Participants: </div> -->
+                <!-- <div class=col-md-1"> </div> -->
+                <!-- </div>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+    $(document).ready(function () {
+
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#coReportTable').DataTable({
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
+
+        });
+
+
+    });
+</script>
+
+{% endblock %}

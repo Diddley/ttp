@@ -9,10 +9,11 @@ from flask_login import current_user, login_required
 from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import BatchUpdateItemForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
+from app.main.forms import BatchUpdateItemForm, DeleteCommentForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
 from app.models import KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
 from app.decorators import permission_required, admin_required
+import calendar
 
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -342,6 +343,17 @@ def createlink():
         form.lnk_club.data = Club.query.filter_by(
             id=id).first_or_404()
     return render_template('form.html', title="Link Page", form=form)
+
+
+@bp.route('/unlink/<id>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.EDIT)
+def unlink(id):
+    club = Club.query.filter_by(id=id).first_or_404()
+    prisons = club.clb_linked_prs.order_by(Prison.prs_name.asc())
+    probs = club.clb_linked_prob.order_by(Probation.prob_name.asc())
+    ...
+    return
 
 
 @bp.route('/editprobservice/<id>', methods=['GET', 'POST'])
@@ -835,6 +847,23 @@ def editcomment(id):
     return render_template('form.html', title="Edit comment", form=form, comment=comment)
 
 
+@bp.route('/delete_comment/<id>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.EDIT)
+def deletecomment(id):
+    comment = Comment.query.filter_by(id=id).first_or_404()
+    form = DeleteCommentForm(id=id)
+    if form.validate_on_submit():
+        db.session.delete(comment)
+        db.session.commit()
+        url = form.referer.data
+        flash('Comment Deleted!')
+        return redirect(url)
+    form.body.data = comment.body
+    form.referer.data = request.referrer
+    return render_template('form.html', title="Delete Comment", form=form, comment=comment)
+
+
 @ bp.route('/newmedia', methods=['GET', 'POST'])
 @ login_required
 @ permission_required(Permission.WRITE)
@@ -1202,6 +1231,14 @@ def task(id):
     return redirect(url_for('main.tasks'))
 
 
+@bp.route('/users')
+@login_required
+@permission_required(Permission.ADMIN)
+def users():
+    all_users = User.query.all()
+    return render_template('users.html', title="All Users", all_users=all_users)
+
+
 @bp.route('/mailvars')
 @login_required
 @permission_required(Permission.ADMIN)
@@ -1211,3 +1248,65 @@ def mailvars():
     tls = current_app.config['MAIL_USE_TLS']
     admins = current_app.config['ADMINS'][0]
     return render_template('mailvars.html', title="Mail Variables", server=server, port=port, tls=tls, admins=admins)
+
+
+@bp.route('/cohReport')
+@login_required
+@permission_required(Permission.READ)
+def rep_coh():
+    today = datetime.today()
+    # thisyear = today.year
+    thisyear = 2020
+    firstDay = datetime.strptime(str(thisyear), "%Y")
+    # month = today.month
+
+    six_wk = today + timedelta(days=42)
+    participants = 0
+    grads = 0
+
+    cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
+        Cohort.coh_startDate.asc())
+
+    for c in cohorts:
+        participants += int(c.coh_participants)
+
+    # this should be in the loop if it works
+    g_cohorts = Cohort.query.filter(
+        Cohort.coh_endDate != None, Cohort.coh_endDate > firstDay).order_by(Cohort.coh_endDate.desc())
+
+    g_grads = {}
+    for gc in g_cohorts:
+        if g_grads.get(calendar.month_name[gc.coh_endDate.month]):
+            dummy = g_grads.get(calendar.month_name[gc.coh_endDate.month])
+        else:
+            dummy = 0
+        if gc.coh_grads:
+            g_grads.update(
+                {calendar.month_name[gc.coh_endDate.month]: dummy+gc.coh_grads})
+            grads += gc.coh_grads
+
+    return render_template('report_coh.html', title='Active Cohorts', cohorts=cohorts, participants=participants,
+                           today=today,  grads=grads, g_grads=g_grads, thisyear=thisyear)
+
+
+@bp.route('/twinReport')
+@login_required
+@permission_required(Permission.READ)
+def rep_twin():
+    clubs = Club.query.order_by(Club.clb_name.asc())
+    twins = []
+    for club in clubs:
+        twin_club = club.clb_name
+        if club.clb_linked_prs:
+            twin_prs = []
+            for p in club.clb_linked_prs:
+                twin_prs.append(p.prs_name)
+        if club.clb_linked_prob:
+            twin_prob = []
+            for prob in club.clb_linked_prob:
+                twin_prob.append(prob.prob_name)
+
+        if len(twin_prs) + len(twin_prob) > 0:
+            twins.append([twin_club, twin_prs, twin_prob])
+
+    return render_template('report_twin.html', title="Twinned Entities", twins=twins)

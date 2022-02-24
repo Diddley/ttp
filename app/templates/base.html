@@ -157,6 +157,17 @@ Welcome to The Twinning Project
                                 </a>
                             </li>
                             {% else %}
+                            <li class="nav-item dropdown" id="reports">
+                                <a class="nav-link" href="{{ url_for('main.admin') }}" id="navbarDropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">assessment</i> Reports
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ url_for('main.rep_coh') }}">Active Cohorts</a>
+                                    <a class="dropdown-item" href="{{ url_for('main.rep_twin') }}">Twinned Entities</a>
+
+                                </div>
+                            </li>
                             <li class="nav-item" id="notify">
                                 <a class="nav-link" href="{{ url_for('main.tasks') }}">
                                     <i class="material-icons">notifications</i> Notifications

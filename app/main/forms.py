@@ -415,3 +415,13 @@ class DeleteForm(FlaskForm):
     def __init__(self, id, *args, **kwargs):
         super(DeleteForm, self).__init__(*args, **kwargs)
         self.id = id
+
+
+class DeleteCommentForm(FlaskForm):
+    referer = HiddenField('refer')
+    body = StringField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Delete Comment')
+
+    def __init__(self, id, *args, **kwargs):
+        super(DeleteCommentForm, self).__init__(*args, **kwargs)
+        self.id = id
