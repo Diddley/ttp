@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Twinned with {{ club.clb_name }}</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if prisons[0] %}
+                        <div class="col-md-12"><strong>Prisons</strong></div>
+                        <div class="col-md-12">
+                            {% for prs in prisons %}
+
+                            <div class="col-md-2">
+                                {{ prs.prs_name }}
+
+                                <a href="{{ url_for('main.untwinprison', clb=club.id, prs = prs.id) }}"><span class="
+                                    material-icons">delete_forever</span></a>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% if probs[0] %}
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-12"><strong>Probation Services</strong></div>
+                        <div class="col-md-12">
+                            {% for prob in probs %}
+                            <div class="col-md-2">
+                                {{ prob.prob_name }}
+                                <a href="#"><span class="
+                        material-icons">delete_forever</span></a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+
+
+{% endblock %}

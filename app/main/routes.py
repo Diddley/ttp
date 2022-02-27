@@ -352,7 +352,28 @@ def unlink(id):
     club = Club.query.filter_by(id=id).first_or_404()
     prisons = club.clb_linked_prs.order_by(Prison.prs_name.asc())
     probs = club.clb_linked_prob.order_by(Probation.prob_name.asc())
-    ...
+
+    return render_template('links.html', title="Un-Twin", prisons=prisons, probs=probs, club=club)
+
+
+@bp.route('/untwinprison/<clb>/<prs>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.EDIT)
+def untwinprison(clb, prs):
+    club = Club.query.filter_by(id=clb).first_or_404()
+    prison = Prison.query.filter_by(id=prs).first_or_404()
+    club.clb_linked_prs.remove(prison)
+    db.session.add(club)
+    db.session.commit()
+    msg = prison.prs_name + " successfully un-twinned"
+    flash(msg)
+    return redirect(url_for('main.club', id=club.id))
+
+
+def untwinprob(club, prob):
+    club.clb_linked_prob.remove(prob)
+    msg = prob + " successfully un-twinned"
+    flash(msg)
     return
 
 
@@ -1255,8 +1276,7 @@ def mailvars():
 @permission_required(Permission.READ)
 def rep_coh():
     today = datetime.today()
-    # thisyear = today.year
-    thisyear = 2020
+    thisyear = today.year
     firstDay = datetime.strptime(str(thisyear), "%Y")
     # month = today.month
 
