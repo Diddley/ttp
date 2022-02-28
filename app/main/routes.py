@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta
 from http import server
+from operator import and_, or_
 from telnetlib import TLS
 from urllib.request import Request
 from wsgiref.util import request_uri
@@ -14,6 +15,7 @@ from app.models import KitOrder, Permission, User, Club, Division, Contact, Cate
 from app.main import bp
 from app.decorators import permission_required, admin_required
 import calendar
+from sqlalchemy import or_, and_
 
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -49,7 +51,11 @@ def index():
     today = datetime.today()
     six_wk = today + timedelta(days=42)
     page = request.args.get('page', 1, type=int)
-    cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
+    conds = [and_(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
+                                                                                    today, Cohort.coh_startDate <= six_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < six_wk)]
+
+    #cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)
+    cohorts = Cohort.query.filter(or_(*conds)).order_by(
         Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
         'main.index', page=cohorts.next_num) if cohorts.has_next else None
@@ -1291,8 +1297,13 @@ def rep_coh():
     participants = 0
     grads = 0
 
-    cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
-        Cohort.coh_startDate.asc())
+    # cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
+    #    Cohort.coh_startDate.asc())
+
+    conds = [and_(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
+                                                                                    today, Cohort.coh_startDate <= six_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < six_wk)]
+
+    cohorts = Cohort.query.filter(or_(*conds))
 
     for c in cohorts:
         participants += int(c.coh_participants)
