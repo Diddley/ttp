@@ -370,11 +370,18 @@ def untwinprison(clb, prs):
     return redirect(url_for('main.club', id=club.id))
 
 
-def untwinprob(club, prob):
+@bp.route('/untwinprob/<clb>/<prb>', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.EDIT)
+def untwinprob(clb, prb):
+    club = Club.query.filter_by(id=clb).first_or_404()
+    prob = Probation.query.filter_by(id=prb).first_or_404()
     club.clb_linked_prob.remove(prob)
-    msg = prob + " successfully un-twinned"
+    db.session.add(club)
+    db.session.commit()
+    msg = prob.prob_name + " successfully un-twinned"
     flash(msg)
-    return
+    return redirect(url_for('main.club', id=club.id))
 
 
 @bp.route('/editprobservice/<id>', methods=['GET', 'POST'])

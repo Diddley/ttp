@@ -36,7 +36,7 @@
                             {% for prob in probs %}
                             <div class="col-md-2">
                                 {{ prob.prob_name }}
-                                <a href="#"><span class="
+                                <a href="{{ url_for('main.untwinprob', clb=club.id, prb = prob.id) }}"><span class="
                         material-icons">delete_forever</span></a>
                             </div>
                             {% endfor %}
