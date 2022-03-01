@@ -21,6 +21,7 @@
                                     <th scope="col">Course</th>
                                     <th scope="col">Participants</th>
                                     <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
                                 </thead>
                                 <tbody>
                                     {% for coh in cohorts %}
@@ -46,6 +47,11 @@
                                         </td>
                                         <td data-sort="{{ (coh.coh_startDate) }}">
                                             {{ moment(coh.coh_startDate).format('DD/MM/YYYY') }}</td>
+                                        <td data-sort="{{ (coh.coh_endDate) }}">
+                                            {% if coh.coh_endDate %}
+                                            {{ moment(coh.coh_endDate).format('DD/MM/YYYY') }}
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                     {% endfor %}
 

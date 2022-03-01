@@ -1,4 +1,8 @@
-2022-02-27 11:07:01,314 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+2022-02-27 11:20:40,519 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-27 11:22:57,677 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 11:21:52,746 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 14:43:52,054 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 14:44:03,316 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -16,11 +20,24 @@ Traceback (most recent call last):
     return func(*args, **kwargs)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
     return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1287, in rep_coh
-    cohorts = Cohort.query.filter((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None) | (Cohort.startDate >= today, Cohort.coh_startDate <= six_wk) | (Cohort.coh_endDate >= today, Cohort.coh_endDate <= six_wk)).order_by(
-AttributeError: type object 'Cohort' has no attribute 'startDate'
-2022-02-27 11:07:26,500 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-02-27 11:07:28,991 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1302, in rep_coh
+    cohorts = Cohort.query.filter(or_(*conds))
+  File "<string>", line 2, in or_
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2146, in or_
+    return cls._construct(operators.or_, False_, True_, *clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2046, in _construct
+    for clause in util.coerce_generator_arg(clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2046, in <listcomp>
+    for clause in util.coerce_generator_arg(clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4591, in _expression_literal_as_text
+    return _literal_as_text(element)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4614, in _literal_as_text
+    return _literal_as(element, _no_text_coercion)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4606, in _literal_as
+    "instead" % type(element)
+sqlalchemy.exc.ArgumentError: SQL expression object expected, got object of type <class 'tuple'> instead
+2022-02-28 15:06:27,894 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 15:06:38,761 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -38,71 +55,24 @@ Traceback (most recent call last):
     return func(*args, **kwargs)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
     return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1287, in rep_coh
-    cohorts = Cohort.query.filter((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None) | (Cohort.coh_startDate >= today, Cohort.coh_startDate <= six_wk) | (Cohort.coh_endDate >= today, Cohort.coh_endDate <= six_wk)).order_by(
-TypeError: unsupported operand type(s) for |: 'tuple' and 'tuple'
-2022-02-27 11:07:31,181 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
-    return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1287, in rep_coh
-    cohorts = Cohort.query.filter((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None) | (Cohort.coh_startDate >= today, Cohort.coh_startDate <= six_wk) | (Cohort.coh_endDate >= today, Cohort.coh_endDate <= six_wk)).order_by(
-TypeError: unsupported operand type(s) for |: 'tuple' and 'tuple'
-2022-02-27 11:07:45,987 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
-    return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1287, in rep_coh
-    cohorts = Cohort.query.filter((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None) | (Cohort.coh_startDate >= today, Cohort.coh_startDate <= six_wk) | (Cohort.coh_endDate >= today, Cohort.coh_endDate <= six_wk)).order_by(
-TypeError: unsupported operand type(s) for |: 'tuple' and 'tuple'
-2022-02-27 11:17:06,472 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-02-27 11:17:20,128 ERROR: Exception on /cohReport [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
-    return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1287, in rep_coh
-    cohorts = Cohort.query.filter((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None) | (Cohort.coh_startDate >= today, Cohort.coh_startDate <= six_wk)).order_by(
-TypeError: unsupported operand type(s) for |: 'tuple' and 'tuple'
-2022-02-27 11:18:39,584 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 1299, in rep_coh
+    conds = [and_((Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)), and_((Cohort.coh_startDate >=
+  File "<string>", line 2, in and_
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2114, in and_
+    return cls._construct(operators.and_, True_, False_, *clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2046, in _construct
+    for clause in util.coerce_generator_arg(clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 2046, in <listcomp>
+    for clause in util.coerce_generator_arg(clauses)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4591, in _expression_literal_as_text
+    return _literal_as_text(element)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4614, in _literal_as_text
+    return _literal_as(element, _no_text_coercion)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 4606, in _literal_as
+    "instead" % type(element)
+sqlalchemy.exc.ArgumentError: SQL expression object expected, got object of type <class 'tuple'> instead
+2022-02-28 15:07:18,989 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 15:07:32,167 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-02-28 15:12:40,053 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-03-01 20:52:20,493 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-03-01 21:00:16,779 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
