@@ -54,7 +54,7 @@ def index():
     conds = [and_(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
                                                                                     today, Cohort.coh_startDate <= six_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < six_wk)]
 
-    #cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)
+    # cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)
     cohorts = Cohort.query.filter(or_(*conds)).order_by(
         Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for(
@@ -521,9 +521,31 @@ def toggletpi(id):
     return redirect(url_for('main.cohort', id=id))
 
 
-@bp.route('/deletecohort/<id>', methods=['GET', 'POST'])
+@bp.route('/removecohortkit/<id>', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.ADMIN)
+def remcohkit(id):
+    # cohort = Cohort.query.filter_by(id=id).first_or_404()
+    # flash(cohort.coh_desc)
+    cohkit = KitOrder.query.filter_by(order_cohortid=id).all()
+
+    for ck in cohkit:
+        kititems = KitItem.query.filter_by(order_id=ck.id).all()
+        for ki in kititems:
+            flash(str(ck.id) + ": " + str(ki.id))
+            flash(str(ck.id) + ": " + str(ki.item))
+            flash(str(ck.id) + ": " + str(ki.order_qty))
+            db.session.delete(ki)
+            flash('Deleted kit-item')
+        db.session.delete(ck)
+        flash('Deleted cohkit')
+    db.session.commit()
+    return redirect(url_for('main.cohort', id=id))
+
+
+@ bp.route('/deletecohort/<id>', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.ADMIN)
 def deletecohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
     if cohort.coh_endDate:
@@ -539,9 +561,9 @@ def deletecohort(id):
     return render_template('form.html', title=msg.format(cohort.coh_desc), cohort=cohort, form=form)
 
 
-@bp.route('/media')
-@login_required
-@permission_required(Permission.READ)
+@ bp.route('/media')
+@ login_required
+@ permission_required(Permission.READ)
 def media():
     page = request.args.get('page', 1, type=int)
     media = Media.query.order_by(Media.med_date.desc()).paginate(
@@ -553,9 +575,9 @@ def media():
     return render_template('media.html', title='Media', media=media.items, next_url=next_url, prev_url=prev_url)
 
 
-@bp.route('/funding')
-@login_required
-@permission_required(Permission.READ)
+@ bp.route('/funding')
+@ login_required
+@ permission_required(Permission.READ)
 def funding():
     page = request.args.get('page', 1, type=int)
     funds = Funding.query.order_by(Funding.fnd_date.desc()).paginate(
@@ -567,16 +589,16 @@ def funding():
     return render_template('funding.html', title='Funding', funds=funds.items, next_url=next_url, prev_url=prev_url)
 
 
-@bp.route('/admin')
-@login_required
-@admin_required
+@ bp.route('/admin')
+@ login_required
+@ admin_required
 def admin():
     return render_template('admin.html', title='Admin')
 
 
-@bp.route('/newclub', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newclub', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newclub():
     form = NewClubForm()
     if form.validate_on_submit():
@@ -610,9 +632,9 @@ def newclub():
     return render_template('form.html', title='Add Club', form=form)
 
 
-@bp.route('/newdivision', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newdivision', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newdivision():
     form = NewDivisionForm()
     if form.validate_on_submit():
@@ -624,9 +646,9 @@ def newdivision():
     return render_template('admin.html', title='Add Division', form=form)
 
 
-@bp.route('/newcourse', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newcourse', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newcourse():
     form = NewCourseForm()
     if form.validate_on_submit():
@@ -639,9 +661,9 @@ def newcourse():
     return render_template('admin.html', title="Add course", form=form)
 
 
-@bp.route('/newcontact', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newcontact', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newcontact():
     form = NewContactForm()
     if form.validate_on_submit():
@@ -672,9 +694,9 @@ def newcontact():
     return render_template('form.html', title='Add a Contact', form=form)
 
 
-@bp.route('/newcategory', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newcategory', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newcategory():
     form = NewCategoryForm()
     if form.validate_on_submit():
@@ -689,9 +711,9 @@ def newcategory():
     return render_template('admin.html', title='Add Category', form=form)
 
 
-@bp.route('/newprison', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newprison', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newprison():
     form = NewPrisonForm()
     if form.validate_on_submit():
@@ -715,9 +737,9 @@ def newprison():
     return render_template('form.html', title='Add Prison', form=form)
 
 
-@bp.route('/newprobservice', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newprobservice', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newprobservice():
     form = NewProbServiceForm()
     if form.validate_on_submit():
@@ -734,9 +756,9 @@ def newprobservice():
     return render_template('form.html', title='Add a Probation Service', form=form)
 
 
-@bp.route('/newcohort', methods=['GET', 'POST'])
-@login_required
-@permission_required(Permission.WRITE)
+@ bp.route('/newcohort', methods=['GET', 'POST'])
+@ login_required
+@ permission_required(Permission.WRITE)
 def newcohort():
     form = NewCohortForm()
     if form.validate_on_submit():
