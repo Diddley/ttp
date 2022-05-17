@@ -22,6 +22,9 @@
         {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
         {% endif %}
     </td>
+    <td>
+        {{ cohort.coh_frequency }}
+    </td>
     <td>{{ cohort.coh_participants }}</td>
     <td style="text-align: center;">
         {% if cohort.coh_tpi %}

@@ -476,6 +476,7 @@ def edit_cohort(id):
         cohort.coh_probid = probservice.id if probservice else None
         cohort.coh_startDate = form.coh_startDate.data
         cohort.coh_endDate = form.coh_endDate.data
+        cohort.coh_frequency = form.coh_freq.data
         course = form.coh_course.data
         cohort.coh_course = course.id
         cohort.coh_participants = form.coh_participants.data
@@ -496,6 +497,7 @@ def edit_cohort(id):
                 id=cohort.coh_probid).first_or_404()
         form.coh_startDate.data = cohort.coh_startDate
         form.coh_endDate.data = cohort.coh_endDate
+        form.coh_freq.data = cohort.coh_frequency
         form.coh_course.data = Course.query.filter_by(
             id=cohort.coh_course).first_or_404()
         form.coh_participants.data = cohort.coh_participants
@@ -775,6 +777,7 @@ def newcohort():
             coh_endDate=form.coh_endDate.data,
             coh_course=course.id,
             coh_participants=form.coh_parts.data,
+            coh_frequency=form.coh_freq.data,
             coh_tpi=False
         )
         db.session.add(cohort)

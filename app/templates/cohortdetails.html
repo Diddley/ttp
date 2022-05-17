@@ -20,6 +20,7 @@
                                     <th scope="col">Prison/PS</th>
                                     <th scope="col">Start Date</th>
                                     <th scope="col">End Date</th>
+                                    <th scope="col">Frequency</th>
                                     <th scope="col">Course</th>
                                     <th scope="col">Participants</th>
                                     <th scope="col">Graduates</th>
@@ -45,6 +46,7 @@
                                             {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
                                             {% endif %}
                                         </td>
+                                        <td>{{ cohort.coh_frequency }}</td>
                                         <td>{{ cohort.course_owner.course_type }}</td>
                                         <td>{{ cohort.coh_participants }}</td>
                                         <td>{{ cohort.coh_grads }}</td>

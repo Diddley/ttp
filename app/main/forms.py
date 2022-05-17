@@ -138,6 +138,7 @@ class NewCohortForm(FlaskForm):
     ], query_factory=lambda: Course.query, get_label="course_type")
     coh_parts = IntegerField('Number of participants',
                              validators=[DataRequired()])
+    coh_freq = StringField('Frequency', validators=[DataRequired()])
     submit = SubmitField('Create Cohort')
 
     def validate_date(self, coh_startDate, coh_endDate):
@@ -319,6 +320,7 @@ class EditCohortForm(FlaskForm):
                               DataRequired()], format='%Y-%m-%d')
     coh_endDate = DateField('End Date', validators=[
                             Optional()], format='%Y-%m-%d')
+    coh_freq = StringField('Frequency', validators=[DataRequired()])
     coh_course = QuerySelectField(
         'Course', query_factory=lambda: Course.query, get_label="course_type")
     coh_participants = IntegerField(

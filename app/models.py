@@ -283,6 +283,7 @@ class Cohort(db.Model):
     coh_endDate = db.Column(db.DateTime)
     coh_participants = db.Column(db.Integer)
     coh_grads = db.Column(db.Integer)
+    coh_frequency = db.Column(db.String(40))
     # coh_deliveryDate = db.Column(db.DateTime)
     coh_tpi = db.Column(db.Boolean)
     coh_comment = db.relationship('Comment', backref='owner', lazy="dynamic")
