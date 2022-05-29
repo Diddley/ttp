@@ -49,10 +49,11 @@ def index():
     lowstock = current_app.config['STOCK_LOW']
 
     today = datetime.today()
-    six_wk = today + timedelta(days=42)
+    # six_wk = today + timedelta(days=42)
+    twelve_wk = today + timedelta(days=84)
     page = request.args.get('page', 1, type=int)
-    conds = [and_(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
-                                                                                    today, Cohort.coh_startDate <= six_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < six_wk)]
+    conds = [and_(Cohort.coh_startDate <= twelve_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
+                                                                                       today, Cohort.coh_startDate <= twelve_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < twelve_wk)]
 
     # cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)
     cohorts = Cohort.query.filter(or_(*conds)).order_by(
@@ -1318,15 +1319,16 @@ def rep_coh():
     firstDay = datetime.strptime(str(thisyear), "%Y")
     # month = today.month
 
-    six_wk = today + timedelta(days=42)
+    # six_wk = today + timedelta(days=42)
+    twelve_wk = today + timedelta(days=84)
     participants = 0
     grads = 0
 
     # cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None).order_by(
     #    Cohort.coh_startDate.asc())
 
-    conds = [and_(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
-                                                                                    today, Cohort.coh_startDate <= six_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < six_wk)]
+    conds = [and_(Cohort.coh_startDate <= twelve_wk, Cohort.coh_endDate == None), and_(Cohort.coh_startDate >=
+                                                                                       today, Cohort.coh_startDate <= twelve_wk), and_(Cohort.coh_endDate >= today, Cohort.coh_endDate < twelve_wk)]
 
     cohorts = Cohort.query.filter(or_(*conds))
 

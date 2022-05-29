@@ -23,7 +23,9 @@
         {% endif %}
     </td>
     <td>
+        {% if cohort.coh_frequency %}
         {{ cohort.coh_frequency }}
+        {% endif %}
     </td>
     <td>{{ cohort.coh_participants }}</td>
     <td style="text-align: center;">

@@ -46,7 +46,11 @@
                                             {{ moment(cohort.coh_endDate).format('DD/MM/YYYY') }}
                                             {% endif %}
                                         </td>
-                                        <td>{{ cohort.coh_frequency }}</td>
+                                        <td>
+                                            {% if cohort.coh_frequency %}
+                                            {{ cohort.coh_frequency }}
+                                            {% endif %}
+                                        </td>
                                         <td>{{ cohort.course_owner.course_type }}</td>
                                         <td>{{ cohort.coh_participants }}</td>
                                         <td>{{ cohort.coh_grads }}</td>
