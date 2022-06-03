@@ -1,4 +1,4 @@
-2022-03-03 17:07:00,359 ERROR: Exception on /removecohortkit/5 [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+2022-03-03 17:10:08,431 ERROR: Exception on /removecohortkit/5 [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -30,8 +30,8 @@ Traceback (most recent call last):
     return _json.JSONEncoder.default(self, o)
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/json/encoder.py", line 179, in default
     raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type method is not JSON serializable
-2022-03-03 17:07:00,369 ERROR: Request finalizing failed with an error while handling an error [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1976]
+TypeError: Object of type KitOrder is not JSON serializable
+2022-03-03 17:10:08,443 ERROR: Request finalizing failed with an error while handling an error [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1976]
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -63,7 +63,7 @@ Traceback (most recent call last):
     return _json.JSONEncoder.default(self, o)
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/json/encoder.py", line 179, in default
     raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type method is not JSON serializable
+TypeError: Object of type KitOrder is not JSON serializable
 
 During handling of the above exception, another exception occurred:
 
@@ -94,4 +94,26 @@ Traceback (most recent call last):
     return _json.JSONEncoder.default(self, o)
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/json/encoder.py", line 179, in default
     raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type method is not JSON serializable
+TypeError: Object of type KitOrder is not JSON serializable
+2022-03-03 17:10:40,444 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-03-03 17:10:46,186 ERROR: Exception on /removecohortkit/5 [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 529, in remcohkit
+    flash(cohkit.__dict__)
+AttributeError: 'list' object has no attribute '__dict__'

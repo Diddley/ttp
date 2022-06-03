@@ -28,6 +28,11 @@
         {% endif %}
     </td>
     <td>{{ cohort.coh_participants }}</td>
+    <td>
+        {% if cohort.coh_grads %}
+        {{ cohort.coh_grads }}
+        {% endif %}
+    </td>
     <td style="text-align: center;">
         {% if cohort.coh_tpi %}
         <i class="material-icons">check_box</i>

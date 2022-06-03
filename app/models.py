@@ -290,6 +290,8 @@ class Cohort(db.Model):
     coh_kit = db.relationship('Kit', backref='wearer', lazy='dynamic')
     coh_funding = db.relationship('Funding', backref='funded', lazy='dynamic')
     coh_course = db.Column(db.Integer, db.ForeignKey('course.id'))
+    coh_academic = db.Column(db.Integer, db.ForeignKey('academic.id'))
+    coh_fundsource = db.Column(db.Integer, db.ForeignKey('cohort_funding.id'))
 
     def __repr__(self):
         return '<Cohort {}>'.format(self.coh_desc)
@@ -387,6 +389,19 @@ class Course(db.Model):
     course_type = db.Column(db.String(12), index=True)
     crs_cohort = db.relationship(
         'Cohort', backref='course_owner', lazy='dynamic')
+
+
+class Academic(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    aca_desc = db.Column(db.String(20), index=True)
+    aca_cohort = db.relationship('Cohort', backref='aca_inst', lazy='dynamic')
+
+
+class CohortFunding(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cf_desc = db.Column(db.String(20), index=True)
+    cf_cohort = db.relationship(
+        'Cohort', backref='fund_source', lazy='dynamic')
 
 
 class Task(db.Model):

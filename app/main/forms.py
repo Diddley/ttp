@@ -9,7 +9,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Le
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms_alchemy import ModelForm, ModelFieldList, model_form_factory
 from wtforms_alchemy.fields import ModelFormField
-from app.models import User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder, stockItem, Inventory
+from app.models import Academic, CohortFunding, User, Division, Club, Contact, Prison, Category, Cohort, Comment, Kit, Funding, Media, Course, Probation, Stock, KitItem, KitOrder, stockItem, Inventory
 from app import db, images
 from datetime import datetime
 
@@ -34,6 +34,29 @@ class NewCourseForm(FlaskForm):
         course_name = Course.query.filter_by(course_type=course.data).first()
         if course_name is not None:
             raise ValidationError('A course with this name already exists.')
+
+
+class NewCohFundForm(FlaskForm):
+    fund_source = StringField('Funding Source', validators=[DataRequired()])
+    submit = SubmitField('Add Funding Source')
+
+    def validate_course(self, funding):
+        fund_source = CohortFunding.query.filter_by(
+            cf_desc=funding.data).first()
+        if fund_source is not None:
+            raise ValidationError(
+                'A funding source with this name already exists.')
+
+
+class NewAcademicForm(FlaskForm):
+    inst = StringField('Institution', validators=[DataRequired()])
+    submit = SubmitField('Add Academic Institution')
+
+    def validate_course(self, inst):
+        inst_name = Academic.query.filter_by(aca_desc=inst.data).first()
+        if inst_name is not None:
+            raise ValidationError(
+                'An institution  with this name already exists.')
 
 
 class NewClubForm(FlaskForm):
@@ -139,6 +162,10 @@ class NewCohortForm(FlaskForm):
     coh_parts = IntegerField('Number of participants',
                              validators=[DataRequired()])
     coh_freq = StringField('Frequency', validators=[DataRequired()])
+    coh_funds = QuerySelectField('Funding', validators=[DataRequired(
+    )], query_factory=lambda: CohortFunding.query.order_by(CohortFunding.cf_desc.asc()), get_label="cf_desc")
+    coh_aca = QuerySelectField('Academic Partner', validators=[DataRequired(
+    )], query_factory=lambda: Academic.query.order_by(Academic.aca_desc.asc()), get_label="aca_desc")
     submit = SubmitField('Create Cohort')
 
     def validate_date(self, coh_startDate, coh_endDate):
@@ -326,6 +353,12 @@ class EditCohortForm(FlaskForm):
     coh_participants = IntegerField(
         'Participants', validators=[DataRequired()])
     coh_grads = IntegerField('Graduates', validators=[Optional()])
+    coh_freq = StringField('Frequency', validators=[DataRequired()])
+    coh_funds = QuerySelectField('Funding', validators=[DataRequired(
+    )], query_factory=lambda: CohortFunding.query.order_by(CohortFunding.cf_desc.asc()), get_label="cf_desc")
+    coh_aca = QuerySelectField('Academic Partner', validators=[DataRequired(
+    )], query_factory=lambda: Academic.query.order_by(Academic.aca_desc.asc()), get_label="aca_desc")
+
     submit = SubmitField('Save Changes')
 
     def __init__(self, id, *args, **kwargs):

@@ -10,8 +10,8 @@ from flask_login import current_user, login_required
 from wtforms.fields.core import FieldList, FormField, StringField
 from wtforms.validators import DataRequired
 from app import db, images
-from app.main.forms import BatchUpdateItemForm, DeleteCommentForm, NewClubForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
-from app.models import KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
+from app.main.forms import BatchUpdateItemForm, DeleteCommentForm, NewAcademicForm, NewClubForm, NewCohFundForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
+from app.models import Academic, CohortFunding, KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
 from app.decorators import permission_required, admin_required
 import calendar
@@ -482,6 +482,11 @@ def edit_cohort(id):
         cohort.coh_course = course.id
         cohort.coh_participants = form.coh_participants.data
         cohort.coh_grads = form.coh_grads.data
+        cohort.coh_frequency = form.coh_freq.data
+        fs = form.coh_funds.data
+        cohort.coh_fundsource = fs.id
+        aca = form.coh_aca.data
+        cohort.coh_academic = aca.id
         db.session.add(cohort)
         db.session.commit()
         flash('Your changes have been saved')
@@ -498,9 +503,16 @@ def edit_cohort(id):
                 id=cohort.coh_probid).first_or_404()
         form.coh_startDate.data = cohort.coh_startDate
         form.coh_endDate.data = cohort.coh_endDate
-        form.coh_freq.data = cohort.coh_frequency
-        form.coh_course.data = Course.query.filter_by(
-            id=cohort.coh_course).first_or_404()
+        if cohort.coh_frequency:
+            form.coh_freq.data = cohort.coh_frequency
+            form.coh_course.data = Course.query.filter_by(
+                id=cohort.coh_course).first_or_404()
+        if cohort.coh_fundsource:
+            form.coh_funds.data = CohortFunding.query.filter_by(
+                id=cohort.coh_fundsource).first_or_404()
+        if cohort.coh_academic:
+            form.coh_aca.data = Academic.query.filter_by(
+                id=cohort.coh_academic).first_or_404()
         form.coh_participants.data = cohort.coh_participants
         if cohort.coh_grads:
             form.coh_grads.data = cohort.coh_grads
@@ -664,6 +676,38 @@ def newcourse():
     return render_template('admin.html', title="Add course", form=form)
 
 
+@bp.route('/newfundingsource', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def newfundingsource():
+    form = NewCohFundForm()
+    if form.validate_on_submit():
+        fs = CohortFunding(cf_desc=form.fund_source.data)
+        db.session.add(fs)
+        db.session.commit()
+        msg = ('New funding source: {} successfully added.').format(
+            form.fund_source.data)
+        flash(msg)
+        return redirect(url_for('main.admin'))
+    return render_template('admin.html', title="Add Funding Source", form=form)
+
+
+@bp.route('/newacademic', methods=['GET', 'POST'])
+@login_required
+@permission_required(Permission.WRITE)
+def newacademic():
+    form = NewAcademicForm()
+    if form.validate_on_submit():
+        aca = Academic(aca_desc=form.inst.data)
+        db.session.add(aca)
+        db.session.commit()
+        msg = ('New Academic partner: {} successfully added.').format(
+            form.inst.data)
+        flash(msg)
+        return redirect(url_for('main.admin'))
+    return render_template('admin.html', title="Add Academic Institution", form=form)
+
+
 @ bp.route('/newcontact', methods=['GET', 'POST'])
 @ login_required
 @ permission_required(Permission.WRITE)
@@ -779,6 +823,8 @@ def newcohort():
             coh_course=course.id,
             coh_participants=form.coh_parts.data,
             coh_frequency=form.coh_freq.data,
+            coh_academic=form.coh_aca.data,
+            coh_fundsource=form.coh_funds.data,
             coh_tpi=False
         )
         db.session.add(cohort)

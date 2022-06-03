@@ -142,9 +142,10 @@
                             {% endif %}
                         </div>
                     </div>
-
                 </div>
             </div>
+
+
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
@@ -218,6 +219,46 @@
                 </div>
             </div>
             {% endif %}
+            <!-- Start of funding and Academic card -->
+            {% if cohort.coh_fundsource or cohort.coh_academic %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-category">Funding & Research</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            {% if cohort.coh_fundsource %}
+                            <div class="col-md-6">
+                                <h6>Funding Source: </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Academic Partner:</h6>
+                            </div>
+                            {% endif %}
+                        </div>
+
+
+
+                        <div class="row">
+                            {% if cohort.coh_academic %}
+                            <div class="col-md-6">
+                                <b>{{ cohort.fund_source.cf_desc }}</b>
+                            </div>
+                            <div class="col-md-6">
+                                <b>{{ cohort.aca_inst.aca_desc }}</b>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!-- End of funding and Academic card -->
         </div>
     </div>
 </div>
