@@ -813,6 +813,8 @@ def newcohort():
         prison = form.coh_prison.data
         probservice = form.coh_prob.data
         course = form.coh_course.data
+        aca = form.coh_aca.data
+        fundsource = form.coh_funds.data
         cohort = Cohort(
             coh_desc=form.coh_desc.data,
             coh_clubid=club.id,
@@ -823,8 +825,8 @@ def newcohort():
             coh_course=course.id,
             coh_participants=form.coh_parts.data,
             coh_frequency=form.coh_freq.data,
-            coh_academic=form.coh_aca.data,
-            coh_fundsource=form.coh_funds.data,
+            coh_academic=aca.id,
+            coh_fundsource=fundsource.id,
             coh_tpi=False
         )
         db.session.add(cohort)
