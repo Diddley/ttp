@@ -1,0 +1,5 @@
+Notification from TTP Guvnor:
+
+{{ user.username }} has {{ state }} {{ cohname }}.
+
+Have a good day!

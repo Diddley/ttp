@@ -13,6 +13,7 @@ from app import db, images
 from app.main.forms import BatchUpdateItemForm, DeleteCommentForm, NewAcademicForm, NewClubForm, NewCohFundForm, NewCourseForm, NewDivisionForm, NewContactForm, NewCategoryForm, NewPrisonForm, NewCohortForm, EditCohortForm, EditCommentForm, TPIForm, NewMediaForm, NewFundingForm, NewKitForm, NewProbServiceForm, NewStockItemForm, EditContactForm, DeleteForm, EditClubForm, EditPrisonForm, EditProbationForm, NewLinkForm, CommentForm, UpdateItemForm, UpdateStockForm
 from app.models import Academic, CohortFunding, KitOrder, Permission, User, Club, Division, Contact, Category, Prison, Cohort, Comment, Media, Funding, Kit, Probation, Stock, Course, Task, stockItem, Inventory, KitItem
 from app.main import bp
+from app.main.email import notification_email
 from app.decorators import permission_required, admin_required
 import calendar
 from sqlalchemy import or_, and_
@@ -490,6 +491,8 @@ def edit_cohort(id):
         db.session.add(cohort)
         db.session.commit()
         flash('Your changes have been saved')
+        notification_email(user=current_user,
+                           cohname=cohort.coh_desc, state="modified")
         return redirect(url_for('main.cohort', id=id))
     elif request.method == 'GET':
         form.coh_desc.data = cohort.coh_desc
@@ -563,6 +566,7 @@ def remcohkit(id):
 @ permission_required(Permission.ADMIN)
 def deletecohort(id):
     cohort = Cohort.query.filter_by(id=id).first_or_404()
+    cohname = cohort.coh_desc
     if cohort.coh_endDate:
         msg = 'This cohort has ended are you wwant to delete {} ?'
     else:
@@ -572,6 +576,8 @@ def deletecohort(id):
         db.session.delete(cohort)
         db.session.commit()
         flash('Cohort Deleted')
+        notification_email(user=current_user,
+                           cohname=cohname, state="deleted")
         return redirect(url_for('main.cohorts'))
     return render_template('form.html', title=msg.format(cohort.coh_desc), cohort=cohort, form=form)
 
@@ -832,6 +838,8 @@ def newcohort():
         db.session.add(cohort)
         db.session.commit()
         flash('You have successfully created the cohort')
+        notification_email(user=current_user,
+                           cohname=cohort.coh_desc, state="created")
         return redirect(url_for('main.cohorts'))
     # page = request.args.get('page', 1, type=int)
     # cohorts = Cohort.query.order_by(Cohort.coh_startDate.asc()).paginate(
