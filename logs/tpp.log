@@ -64,3 +64,4 @@ Traceback (most recent call last):
 TypeError: Object of type type is not JSON serializable
 2022-08-12 09:40:06,037 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
 2022-08-12 09:40:41,116 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-12 09:47:06,895 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
