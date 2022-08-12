@@ -493,6 +493,7 @@ def edit_cohort(id):
         flash('Your changes have been saved')
         notification_email(user=current_user,
                            cohname=cohort.coh_desc, state="modified")
+
         return redirect(url_for('main.cohort', id=id))
     elif request.method == 'GET':
         form.coh_desc.data = cohort.coh_desc
@@ -839,7 +840,7 @@ def newcohort():
         db.session.commit()
         flash('You have successfully created the cohort')
         notification_email(user=current_user,
-                           cohname=cohort.coh_desc, state="created")
+                           cohname=cohort.coh_desc, state='created')
         return redirect(url_for('main.cohorts'))
     # page = request.args.get('page', 1, type=int)
     # cohorts = Cohort.query.order_by(Cohort.coh_startDate.asc()).paginate(
