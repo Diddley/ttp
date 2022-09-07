@@ -58,13 +58,15 @@ def index():
 
     # cohorts = Cohort.query.filter(Cohort.coh_startDate <= six_wk, Cohort.coh_endDate == None)
     cohorts = Cohort.query.filter(or_(*conds)).order_by(
-        Cohort.coh_startDate.asc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for(
-        'main.index', page=cohorts.next_num) if cohorts.has_next else None
-    prev_url = url_for(
-        'main.index', page=cohorts.prev_num) if cohorts.has_prev else None
-    return render_template('index.html', title='Home', today=today, cohorts=cohorts.items, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
-                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks=stocks, items=items, lowstock=lowstock, next_url=next_url, prev_url=prev_url)
+        Cohort.coh_startDate.asc()).all()
+    #    .paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    # next_url = url_for(
+    #    'main.index', page=cohorts.next_num) if cohorts.has_next else None
+    # prev_url = url_for(
+    #    'main.index', page=cohorts.prev_num) if cohorts.has_prev else None
+    return render_template('index.html', title='Home', today=today, cohorts=cohorts, numclubs=numclubs, numprisons=numprisons, numprobs=numprobs,
+                           numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks=stocks, items=items, lowstock=lowstock)
+    # , next_url=next_url, prev_url=prev_url)
 
 
 @bp.route('/clubs')
@@ -279,13 +281,12 @@ def editprison(id):
 @permission_required(Permission.READ)
 def cohorts():
     page = request.args.get('page', 1, type=int)
-    cohorts = Cohort.query.order_by(Cohort.coh_startDate.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for(
-        'main.cohorts', page=cohorts.next_num) if cohorts.has_next else None
-    prev_url = url_for(
-        'main.cohorts', page=cohorts.prev_num) if cohorts.has_prev else None
-    return render_template('cohort.html', title='Cohorts', cohorts=cohorts.items, next_url=next_url, prev_url=prev_url)
+    cohorts = Cohort.query.order_by(Cohort.coh_startDate.desc()).all()
+    #paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    #next_url = url_for('main.cohorts', page=cohorts.next_num) if cohorts.has_next else None
+    #prev_url = url_for('main.cohorts', page=cohorts.prev_num) if cohorts.has_prev else None
+    # , next_url=next_url, prev_url=prev_url)
+    return render_template('cohort.html', title='Cohorts', cohorts=cohorts)
 
 
 @bp.route('/education')

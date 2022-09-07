@@ -94,7 +94,9 @@
                                                     {{ cohort.prob_cohort.prob_name }} (PS)
                                                     {% endif %}
                                                 </td>
-                                                <td>{{ cohort.coh_desc }}</td>
+                                                <td><a
+                                                        href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
+                                                </td>
                                                 <td>{{ cohort.course_owner.course_type }}</td>
                                                 <td>{{ cohort.coh_participants }}</td>
                                                 <td>{{ cohort.coh_grads }}</td>

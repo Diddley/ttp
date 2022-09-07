@@ -43,7 +43,9 @@
                                             {% for cohort in cohorts %}
                                             <tr>
                                                 <td>{{ cohort.clb_cohort.clb_name }}</td>
-                                                <td>{{ cohort.coh_desc }}</td>
+                                                <td><a
+                                                        href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
+                                                </td>
                                                 <td>{{ cohort.course_owner.course_type }}</td>
                                                 <td>{{ cohort.coh_participants }}</td>
                                                 <td>{{ cohort.coh_grads }}</td>
