@@ -2,7 +2,7 @@ from flask import request
 # from flask_uploads import UploadSet, IMAGES, configure_uploads, patch_request_class
 from flask_wtf import FlaskForm, Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField, HiddenField
+from wtforms import StringField, SelectField, SelectMultipleField, SubmitField, TextAreaField, BooleanField, SelectField, IntegerField, FloatField, FormField, TextAreaField, HiddenField, RadioField, Label
 from wtforms.fields.core import Field, FieldList
 from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, Regexp
@@ -124,6 +124,7 @@ class NewPrisonForm(FlaskForm):
     prs_postcode = StringField('PostCode', validators=[DataRequired()])
     prs_cat = QuerySelectField('Category', validators=[DataRequired(
     )], query_factory=lambda: Category.query, get_label="cat_desc")
+    prs_upshot = BooleanField('Upshot')
     submit = SubmitField('Add Prison')
 
     def validate_prison(self, prs_name):
@@ -316,6 +317,7 @@ class EditPrisonForm(FlaskForm):
     prs_postcode = StringField('PostCode', validators=[DataRequired()])
     prs_cat = QuerySelectField('Category', validators=[DataRequired(
     )], query_factory=lambda: Category.query, get_label="cat_desc")
+    prs_upshot = BooleanField('Upshot')
     submit = SubmitField('Save Changes')
 
     def __init__(self, id, *args, **kwargs):

@@ -264,6 +264,7 @@ def editprison(id):
         prison.prs_town = form.prs_town.data
         prison.prs_postcode = form.prs_postcode.data
         prison.prs_category = form.prs_cat.data.id
+        prison.prs_upshot = form.prs_upshot.data
         db.session.add(prison)
         db.session.commit()
         flash('You have successfully updated ' + prison.prs_name)
@@ -271,6 +272,7 @@ def editprison(id):
     form.prs_name.data = prison.prs_name
     form.prs_town.data = prison.prs_town
     form.prs_postcode.data = prison.prs_postcode
+    form.prs_upshot.data = prison.prs_upshot
     form.prs_cat.data = Category.query.filter_by(
         id=prison.prs_category).first_or_404()
     return render_template('form.html', title="Edit Prison Details", form=form, prison=prison)
@@ -776,7 +778,9 @@ def newprison():
         prs = Prison(
             prs_name=form.prs_name.data,
             prs_town=form.prs_town.data,
-            prs_category=cat.id
+            prs_postcode=form.prs_postcode.data,
+            prs_category=cat.id,
+            prs_upshot=form.prs_upshot
         )
         db.session.add(prs)
         db.session.commit()

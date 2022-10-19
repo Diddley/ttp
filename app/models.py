@@ -233,6 +233,7 @@ class Prison(db.Model):
     prs_town = db.Column(db.String(40), index=True)
     prs_postcode = db.Column(db.String(10), index=True)
     prs_category = db.Column(db.Integer, db.ForeignKey('category.id'))
+    prs_upshot = db.Column(db.Boolean)
     prs_cohort = db.relationship(
         'Cohort', backref='prs_cohort', lazy='dynamic')
     prs_media = db.relationship('Media', backref='prs_press', lazy='dynamic')
