@@ -2,6 +2,14 @@
     <td>
         <a href="{{ url_for('main.cohort', id=cohort.id) }}">{{ cohort.coh_desc }}</a>
     </td>
+    <td>{{ cohort.clb_cohort.clb_name }}</td>
+    <td>
+        {% if cohort.prs_cohort %}
+        {{ cohort.prs_cohort.prs_name }}
+        {% elif cohort.prob_cohort %}
+        {{ cohort.prob_cohort.prob_name }} (PS)
+        {% endif %}
+    </td>
     <td data-sort="{{ (cohort.coh_startDate) }}">{{ moment(cohort.coh_startDate).format('DD/MM/YYYY') }}</td>
     <td data-sort="{{ (cohort.coh_endDate) }}">
         {% if cohort.coh_endDate %}
@@ -10,4 +18,18 @@
     </td>
     <td>{{ cohort.course_owner.course_type }}</td>
     <td>{{ cohort.coh_participants }}</td>
+    <td>
+        {% if cohort.coh_grads %}
+        {{ cohort.coh_grads }}
+        {% else %}
+        -
+        {% endif %}
+    </td>
+    <td>
+        {% if cohort.coh_frequency %}
+        {{ cohort.coh_frequency }}
+        {% else %}
+        -
+        {% endif %}
+    </td>
 </tr>
