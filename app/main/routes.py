@@ -1437,3 +1437,11 @@ def rep_twin():
             twins.append([twin_club, twin_prs, twin_prob])
 
     return render_template('report_twin.html', title="Twinned Entities", twins=twins)
+
+
+@bp.route('/allCohReport')
+@login_required
+@permission_required(Permission.READ)
+def rep_allcoh():
+    cohorts = Cohort.query.all()
+    return render_template('report_allcoh.html', title="HMPPS All Cohorts Report", cohorts=cohorts)

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">HMPPS All Cohorts Report</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="allCohReportTable" style="width:100%">
+                                <thead class="text-primary">
+                                    <th scope="col">Cohort Description</th>
+                                    <th scope="col">Club</th>
+                                    <th scope="col">Prison/PS</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Participants</th>
+                                    <th scope="col">Graduates</th>
+                                    <th scope="col">Frequency</th>
+                                </thead>
+                                <tbody>
+                                    {% for cohort in cohorts %}
+                                    {% include '_dashcohort.html' %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+    $(document).ready(function () {
+
+        var buttonCommon = {
+            exportOptions: {
+                format: {
+                    body: function (data, row, column, node) {
+                        var regex = /(<([^>]+)>)/ig;
+                        var fls_chk_box = "check_box_outline_blank";
+                        var tr_chk_box = "check_box";
+                        var add_contact = "Add Contact";
+                        no_html_data = data.replace(regex, '');
+                        fls_data = no_html_data.replace(fls_chk_box, 'N');
+                        tr_data = fls_data.replace(tr_chk_box, 'Y');
+                        clean_data = tr_data.replace(add_contact, '');
+                        return clean_data;
+
+                    }
+                }
+            }
+        };
+
+        var table = $('#allCohReportTable').DataTable({
+            dom: 'Bflrtip',
+            buttons: [
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'copy'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'excel'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'csv'
+                }),
+                $.extend(true, {}, buttonCommon, {
+                    extend: 'pdf'
+                })
+
+
+            ]
+
+        });
+
+
+    });
+</script>
+
+{% endblock %}
