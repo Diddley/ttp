@@ -1,4 +1,17 @@
-2022-10-19 10:38:04,277 ERROR: Exception on /index [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+2022-10-28 12:45:50,761 ERROR: Exception on /newprison [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/sqltypes.py", line 1826, in process
+    value = _strict_as_bool(value)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/sqltypes.py", line 1801, in _strict_as_bool
+    raise TypeError("Not a boolean value: %r" % value)
+TypeError: Not a boolean value: <wtforms.fields.core.BooleanField object at 0x7f7dce512438>
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -14,94 +27,57 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 68, in index
-    numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks=stocks, items=items, lowstock=lowstock)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/index.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 224, in top-level template code
-    {% if current_user.is_anonymous %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 250, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/index.html", line 251, in block "app_content"
-    {% include '_dashcohort.html' %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/_dashcohort.html", line 25, in template
-    {{ - }}
-jinja2.exceptions.TemplateSyntaxError: unexpected 'end of print statement'
-2022-10-19 10:38:05,788 ERROR: Exception on /index [GET] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 68, in index
-    numcohorts=numcohorts, participants=participants, graduates=graduates, totalfunding=totalfunding, funding_ytd=funding_ytd, stocks=stocks, items=items, lowstock=lowstock)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/index.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 224, in top-level template code
-    {% if current_user.is_anonymous %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/base.html", line 250, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/index.html", line 251, in block "app_content"
-    {% include '_dashcohort.html' %}
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/templates/_dashcohort.html", line 25, in template
-    {{ - }}
-jinja2.exceptions.TemplateSyntaxError: unexpected 'end of print statement'
-2022-10-19 10:38:24,706 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-10-19 10:39:40,187 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-10-24 12:08:10,610 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-10-24 12:10:40,964 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-10-24 12:13:57,289 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 786, in newprison
+    db.session.commit()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
+    self.transaction.commit()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
+    self._prepare_impl()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
+    self.session.flush()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
+    self._flush(objects)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
+    exc_value, with_traceback=exc_tb,
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
+    flush_context.execute()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
+    rec.execute(self)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
+    uow,
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    insert,
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 1136, in _emit_insert_statements
+    statement, params
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
+    return meth(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
+    distilled_params,
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1178, in _execute_context
+    e, util.text_type(statement), parameters, None, None
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/sqltypes.py", line 1826, in process
+    value = _strict_as_bool(value)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/sqltypes.py", line 1801, in _strict_as_bool
+    raise TypeError("Not a boolean value: %r" % value)
+sqlalchemy.exc.StatementError: (builtins.TypeError) Not a boolean value: <wtforms.fields.core.BooleanField object at 0x7f7dce512438>
+[SQL: INSERT INTO prison (prs_name, prs_town, prs_postcode, prs_category, prs_upshot) VALUES (?, ?, ?, ?, ?)]
+[parameters: [{'prs_upshot': <wtforms.fields.core.BooleanField object at 0x7f7dce512438>, 'prs_postcode': 'HP18 0TL', 'prs_category': 4, 'prs_name': 'Springhill', 'prs_town': 'Aylesbury'}]]
+2022-10-28 12:47:44,443 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]

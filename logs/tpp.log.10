@@ -1,13 +1,11 @@
-2022-06-01 15:19:41,069 ERROR: Exception on /edit_cohort/18 [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.InterfaceError: Error binding parameter 4 - probably unsupported type.
-
-The above exception was the direct cause of the following exception:
-
+2022-06-01 15:57:24,146 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-06-01 15:58:05,128 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-06-01 16:01:04,629 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-06-01 16:02:32,110 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-06-01 16:03:51,193 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 15:20:38,450 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 15:23:42,773 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 15:23:49,744 ERROR: Exception on /edit_cohort/17 [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -25,79 +23,82 @@ Traceback (most recent call last):
     return func(*args, **kwargs)
   File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
     return f(*args, **kwargs)
-  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 489, in edit_cohort
-    db.session.commit()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
-    self.transaction.commit()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
-    self._prepare_impl()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
-    self.session.flush()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
-    self._flush(objects)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
-    exc_value, with_traceback=exc_tb,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
-    flush_context.execute()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
-    rec.execute(self)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
-    uow,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
-    update,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 995, in _emit_update_statements
-    statement, multiparams
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
-    return meth(self, multiparams, params)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
-    distilled_params,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1288, in _execute_context
-    e, statement, parameters, cursor, context
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
-    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 4 - probably unsupported type.
-[SQL: UPDATE cohort SET "coh_startDate"=?, "coh_endDate"=?, coh_frequency=?, coh_course=?, coh_academic=?, coh_fundsource=? WHERE cohort.id = ?]
-[parameters: ('2022-03-17 00:00:00.000000', '2022-03-31 00:00:00.000000', 'daily', 1, <Academic 1>, <CohortFunding 1>, 18)]
-(Background on this error at: http://sqlalche.me/e/rvf5)
-2022-06-01 15:25:18,951 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:29:10,243 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:30:16,765 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:31:14,969 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:33:04,011 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:33:43,698 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:34:24,155 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:35:36,898 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:36:06,733 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:38:01,985 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:38:31,443 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:40:08,442 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:41:42,259 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:44:19,343 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:45:42,863 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:46:08,285 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:46:53,601 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:47:23,805 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:49:28,650 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:49:54,190 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:50:31,863 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:52:26,797 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:52:32,876 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:52:58,639 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:53:04,589 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:53:19,459 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:54:07,954 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
-2022-06-01 15:54:18,408 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 495, in edit_cohort
+    cohname=cohort.coh_desc, state="modified")
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/email.py", line 8, in notification_email
+    flash(subject)
+NameError: name 'flash' is not defined
+2022-08-05 15:25:47,883 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 15:29:29,976 ERROR: Exception on /newcohort [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 842, in newcohort
+    cohname=coh_desc, state="created")
+NameError: name 'coh_desc' is not defined
+2022-08-05 15:30:47,765 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 15:34:58,833 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:24:59,011 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:28:25,844 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:29:01,542 ERROR: Exception on /newcohort [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 842, in newcohort
+    cohname=cohort.coh_desc, state="created")
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/email.py", line 8, in notification_email
+    recipients=[steve@delphicapital.co.uk],
+NameError: name 'steve' is not defined
+2022-08-05 16:29:26,099 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:31:37,471 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:33:01,868 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]
+2022-08-05 16:33:24,766 ERROR: Exception on /newcohort [POST] [in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py: 1892]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/decorators.py", line 13, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/main/routes.py", line 843, in newcohort
+    flash(user, cohname, state)
+NameError: name 'user' is not defined
+2022-08-05 16:34:11,643 INFO: The Twinning Project [in /Users/steve/Delphi Dropbox/Clients/TwinningProject/Code/ttp/app/__init__.py: 86]

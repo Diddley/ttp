@@ -780,7 +780,7 @@ def newprison():
             prs_town=form.prs_town.data,
             prs_postcode=form.prs_postcode.data,
             prs_category=cat.id,
-            prs_upshot=form.prs_upshot
+            prs_upshot=form.prs_upshot.data
         )
         db.session.add(prs)
         db.session.commit()
